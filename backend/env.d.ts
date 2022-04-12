@@ -5,6 +5,7 @@ interface ImportMetaEnv {
   readonly VITE_DB_DATABASE: string;
   readonly VITE_PORT: number;
   readonly ENV: string;
+  readonly PROD: boolean;
 }
 
 interface ImportMeta {
