@@ -1,11 +1,19 @@
 import { Pool } from 'pg';
 
-const config = {
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
+interface config {
+  user?: string;
+  password: string;
+  database: string;
+  max: number;
+  allowExitOnIdle: boolean;
+}
+
+const config: config = {
+  user: import.meta.env.VITE_DB_USER,
+  password: import.meta.env.VITE_DB_PASSWORD,
+  database: import.meta.env.VITE_DB_DATABASE,
   max: 50,
-  allowExitOnIdle: process.env.ENV !== 'dev' ? false : true,
+  allowExitOnIdle: import.meta.env.ENV !== 'dev' ? false : true,
 };
 
 const pool = new Pool(config);
