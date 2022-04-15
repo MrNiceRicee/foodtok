@@ -17,9 +17,9 @@ const ThemeButton = () => {
   return (
     <button
       onClick={() => setMode(!mode)}
-      className="rounded-lg bg-indigo-500 hover:shadow-sm hover:bg-indigo-700 dark:bg-red-500"
+      className="rounded-lg px-10 py-2 inline-block bg-indigo-500 hover:shadow-sm hover:bg-indigo-700 dark:bg-red-500"
     >
-      Darkmode
+      {mode ? 'Go light!' : 'Go dark!'}
     </button>
   );
 };

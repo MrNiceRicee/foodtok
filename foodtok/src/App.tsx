@@ -1,14 +1,21 @@
-import ThemeButton from './darkmode';
+import { Routes, Route } from 'react-router-dom';
+import ThemeButton from './components/darkmode';
+import NavigationBar from './components/NavigationBar';
+import RecipeIndex from './pages/RecipeIndex';
 
-function App() {
+const App = () => {
   return (
-    <div className="bg-sky-300 dark:bg-sky-900 container !max-w-4xl mx-auto flex justify-center ">
-      <h1 className="text-3xl font-bold underline dark:text-violet-300 text-yellow-200 px-10">
-        Hey!
-      </h1>
+    <div className="p-safe h-screen-safe w-full h-screen">
       <ThemeButton />
+      <div className="container sm:max-w-4xl p-4 min-h-full flex-grow flex mx-auto">
+        <Routes>
+          <Route path="/recipes" element={<RecipeIndex />} />
+        </Routes>
+      </div>
+      <div className="inline-block py-4" aria-hidden></div>
+      <NavigationBar />
     </div>
   );
-}
+};
 
 export default App;
