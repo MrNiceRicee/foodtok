@@ -8,4 +8,17 @@ interface Recipes {
   updatedAt: Date;
 }
 
-export default Recipes;
+interface JoinedRecipe extends Recipes {
+  Creator: {
+    name: string;
+    url: string;
+  };
+  Ingredients: {
+    IngredientId: number;
+    name: string;
+    description: string;
+    customDescription: string;
+  };
+}
+
+export type { Recipes, JoinedRecipe };

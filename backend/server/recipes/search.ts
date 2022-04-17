@@ -1,6 +1,6 @@
 import SQL, { SQLStatement } from 'sql-template-strings';
 import { queryRows } from '../../connection/db';
-import Recipes from '../../types/Recipes';
+import { JoinedRecipe } from '../../types/Recipes';
 import {
   buildSearchRes,
   getCursor,
@@ -66,7 +66,7 @@ const search = async (searchPayload: searchPayload) => {
 
   query.append(SQL` LIMIT ${limit + 1}`);
 
-  const data: Array<Recipes> = await queryRows(query.text, query.values);
+  const data: Array<JoinedRecipe> = await queryRows(query.text, query.values);
 
   return buildSearchRes({
     data,

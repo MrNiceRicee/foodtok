@@ -1,7 +1,7 @@
 import verify from '@mrnicericee/verify';
 import SQL from 'sql-template-strings';
 import { queryOne } from '../../connection/db';
-import Recipes from '../../types/Recipes';
+import { Recipes } from '../../types/Recipes';
 import ErrorException from '../util/ErrorException';
 
 interface createPayload {
