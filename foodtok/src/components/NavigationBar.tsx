@@ -18,7 +18,7 @@ const navStyle = ctl(
   `
   bg-slate-100 dark:bg-slate-800 transition-colors
   border-t border-slate-400 dark:border-slate-600
-  shadow-t-md md:shadow-lg dark:shadow-slate-600
+  shadow-t-md dark:shadow-slate-600
   block fixed inset-x-0 bottom-0 z-auto mx-auto
   w-full sm:max-w-4xl
   `

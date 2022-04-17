@@ -13,6 +13,16 @@ module.exports = {
         't-2xl': '0 -25px 50px -12px rgba(0, 0, 0, 0.25)',
         't-3xl': '0 -35px 60px -15px rgba(0, 0, 0, 0.3)',
       },
+      keyframes: {
+        'slideX': {
+          '0%': { transform: 'translateX(-100%)'},
+          '100%': {transform: 'translateX(100%)'}
+
+        }
+      },
+      animation: {
+        slideX: 'slideX 2.5s infinite'
+      }
     },
   },
   plugins: [
