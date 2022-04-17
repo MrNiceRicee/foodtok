@@ -42,13 +42,10 @@ const search = async (searchPayload: searchPayload) => {
         'name', "Creator"."name",
         'url', "Creator"."url"
       ) as "Creator",
-      a."createdAt",
-      a."updatedAt",
       (SELECT json_agg(x) FROM
         (
           SELECT 
             i._id as "IngredientId",
-            ri._id as "RecipeIngredientId",
             i.name,
             i.description,
             ri.description as "customDescription"
@@ -56,7 +53,9 @@ const search = async (searchPayload: searchPayload) => {
           LEFT OUTER JOIN "Recipes_Ingredients" as ri ON i._id=ri."IngredientId"
           WHERE a._id=ri."RecipeId"
         ) as x
-      ) as "Ingredients"
+      ) as "Ingredients",
+      a."createdAt",
+      a."updatedAt"
 
     FROM "Recipes" a
     LEFT JOIN "Creators" "Creator" ON "CreatorId"="Creator"."_id"
