@@ -1,4 +1,4 @@
-const LoadingBar = () => (
+const LoadingBar = ({ rounded = false }) => (
   <div
     className={`
       bg-gray-400 w-full h-full
@@ -9,7 +9,7 @@ const LoadingBar = () => (
       after:via-white/40
       after:to-transparent
       after:animate-[slideX_1.5s_ease-out_infinite]
-
+      ${rounded ? 'rounded-lg' : ' '}
   `}
   />
 );

@@ -6,7 +6,9 @@ import { tiktokData } from '../../api/tiktokEmbed';
 import { Link } from 'react-router-dom';
 
 const DefaultUrl = () => (
-  <div className="w-full h-full bg-orange-100 dark:bg-orange-200"></div>
+  <div
+    className="w-full h-full bg-orange-100 dark:bg-orange-200"
+  ></div>
 );
 
 const tiktokFetch = sauce.create({
@@ -44,6 +46,7 @@ const RecipeCard = ({ recipe }: { recipe: searchData }) => {
         className={`
         relative 
         ${recipeData?.thumbnail_url ? 'h-auto' : 'h-72'}
+        bg-gray-600
         md:basis-full
         `}
       >

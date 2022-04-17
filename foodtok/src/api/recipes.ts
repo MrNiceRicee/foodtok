@@ -1,9 +1,14 @@
 import { ApiErrorResponse, ApiResponse } from 'apisauce';
-import { search as SearchData } from '../types/search';
+import { search as SearchData, recipe } from '../types/search';
 import base from './base';
 
 const search = async (): Promise<
   ApiResponse<SearchData, ApiErrorResponse<any>>
 > => base.get('/recipes');
 
-export { search };
+const one = async (
+  id: number
+): Promise<ApiResponse<recipe, ApiErrorResponse<any>>> =>
+  base.get(`/recipes/${id}`);
+
+export { search, one };

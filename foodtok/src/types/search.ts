@@ -25,9 +25,8 @@ interface searchBase {
   length: number;
 }
 
-// export type { search };
+export type recipe = data;
 export type searchData = data;
 export type search = searchBase;
 
-// export type search = searchData | ApiResponse;
 // <33333333333333

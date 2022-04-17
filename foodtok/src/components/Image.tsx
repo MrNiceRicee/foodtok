@@ -2,25 +2,11 @@ import { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import LoadingBar from './LoadingBar';
 import ctl from '@netlify/classnames-template-literals';
-
+import ErrorComp from './ErrorComp';
 interface statusType {
   loaded: Boolean;
   errored: Boolean;
 }
-
-const Error = () => (
-  <div
-    className="
-      w-full h-full
-      min-h-full
-      bg-gray-400 dark:bg-gray-600
-      flex justify-center items-center
-      p-1
-    "
-  >
-    <h1 className="prose dark:prose-invert">Image failed to load</h1>
-  </div>
-);
 
 const Image = ({
   src = '',
@@ -60,7 +46,7 @@ const Image = ({
           `),
       iconContainer: ctl(`
         absolute inset-0 h-full w-full
-        transition-all duration-1000 ease-in-out
+        transition-all duration-[2s] ease-in-out
         ${status.loaded ? 'opacity-0' : 'opacity-100'}
           `),
     }),
@@ -89,7 +75,13 @@ const Image = ({
 
 Image.defaultProps = {
   loading: <LoadingBar />,
-  error: <Error />,
+  error: <ErrorComp errorMsg="Image failed to load" />,
 };
+
+Image.propTypes = {
+  src: PropTypes.string.isRequired,
+  loading: PropTypes.element,
+  error: PropTypes.element
+}
 
 export default Image;
