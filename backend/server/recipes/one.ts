@@ -40,3 +40,5 @@ const one = async (id: number) => {
     data,
   };
 };
+
+export default one;
