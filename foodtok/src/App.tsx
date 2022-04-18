@@ -8,7 +8,7 @@ import RecipeDetail from './pages/Recipes/RecipeDetail';
 const App = () => {
   return (
       <div className="p-safe h-screen-safe w-full h-screen">
-        <div className="container sm:max-w-4xl min-h-full flex-grow flex mx-auto flex-col">
+        <div className="container sm:max-w-4xl min-h-full flex-grow flex mx-auto flex-col mb-1">
           <ThemeButton />
           <Routes>
             <Route index element={<Recipes />} />

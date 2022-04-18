@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 import Image from '../../components/Image';
-import { recipe } from '../../types/search';
+import { recipe } from '../../types/recipe';
 import { fetchData } from '../../api/tiktokEmbed';
 import { Link } from 'react-router-dom';
 
@@ -10,23 +10,23 @@ const DefaultUrl = () => (
 
 const RecipeCard = ({ recipe }: { recipe: recipe }) => {
   const { data: recipeData } = useQuery(
-    `RecipeDetail_Tiktok_${recipe._id}`,
+    `RecipeCard_Tiktok_${recipe._id}`,
     () => fetchData(recipe?.url || '').then((item) => item)
   );
 
   return (
     <Link
-      className="w-full border-orange-200 mb-2 md:flex no-underline"
+      className="w-full border-orange-200 py-3 md:flex no-underline"
       to={`${recipe._id}`}
     >
       <header
         className={`
-        relative 
-        ${recipeData?.thumbnail_url ? 'h-auto min-h-[18rem]' : 'h-72'}
-        bg-gray-600
-        md:basis-full
-        rounded-t-lg
-        overflow-hidden
+          relative 
+          ${recipeData?.thumbnail_url ? 'h-auto min-h-[18rem]' : 'h-72'}
+          bg-gray-600
+          md:basis-full
+          rounded-t-lg
+          overflow-hidden
         `}
       >
         <div className="absolute inset-0 h-10 z-30 flex m-3">

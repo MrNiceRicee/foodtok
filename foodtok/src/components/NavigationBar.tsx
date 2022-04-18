@@ -100,7 +100,7 @@ const NavigationBar = () => {
               size="lg"
               className="inline-block"
             />
-            <span className="block text-sm">creators</span>
+            <span className="block text-sm">search</span>
           </Link>
         </li>
       </ul>

@@ -2,29 +2,38 @@ import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { one } from '../../api/recipes';
 import { fetchData } from '../../api/tiktokEmbed';
-import { recipe } from '../../types/search';
+import { recipe } from '../../types/recipe';
 import CardLoading from '../../components/CardLoading';
 import Image from '../../components/Image';
+import { tiktok } from '../../types/tiktok';
 
 const DefaultUrl = () => (
-  <div className="w-full h-full bg-orange-100 dark:bg-orange-200 animate-fadeIn"></div>
+  <div className="w-full h-full bg-orange-100 dark:bg-orange-200 animate-fadeIn z-40"></div>
 );
-
-const Thumbnail = ({ recipe }: { recipe?: recipe }) => {
-  const { data: tiktokData } = useQuery('RecipeDetail_Tiktok', () =>
-    fetchData(recipe?.url || '').then((item) => item)
+const fetchTiktok = (url = '', id: string | 0) => {
+  const { data: tiktokData } = useQuery(`RecipeDetail_Tiktok_${id}`, () =>
+    fetchData(url).then((item) => item)
   );
+  return tiktokData;
+};
 
+const Thumbnail = ({
+  recipe,
+  tiktokData,
+}: {
+  recipe?: recipe;
+  tiktokData?: tiktok;
+}) => {
   return (
     <header
       className={`
-    relative 
-    ${tiktokData?.thumbnail_url ? 'h-auto min-h-[30rem]' : 'h-72'}
-    bg-gray-600
-    md:basis-1/2
-    rounded-t-lg
-    overflow-hidden
-    `}
+        relative 
+        ${tiktokData?.thumbnail_url ? 'h-auto' : 'h-[42rem]'}
+        bg-gray-600
+        md:basis-2/3
+        rounded-t-lg
+        overflow-hidden
+      `}
     >
       <div className="absolute inset-0 h-10 z-30 flex m-3">
         <h1
@@ -50,20 +59,37 @@ const Thumbnail = ({ recipe }: { recipe?: recipe }) => {
 
 const RecipeDetail = () => {
   const { id = 0 } = useParams();
+
   const { isLoading, data } = useQuery(`Recipe_${id}`, () =>
     one(+id).then(({ data }) => data.data)
   );
 
+  const tiktokData = fetchTiktok(data?.url || '', id);
+
   if (isLoading) return <CardLoading rKey="Loading_Recipe_Detail" />;
 
   return (
-    <div className="w-full border-orange-200 mb-2 md:flex no-underline">
-      <Thumbnail recipe={data} />
-      <section className="container flex h-12 prose dark:prose-invert px-2 md:basis-2/3">
-        <p className="font-light">
+    <div className="w-full border-orange-200 py-3 pb-10 mb-10 md:flex no-underline">
+      <Thumbnail
+        recipe={data}
+        tiktokData={tiktokData ? tiktokData : undefined}
+      />
+      <section
+        className="container flex flex-col 
+          px-2 md:basis-2/3
+          prose dark:prose-invert
+        "
+      >
+        <p className="font-light w-full p-2 flex flex-col">
           <strong className="font-black">{`${data?.Creator.name} `}</strong>
           {data?.description}
         </p>
+        {tiktokData ? (
+          <p className="font-light w-full p-2 flex flex-col">
+            <strong className="font-black">@{tiktokData?.author_name}</strong>
+            {tiktokData?.title}
+          </p>
+        ) : null}
       </section>
     </div>
   );

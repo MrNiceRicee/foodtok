@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { search as SearchData, recipe } from '../types/search';
+import { search as SearchData, recipe } from '../types/recipe';
 import base from './base';
 
 const search = async (): Promise<AxiosResponse<SearchData>> =>
