@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { one } from '../../api/recipes';
@@ -10,12 +11,12 @@ import { tiktok } from '../../types/tiktok';
 const DefaultUrl = () => (
   <div className="w-full h-full bg-orange-100 dark:bg-orange-200 animate-fadeIn z-40"></div>
 );
-const fetchTiktok = (url = '', id: string | 0) => {
-  const { data: tiktokData } = useQuery(`RecipeDetail_Tiktok_${id}`, () =>
-    fetchData(url).then((item) => item)
-  );
-  return tiktokData;
-};
+// const fetchTiktok = (url = '', id: string | 0) => {
+//   const { data: tiktokData } = useQuery(`RecipeDetail_Tiktok_${id}`, () =>
+//     fetchData(url).then((item) => item)
+//   );
+//   return tiktokData;
+// };
 
 const Thumbnail = ({
   recipe,
@@ -58,13 +59,24 @@ const Thumbnail = ({
 };
 
 const RecipeDetail = () => {
-  const { id = 0 } = useParams();
+  const { id } = useParams();
+  const [tiktokData, setTiktokdata] = useState<tiktok | null | undefined>();
 
   const { isLoading, data } = useQuery(`Recipe_${id}`, () =>
-    one(+id).then(({ data }) => data.data)
+    one(id ? +id : 0).then(({ data }) => data.data)
   );
 
-  const tiktokData = fetchTiktok(data?.url || '', id);
+  useEffect(() => {
+    if (data?.url) {
+      fetchData(data?.url)
+        .then((item) => {
+          setTiktokdata(item);
+        })
+        .catch();
+    }
+  }, [id, data, setTiktokdata]);
+
+  // const tiktokData = fetchTiktok(data?.url || '', id || 0);
 
   if (isLoading) return <CardLoading rKey="Loading_Recipe_Detail" />;
 

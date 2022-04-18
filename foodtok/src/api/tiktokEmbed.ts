@@ -47,7 +47,7 @@ const fetchData = async (url = '') => {
   if (url) {
     const fetchTiktok = await tiktokData(url);
     if (!fetchTiktok.ok) {
-      return;
+      throw new Error('oops!');
     }
     return fetchTiktok.data;
   }

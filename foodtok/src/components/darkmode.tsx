@@ -9,7 +9,7 @@ const ThemeButton = () => {
   }, [mode]);
 
   return (
-    <div className="inline-block w-full max-w-sm mx-auto">
+    <div className="prose prose-invert inline-block w-full max-w-sm mx-auto">
       <button
         onClick={() => setMode(!mode)}
         className="rounded-lg px-10 py-2 bg-indigo-500 hover:shadow-sm hover:bg-indigo-700 dark:bg-red-500 w-full"
