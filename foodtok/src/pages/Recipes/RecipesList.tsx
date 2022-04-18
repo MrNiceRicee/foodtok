@@ -1,48 +1,41 @@
-import React, { useEffect, useState } from 'react';
+import { Suspense, lazy } from 'react';
 import { useQuery } from 'react-query';
 
 import { search as searchEndpoint } from '../../api/recipes';
 import CardLoading from '../../components/CardLoading';
-import LoadingBar from '../../components/LoadingBar';
+import ErrorComp from '../../components/ErrorComp';
 
-import { searchData } from '../../types/search';
-// import RecipeCard from './RecipeCard';
-const RecipeCard = React.lazy(() => import('./RecipeCard'));
+const RecipeCard = lazy(() => import('./RecipeCard'));
 
 const getRecipes = async () => {
-  const { ok, data } = await searchEndpoint();
-  if (!ok) {
-    console.log('oops', data);
-    return;
-  }
-  if (data ?? data) {
-    console.log(data.data);
+  const { data } = await searchEndpoint();
+  if (data) {
     return data.data;
   }
   return [];
 };
 
 const RecipesList = () => {
-  const [recipes, setRecipes] = useState<Array<searchData>>([]);
-
-  const { isError, isLoading, data } = useQuery(`RecipeList`, () =>
+  const { isLoading, data } = useQuery(`RecipeList`, () =>
     getRecipes().then((item) => item)
   );
 
-  useEffect(() => setRecipes(!!data ? data : []), [data]);
-
-  if (isLoading) return <CardLoading rows={3} key="Loading_Recipe_List" />;
+  if (isLoading) return <CardLoading rows={3} rKey="Loading_Recipe_List" />;
 
   return (
     <>
-      {recipes.map((item, index) => (
-        <React.Suspense
-          fallback={<CardLoading rows={3} key="Fallback_Recipe_List" />}
-          key={`${item._id}_${index}`}
-        >
-          <RecipeCard recipe={item} />
-        </React.Suspense>
-      ))}
+      {data ? (
+        data.map((item, index) => (
+          <Suspense
+            fallback={<CardLoading rows={3} rKey="Fallback_Recipe_List" />}
+            key={`${item._id}_${index}`}
+          >
+            <RecipeCard recipe={item} />
+          </Suspense>
+        ))
+      ) : (
+        <ErrorComp errorMsg="Something went wrong! Try refreshing" />
+      )}
     </>
   );
 };

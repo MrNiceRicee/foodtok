@@ -4,14 +4,8 @@ const ThemeButton = () => {
   const [mode, setMode] = useState(false);
 
   useEffect(() => {
-    if (mode) {
-      console.log('DARK MODE!');
-      document.documentElement.classList.add('dark');
-      return;
-    }
-    console.log('LIGHT MODE!');
+    if (mode) return document.documentElement.classList.add('dark');
     document.documentElement.classList.remove('dark');
-    return;
   }, [mode]);
 
   return (

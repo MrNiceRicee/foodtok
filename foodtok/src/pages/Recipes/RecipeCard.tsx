@@ -1,41 +1,18 @@
-import { useEffect, useState } from 'react';
-import sauce from 'apisauce';
+import { useQuery } from 'react-query';
 import Image from '../../components/Image';
-import { searchData } from '../../types/search';
-import { tiktokData } from '../../api/tiktokEmbed';
+import { recipe } from '../../types/search';
+import { fetchData } from '../../api/tiktokEmbed';
 import { Link } from 'react-router-dom';
 
 const DefaultUrl = () => (
-  <div
-    className="w-full h-full bg-orange-100 dark:bg-orange-200"
-  ></div>
+  <div className="w-full h-full bg-orange-100 dark:bg-orange-200 animate-fadeIn"></div>
 );
 
-const tiktokFetch = sauce.create({
-  baseURL: 'https://www.tiktok.com/oembed',
-  headers: {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-  },
-});
-
-const RecipeCard = ({ recipe }: { recipe: searchData }) => {
-  const [recipeData, setRecipeData] = useState<any>(null);
-
-  useEffect(() => {
-    async function fetchData() {
-      if (recipe.url) {
-        const recipeMetaData = await tiktokData(recipe.url);
-        if (recipeMetaData?.data?.status_msg) {
-          console.log('something went wrong');
-          return;
-        }
-        setRecipeData(recipeMetaData?.data);
-      }
-    }
-
-    fetchData();
-  }, []);
+const RecipeCard = ({ recipe }: { recipe: recipe }) => {
+  const { data: recipeData } = useQuery(
+    `RecipeDetail_Tiktok_${recipe._id}`,
+    () => fetchData(recipe?.url || '').then((item) => item)
+  );
 
   return (
     <Link
@@ -45,9 +22,11 @@ const RecipeCard = ({ recipe }: { recipe: searchData }) => {
       <header
         className={`
         relative 
-        ${recipeData?.thumbnail_url ? 'h-auto' : 'h-72'}
+        ${recipeData?.thumbnail_url ? 'h-auto min-h-[18rem]' : 'h-72'}
         bg-gray-600
         md:basis-full
+        rounded-t-lg
+        overflow-hidden
         `}
       >
         <div className="absolute inset-0 h-10 z-30 flex m-3">
@@ -56,6 +35,7 @@ const RecipeCard = ({ recipe }: { recipe: searchData }) => {
               font-black
               uppercase
               text-6xl text-shadow
+              transition-colors duration-700
               ${
                 recipeData?.thumbnail_url
                   ? 'text-slate-100 shadow-orange-700 '

@@ -1,4 +1,4 @@
-interface data {
+interface recipeBase {
   _id: string;
   name: string;
   description: string | null;
@@ -20,13 +20,12 @@ interface data {
 
 interface searchBase {
   cursor: string;
-  data: Array<data>;
+  data: Array<recipeBase>;
   hasNextPage: boolean;
   length: number;
 }
 
-export type recipe = data;
-export type searchData = data;
+export type recipe = recipeBase
 export type search = searchBase;
 
 // <33333333333333

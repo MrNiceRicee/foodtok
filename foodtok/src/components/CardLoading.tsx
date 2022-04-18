@@ -1,13 +1,13 @@
 import LoadingBar from './LoadingBar';
 
-const CardLoading = ({ rows = 1, key }: { rows: number; key: string }) => {
+const CardLoading = ({ rows = 1, rKey }: { rows?: number; rKey: string }) => {
   const newArray: string[] = new Array(rows).fill('');
   return (
     <>
       {newArray.map((_, index) => (
         <div
           className="container w-full rounded-lg md:flex py-2"
-          key={`${key}_${index}`}
+          key={`${rKey}_${index}`}
         >
           <div className="md:basis-full h-72">
             <LoadingBar rounded />

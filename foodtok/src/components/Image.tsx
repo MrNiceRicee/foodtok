@@ -13,7 +13,7 @@ const Image = ({
   loading,
   error,
 }: {
-  src: string;
+  src?: string;
   loading?: JSX.Element;
   error?: JSX.Element;
 }) => {
@@ -29,7 +29,6 @@ const Image = ({
     setDisplay(() => {
       if (status.errored) return error;
       if (!status.loaded) return loading;
-      console.log('should be null');
       return null;
     });
   }, [status.loaded, status.errored, setDisplay]);
