@@ -4,6 +4,7 @@ import ThemeButton from './components/darkmode';
 import NavigationBar from './components/NavigationBar';
 import Recipes from './pages/Recipes/Recipes';
 import RecipeDetail from './pages/Recipes/RecipeDetail';
+import Dialog from './components/Dialog';
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
             </Route>
           </Routes>
         </div>
+        <Dialog />
         <div className="inline-block py-6" aria-hidden></div>
         <NavigationBar />
       </div>

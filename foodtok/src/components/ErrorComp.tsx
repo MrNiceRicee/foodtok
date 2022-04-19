@@ -11,7 +11,7 @@ const ErrorComp = ({ errorMsg }: { errorMsg: string }) => {
         p-1
       "
     >
-      <h1 className="prose dark:prose-invert">{errorMsg}</h1>
+      <h1 className="prose dark:prose-invert text-slate-800">{errorMsg}</h1>
     </div>
   );
 };
