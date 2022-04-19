@@ -1,4 +1,4 @@
-CREATE TABLE "Creators"(
+CREATE TABLE "Users"(
   _id INT GENERATED ALWAYS AS IDENTITY,
   "name" VARCHAR(240) NOT NULL,
   "url" TEXT,
@@ -14,14 +14,14 @@ CREATE TABLE "Recipes"(
   "description" VARCHAR(240),
   "url" TEXT,
 
-  "CreatorId" INTEGER,
+  "UserId" INTEGER,
 
   "createdAt" TIMESTAMP NOT NULL DEFAULT NOW(),
   "updatedAt" TIMESTAMP NOT NULL DEFAULT NOW(),
 
-  CONSTRAINT "Recipes_CreatorId_fk"
-    FOREIGN KEY ("CreatorId")
-    REFERENCES "Creators"(_id) 
+  CONSTRAINT "Recipes_UserId_fk"
+    FOREIGN KEY ("UserId")
+    REFERENCES "Users"(_id) 
     ON UPDATE CASCADE ON DELETE CASCADE,
   PRIMARY KEY (_id)
 );
