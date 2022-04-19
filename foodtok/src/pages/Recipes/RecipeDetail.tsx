@@ -93,7 +93,7 @@ const RecipeDetail = () => {
         "
       >
         <p className="font-light w-full p-2 flex flex-col">
-          <strong className="font-black">{`${data?.Creator.name} `}</strong>
+          <strong className="font-black">{`${data?.User.name} `}</strong>
           {data?.description}
         </p>
         {tiktokData ? (

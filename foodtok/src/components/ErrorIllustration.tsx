@@ -8,9 +8,10 @@ const ErrorIllustration = ({ errorMsg }: { errorMsg: string }) => {
         relative
         w-full h-screen
         min-h-full
-        bg-red-400 dark:bg-red-600
+        bg-red-400 dark:bg-red-500
         flex justify-center items-center
         p-1
+        rounded-lg
       "
     >
       <NotFound className="w-full h-full" />

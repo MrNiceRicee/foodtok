@@ -23,11 +23,12 @@ const RecipesList = () => {
 
   if (isLoading) return <CardLoading rows={3} rKey="Loading_Recipe_List" />;
 
-  if (isError) return <ErrorIllustration errorMsg='oops! failed to load recipes'/>
+  if (isError)
+    return <ErrorIllustration errorMsg="oops! failed to load recipes" />;
 
   return (
     <>
-      {data ? (
+      {data && data.length ? (
         data.map((item, index) => (
           <Suspense
             fallback={<CardLoading rows={3} rKey="Fallback_Recipe_List" />}
@@ -37,7 +38,7 @@ const RecipesList = () => {
           </Suspense>
         ))
       ) : (
-        <ErrorComp errorMsg="Something went wrong! Try refreshing" />
+        <ErrorIllustration errorMsg="oops! no recipes to display" />
       )}
     </>
   );

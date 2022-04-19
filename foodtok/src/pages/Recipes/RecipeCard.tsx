@@ -50,7 +50,7 @@ const RecipeCard = ({ recipe }: { recipe: recipe }) => {
       </header>
       <section className="container flex h-12 prose dark:prose-invert px-2 md:basis-2/3">
         <p className="font-light">
-          <strong className="font-black">{`${recipe.Creator.name} `}</strong>
+          <strong className="font-black">{`${recipe.User.name} `}</strong>
           {recipe.description}
         </p>
       </section>

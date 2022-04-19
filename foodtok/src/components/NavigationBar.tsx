@@ -37,14 +37,14 @@ const NavigationBar = () => {
   const [active, setActive] = useState({
     menu: false,
     recipes: location.pathname.includes('recipes'),
-    creators: location.pathname.includes('creators'),
+    users: location.pathname.includes('users'),
   });
 
-  const handleActive = (state: 'menu' | 'recipes' | 'creators'): undefined => {
+  const handleActive = (state: 'menu' | 'recipes' | 'users'): undefined => {
     const newState = {
       menu: false,
       recipes: false,
-      creators: false,
+      users: false,
     };
     newState[state] = true;
     setActive(newState);
@@ -92,9 +92,9 @@ const NavigationBar = () => {
         </li>
         <li
           className="w-full inline-block relative"
-          onClick={() => handleActive('creators')}
+          onClick={() => handleActive('users')}
         >
-          <Link to="creators" className={anchorStyle(active.creators)}>
+          <Link to="users" className={anchorStyle(active.users)}>
             <FontAwesomeIcon
               icon={faUserFriends}
               size="lg"

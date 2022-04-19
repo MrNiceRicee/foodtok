@@ -3,8 +3,8 @@ interface recipeBase {
   name: string;
   description: string | null;
   url: string | null;
-  CreatorId: number;
-  Creator: {
+  UserId: number;
+  User: {
     name: string;
     url: string | null;
   };
