@@ -1,9 +1,25 @@
+interface DialogProps
+  extends React.DetailedHTMLProps<
+      React.DialogHTMLAttributes<HTMLDialogElement>,
+      HTMLDialogElement
+    >,
+    React.AriaAttributes {}
 
-const Dialog = () => {
+const Dialog = (props?: DialogProps): React.ReactElement<DialogProps> => {
+  return (
+    <dialog
+      {...props}
+      draggable
+      style={{
+        position: 'absolute',
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)',
+      }}
+    >
+      {props?.children}
+    </dialog>
+  );
+};
 
-    return (
-        <div>Hello Dialog!</div>
-    )
-}
-
-export default Dialog
+export default Dialog;

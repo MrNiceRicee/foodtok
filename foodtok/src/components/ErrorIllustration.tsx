@@ -6,7 +6,7 @@ const ErrorIllustration = ({ errorMsg }: { errorMsg: string }) => {
     <div
       className="
         relative
-        w-full h-screen
+        w-full h-[40rem] sm:h-screen
         min-h-full
         bg-red-400 dark:bg-red-500
         flex justify-center items-center

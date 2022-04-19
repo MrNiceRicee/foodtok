@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import ctl from '@netlify/classnames-template-literals';
 import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,7 +7,7 @@ import {
   faBars,
   faUserFriends,
 } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import AddMain from './AddItems/AddMain';
 
 const anchorStyle = (state: boolean) =>
   ctl(`
@@ -53,57 +54,60 @@ const NavigationBar = () => {
 
   return (
     <nav className={navStyle}>
-      <ul className="flex justify-evenly">
-        <li
-          className="w-full inline-block relative"
-          onClick={() => handleActive('menu')}
-        >
-          <div className={anchorStyle(active.menu)}>
-            <FontAwesomeIcon
-              icon={faBars}
-              size="lg"
-              style={{
-                background: '',
-              }}
-              className="inline-block"
-            />
-            <span
-              className={`block text-sm relative
+        <AddMain />
+      <div className="">
+        <ul className="flex justify-evenly">
+          <li
+            className="w-full inline-block relative"
+            onClick={() => handleActive('menu')}
+          >
+            <div className={anchorStyle(active.menu)}>
+              <FontAwesomeIcon
+                icon={faBars}
+                size="lg"
+                style={{
+                  background: '',
+                }}
+                className="inline-block"
+              />
+              <span
+                className={`block text-sm relative
             before:content-['open'] before:absolute before:block before:inset-0 before:transition-opacity before:duration-200 before:ease-out
             ${open ? 'before:opacity-0' : ' '}
             after:content-['close'] after:absolute after:block after:inset-0 after:transition-opacity after:duration-200 after:ease-out
             ${!open ? 'after:opacity-0' : ' '}
             `}
-            ></span>
-          </div>
-        </li>
-        <li
-          className="w-full inline-block relative"
-          onClick={() => handleActive('recipes')}
-        >
-          <Link to="recipes" className={anchorStyle(active.recipes)}>
-            <FontAwesomeIcon
-              icon={faUtensils}
-              size="lg"
-              className="inline-block"
-            />
-            <span className="block text-sm">recipes</span>
-          </Link>
-        </li>
-        <li
-          className="w-full inline-block relative"
-          onClick={() => handleActive('users')}
-        >
-          <Link to="users" className={anchorStyle(active.users)}>
-            <FontAwesomeIcon
-              icon={faUserFriends}
-              size="lg"
-              className="inline-block"
-            />
-            <span className="block text-sm">search</span>
-          </Link>
-        </li>
-      </ul>
+              ></span>
+            </div>
+          </li>
+          <li
+            className="w-full inline-block relative"
+            onClick={() => handleActive('recipes')}
+          >
+            <Link to="recipes" className={anchorStyle(active.recipes)}>
+              <FontAwesomeIcon
+                icon={faUtensils}
+                size="lg"
+                className="inline-block"
+              />
+              <span className="block text-sm">recipes</span>
+            </Link>
+          </li>
+          <li
+            className="w-full inline-block relative"
+            onClick={() => handleActive('users')}
+          >
+            <Link to="users" className={anchorStyle(active.users)}>
+              <FontAwesomeIcon
+                icon={faUserFriends}
+                size="lg"
+                className="inline-block"
+              />
+              <span className="block text-sm">search</span>
+            </Link>
+          </li>
+        </ul>
+      </div>
     </nav>
   );
 };

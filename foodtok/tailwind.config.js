@@ -37,7 +37,7 @@ module.exports = {
       animation: {
         slideX: 'slideX 2.5s infinite',
         fadeIn: 'fadeIn 2.5s forwards',
-        fadeOut: 'fadeOut 2.5s forwards'
+        fadeOut: 'fadeOut 2.5s forwards',
       },
     },
   },
