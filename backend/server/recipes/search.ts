@@ -16,8 +16,8 @@ interface searchPayload {
   cursor?: string;
 }
 
-const validFilter = ['_id', 'name', 'description', 'CreatorId'];
-const validOrder = ['_id', 'name', 'CreatorId'];
+const validFilter = ['_id', 'name', 'description', 'UserId'];
+const validOrder = ['_id', 'name', 'UserId'];
 const defaultOrder = '_id:ASC';
 
 const search = async (searchPayload: searchPayload) => {
@@ -37,11 +37,11 @@ const search = async (searchPayload: searchPayload) => {
       a."name",
       a."description",
       a."url",
-      a."CreatorId",
+      a."UserId",
       json_build_object(
-        'name', "Creator"."name",
-        'url', "Creator"."url"
-      ) as "Creator",
+        'name', "User"."name",
+        'url', "User"."url"
+      ) as "User",
       (SELECT json_agg(x) FROM
         (
           SELECT 
@@ -58,7 +58,7 @@ const search = async (searchPayload: searchPayload) => {
       a."updatedAt"
 
     FROM "Recipes" a
-    LEFT JOIN "Creators" "Creator" ON "CreatorId"="Creator"."_id"
+    LEFT JOIN "Users" "User" ON "UserId"="User"."_id"
       `;
   query.append(filter);
   if (cursorQuery) query.append(cursorQuery);

@@ -24,8 +24,8 @@ const update = async (id: number, updatePayload: updatePayload) => {
   const { name, description } = updatePayload;
   if (!name && !description) throw new ErrorException('missing upload payload', 400);
 
-  const foundCreator = await findIngredient(id);
-  if (!foundCreator) throw new ErrorException('ingredient not found', 404);
+  const foundIngredient = await findIngredient(id);
+  if (!foundIngredient) throw new ErrorException('ingredient not found', 404);
 
   const updated = [];
   const query = SQL`

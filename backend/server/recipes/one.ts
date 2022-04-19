@@ -9,11 +9,11 @@ const one = async (id: number) => {
     a."name",
     a."description",
     a."url",
-    a."CreatorId",
+    a."UserId",
     json_build_object(
-        'name', "Creator"."name",
-        'url', "Creator"."url"
-    ) as "Creator",
+        'name', "User"."name",
+        'url', "User"."url"
+    ) as "User",
     (SELECT json_agg(x) FROM
         (
         SELECT 
@@ -30,7 +30,7 @@ const one = async (id: number) => {
     a."updatedAt"
 
     FROM "Recipes" a
-    LEFT JOIN "Creators" "Creator" ON "CreatorId"="Creator"."_id"
+    LEFT JOIN "Users" "User" ON "UserId"="User"."_id"
     WHERE a."_id"=${id}
     `;
 

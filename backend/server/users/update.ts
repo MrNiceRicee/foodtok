@@ -24,8 +24,8 @@ const update = async (id: number, updatePayload: updatePayload) => {
   const { name, url } = updatePayload;
   if (!name && !url) throw new ErrorException('missing upload payload', 400);
 
-  const foundCreator = await findUser(id);
-  if (!foundCreator) throw new ErrorException('creator not found', 404);
+  const foundUser = await findUser(id);
+  if (!foundUser) throw new ErrorException('user not found', 404);
 
   const updated = [];
   const query = SQL`

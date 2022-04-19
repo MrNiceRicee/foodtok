@@ -3,13 +3,13 @@ interface Recipes {
   name: string;
   description: string;
   url: string;
-  CreatorId: number;
+  UserId: number;
   createdAt: Date;
   updatedAt: Date;
 }
 
 interface JoinedRecipe extends Recipes {
-  Creator: {
+  User: {
     name: string;
     url: string;
   };

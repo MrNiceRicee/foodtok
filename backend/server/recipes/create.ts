@@ -5,50 +5,50 @@ import { Recipes } from '../../types/Recipes';
 import ErrorException from '../util/ErrorException';
 
 interface createPayload {
-  CreatorId: number;
+  UserId: number;
   name: string;
   description: string;
   url: string;
 }
 
-const findCreator = async (
+const findUser = async (
   id: number
 ): Promise<{ name: string; url: string }> =>
   queryOne(
     `
     SELECT "name", "url"
-    FROM "Creators"
+    FROM "Users"
     WHERE "_id"=$1
   `,
     [id]
   );
 
-const create = async ({ CreatorId, name, description, url }: createPayload) => {
+const create = async ({ UserId, name, description, url }: createPayload) => {
   verify(name, { name: 'name' });
-  verify(CreatorId, { name: 'CreatorId' });
+  verify(UserId, { name: 'UserId' });
 
-  const foundCreator = await findCreator(CreatorId);
-  if (!foundCreator) throw new ErrorException('creator not found', 404);
+  const foundUser = await findUser(UserId);
+  if (!foundUser) throw new ErrorException('User not found', 404);
 
   const query = SQL`
     INSERT INTO "Recipes"(
       "name",
       "description",
       "url",
-      "CreatorId"
+      "UserId"
       )
     VALUES(
       ${name},
       ${description},
       ${url},
-      ${CreatorId}
+      ${UserId}
     )
     RETURNING 
       "_id",
       "name",
       "description",
       "url",
-      "CreatorId",
+      "UserId",
       "createdAt",
       "updatedAt"
     `;

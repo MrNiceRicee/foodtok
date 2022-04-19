@@ -55,7 +55,7 @@ const update = async (id: number, updatePayload: updatePayload) => {
       "name",
       "description",
       "url",
-      "CreatorId",
+      "UserId",
       "createdAt",
       "updatedAt"
     `);

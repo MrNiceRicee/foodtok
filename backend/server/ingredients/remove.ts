@@ -16,7 +16,7 @@ const remove = async (id: number) => {
   verify(id, { name: 'id' }).isNumber();
   const foundRecipe = await findIngredient(id);
 
-  if (!foundRecipe) throw new ErrorException('creator not found', 404);
+  if (!foundRecipe) throw new ErrorException('ingredient not found', 404);
 
   await queryOne('DELETE FROM "Ingredients" WHERE "_id"=$1', [id]);
 
