@@ -1,4 +1,4 @@
-interface Creators {
+interface Users {
   _id: number;
   name: string;
   url: string;
@@ -6,4 +6,4 @@ interface Creators {
   updatedAt: Date;
 }
 
-export default Creators;
+export default Users;

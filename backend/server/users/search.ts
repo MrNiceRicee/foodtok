@@ -1,6 +1,6 @@
 import SQL, { SQLStatement } from 'sql-template-strings';
 import { queryRows } from '../../connection/db';
-import Creators from '../../types/Creators';
+import Users from '../../types/Users';
 import { getFilter, getLimit } from '../util/utility';
 
 interface searchPayload {
@@ -23,12 +23,12 @@ const search = async (searchPayload: searchPayload) => {
       a."url",
       a."createdAt",
       a."updatedAt"
-    FROM "Creators" a
+    FROM "Users" a
       `
     .append(filter)
     .append(SQL` LIMIT ${limit}`);
 
-  const data: Array<Creators> = await queryRows(query.text, query.values);
+  const data: Array<Users> = await queryRows(query.text, query.values);
 
   return {
     data,

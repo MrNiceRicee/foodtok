@@ -2,18 +2,18 @@ import SQL from 'sql-template-strings';
 import verify from '@mrnicericee/verify';
 import { queryOne } from '../../connection/db';
 import ErrorException from '../util/ErrorException';
-import Creators from '../../types/Creators';
+import Users from '../../types/Users';
 
 interface updatePayload {
   name: string;
   url: string;
 }
 
-const findCreator = async (id: number): Promise<{ name: string; url: string }> =>
+const findUser = async (id: number): Promise<{ name: string; url: string }> =>
   queryOne(
     `
     SELECT "name", "url"
-    FROM "Creators"
+    FROM "Users"
     WHERE "_id"=$1
   `,
     [id]
@@ -24,12 +24,12 @@ const update = async (id: number, updatePayload: updatePayload) => {
   const { name, url } = updatePayload;
   if (!name && !url) throw new ErrorException('missing upload payload', 400);
 
-  const foundCreator = await findCreator(id);
+  const foundCreator = await findUser(id);
   if (!foundCreator) throw new ErrorException('creator not found', 404);
 
   const updated = [];
   const query = SQL`
-    UPDATE "Creators"
+    UPDATE "Users"
     SET
   `;
   if (name) {
@@ -51,7 +51,7 @@ const update = async (id: number, updatePayload: updatePayload) => {
       "updatedAt"
     `);
 
-  const data: Creators = await queryOne(query.text, query.values);
+  const data: Users = await queryOne(query.text, query.values);
   return { data, updated };
 };
 

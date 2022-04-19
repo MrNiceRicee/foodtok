@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { handleError, handleResponse } from '../util/reponse';
+import { handleError, handleResponse } from '../util/response';
 import handleCreate from './create';
 import handleSearch from './search';
 import handleOne from './one';

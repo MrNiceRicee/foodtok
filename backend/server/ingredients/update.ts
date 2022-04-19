@@ -2,7 +2,7 @@ import SQL from 'sql-template-strings';
 import verify from '@mrnicericee/verify';
 import { queryOne } from '../../connection/db';
 import ErrorException from '../util/ErrorException';
-import Creators from '../../types/Creators';
+import Ingredients from '../../types/Ingredients';
 
 interface updatePayload {
   name: string;
@@ -51,7 +51,7 @@ const update = async (id: number, updatePayload: updatePayload) => {
       "updatedAt"
     `);
 
-  const data: Creators = await queryOne(query.text, query.values);
+  const data: Ingredients = await queryOne(query.text, query.values);
   return { data, updated };
 };
 

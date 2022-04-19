@@ -1,7 +1,7 @@
 import { Express, Response } from 'express';
 import html from 'node:http';
 import recipes from './recipes/routes';
-import creators from './creators/routes';
+import users from './users/routes';
 import ingredients from './ingredients/routes';
 
 const router = (app: Express) => {
@@ -11,7 +11,7 @@ const router = (app: Express) => {
 
   app.use('/recipes', recipes);
 
-  app.use('/creators', creators);
+  app.use('/users', users);
 
   app.use('/ingredients', ingredients);
 
