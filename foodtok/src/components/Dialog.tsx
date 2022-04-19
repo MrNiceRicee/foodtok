@@ -9,7 +9,6 @@ const Dialog = (props?: DialogProps): React.ReactElement<DialogProps> => {
   return (
     <dialog
       {...props}
-      draggable
       style={{
         position: 'absolute',
         left: '50%',
