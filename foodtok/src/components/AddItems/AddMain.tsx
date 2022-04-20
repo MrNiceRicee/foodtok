@@ -10,7 +10,7 @@ const AddMain = () => {
   return (
     <>
       <Dialog open={active}>
-        <form>Hrllo</form>
+        <form>Hey hey!</form>
       </Dialog>
       <AddButton onClick={handleOpen} />
     </>

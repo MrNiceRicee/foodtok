@@ -1,4 +1,5 @@
 import { useQuery } from 'react-query';
+import ctl from '@netlify/classnames-template-literals';
 import Image from '../../components/Image';
 import { recipe } from '../../types/recipe';
 import { fetchData } from '../../api/tiktokEmbed';
@@ -20,18 +21,18 @@ const RecipeCard = ({ recipe }: { recipe: recipe }) => {
       to={`${recipe._id}`}
     >
       <header
-        className={`
+        className={ctl(`
           relative 
           ${recipeData?.thumbnail_url ? 'h-auto min-h-[18rem]' : 'h-72'}
           bg-gray-600
           md:basis-full
           rounded-t-lg
           overflow-hidden
-        `}
+        `)}
       >
         <div className="absolute inset-0 h-10 z-30 flex m-3">
           <h1
-            className={`
+            className={ctl(`
               font-black
               uppercase
               text-6xl text-shadow
@@ -41,7 +42,7 @@ const RecipeCard = ({ recipe }: { recipe: recipe }) => {
                   ? 'text-slate-100 shadow-orange-700 '
                   : 'text-slate-700'
               }
-            `}
+            `)}
           >
             {recipe.name}
           </h1>

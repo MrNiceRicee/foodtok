@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { ReactComponent as NotFound } from '../illustration/notFound.svg';
 
 const ErrorIllustration = ({ errorMsg }: { errorMsg: string }) => {
@@ -20,20 +19,16 @@ const ErrorIllustration = ({ errorMsg }: { errorMsg: string }) => {
             absolute inset-0
             prose dark:prose-invert text-slate-100
             dark:text-slate-50
-            top-1/4
             left-5
             font-light
-            text-5xl
+            text-6xl
+            sm:text-9xl
             "
       >
         {errorMsg}
       </h1>
     </div>
   );
-};
-
-ErrorIllustration.propTypes = {
-  errorMsg: PropTypes.string,
 };
 
 ErrorIllustration.defaultProps = {

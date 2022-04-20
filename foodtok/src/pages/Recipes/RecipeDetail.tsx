@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
+import ctl from '@netlify/classnames-template-literals';
 import { one } from '../../api/recipes';
 import { fetchData } from '../../api/tiktokEmbed';
 import { recipe } from '../../types/recipe';
@@ -27,18 +28,18 @@ const Thumbnail = ({
 }) => {
   return (
     <header
-      className={`
+      className={ctl(`
         relative 
         ${tiktokData?.thumbnail_url ? 'h-auto' : 'h-[42rem]'}
         bg-gray-600
         md:basis-2/3
         rounded-t-lg
         overflow-hidden
-      `}
+      `)}
     >
       <div className="absolute inset-0 h-10 z-30 flex m-3">
         <h1
-          className={`
+          className={ctl(`
           font-black
           uppercase
           text-6xl text-shadow
@@ -48,7 +49,7 @@ const Thumbnail = ({
               ? 'text-slate-100 shadow-orange-700 '
               : 'text-slate-700'
           }
-        `}
+        `)}
         >
           {recipe?.name}
         </h1>
