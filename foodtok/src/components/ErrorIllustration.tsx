@@ -5,7 +5,7 @@ const ErrorIllustration = ({ errorMsg }: { errorMsg: string }) => {
     <div
       className="
         relative
-        w-full h-[40rem] sm:h-screen
+        w-full h-screen
         min-h-full
         bg-red-400 dark:bg-red-500
         flex justify-center items-center
@@ -21,8 +21,7 @@ const ErrorIllustration = ({ errorMsg }: { errorMsg: string }) => {
             dark:text-slate-50
             left-5
             font-light
-            text-6xl
-            sm:text-9xl
+            text-7xl
             "
       >
         {errorMsg}

@@ -18,12 +18,14 @@ const Dialog = (props: prop): React.ReactElement<Props> => {
         m-safe p-safe sm:max-w-2xl container
         fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
         rounded-lg bg-slate-700
-        ${open ? 'opacity-100 top-1/2' : 'opacity-0 scale-50 top-3/4'}
+        ${open ? 'opacity-100 top-1/2' : 'opacity-0 scale-50 top-3/4 cursor-none select-none'}
         transition-all duration-200 ease-out
         overflow-hidden border-t border-gray-50/50
         shadow-2xl
+        backdrop-blur-xl
         ${props?.className}
       `)}
+      role='dialog'
     >
       <header className="py-4 px-6 shadow-inner">
         <h2 className="prose dark:prose-invert font-extrabold text-4xl text-slate-100">
