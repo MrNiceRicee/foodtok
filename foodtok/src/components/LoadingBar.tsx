@@ -1,6 +1,7 @@
-import ctl from "@netlify/classnames-template-literals";
+import ctl from '@netlify/classnames-template-literals';
+import * as PropTypes from 'prop-types';
 
-const LoadingBar = ({ rounded = false }) => (
+const LoadingBar = ({ rounded }: { rounded: boolean }) => (
   <div
     className={ctl(`
       bg-gray-400 w-full h-full
@@ -15,5 +16,13 @@ const LoadingBar = ({ rounded = false }) => (
   `)}
   />
 );
+
+LoadingBar.propTypes = {
+  rounded: PropTypes.bool,
+};
+
+LoadingBar.defaultProps = {
+  rounded: false,
+};
 
 export default LoadingBar;

@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import LoadingBar from './LoadingBar';
 import ctl from '@netlify/classnames-template-literals';
 import ErrorComp from './ErrorComp';
 interface statusType {
-  loaded: Boolean;
-  errored: Boolean;
+  loaded: boolean;
+  errored: boolean;
 }
 
 const Image = ({
@@ -80,7 +80,7 @@ Image.defaultProps = {
 Image.propTypes = {
   src: PropTypes.string.isRequired,
   loading: PropTypes.element,
-  error: PropTypes.element
-}
+  error: PropTypes.element,
+};
 
 export default Image;
