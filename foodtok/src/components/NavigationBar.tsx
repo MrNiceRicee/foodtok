@@ -7,7 +7,6 @@ import {
   faBars,
   faUserFriends,
 } from '@fortawesome/free-solid-svg-icons';
-import AddMain from './AddItems/AddMain';
 
 const anchorStyle = (state: boolean) =>
   ctl(`

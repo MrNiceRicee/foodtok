@@ -1,6 +1,6 @@
 import ctl from '@netlify/classnames-template-literals';
 import { useEffect, useState } from 'react';
-import { useQueryClient } from 'react-query';
+// import { useQueryClient } from 'react-query';
 import Button from './Button';
 
 const Dialog = (props: prop): React.ReactElement<Props> => {

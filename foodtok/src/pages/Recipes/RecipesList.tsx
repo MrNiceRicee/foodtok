@@ -1,13 +1,11 @@
-import { Suspense, lazy, useState } from 'react';
+import { Suspense, lazy, useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
-import { Link } from 'react-router-dom';
-
-import { search as searchEndpoint } from '@apis/recipes';
 import Button from '@components/Button';
-import CardLoading from '@components/CardLoading'
-import ErrorIllustration from '@components/ErrorIllustration'
+import { Link } from 'react-router-dom';
+import { search as searchEndpoint } from '@apis/recipes';
+import CardLoading from '@components/CardLoading';
+import ErrorIllustration from '@components/ErrorIllustration';
 import { recipe } from '@foodtok-types/recipe';
-
 const RecipeCard = lazy(() => import('./RecipeCard'));
 
 const getRecipes = async () => {
@@ -20,9 +18,13 @@ const getRecipes = async () => {
 
 const RecipesList = () => {
   const [recipes, setRecipes] = useState<Array<recipe>>([]);
-  const { isError, isLoading, data } = useQuery(`RecipeList`, () =>
+  const { isError, isLoading, data } = useQuery('RecipeList', () =>
     getRecipes().then((item) => item)
   );
+
+  useEffect(() => {
+    if (data) setRecipes(data);
+  }, [data]);
 
   if (isLoading) return <CardLoading rows={3} rKey="Loading_Recipe_List" />;
 
@@ -39,8 +41,8 @@ const RecipesList = () => {
           Add new Recipe!
         </Button>
       </Link>
-      {data && data.length ? (
-        data.map((item, index) => (
+      {recipes && recipes.length ? (
+        recipes.map((item, index) => (
           <Suspense
             fallback={<CardLoading rows={3} rKey="Fallback_Recipe_List" />}
             key={`${item._id}_${index}`}

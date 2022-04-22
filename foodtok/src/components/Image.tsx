@@ -38,10 +38,10 @@ const Image = ({
       image: ctl(`
         max-w-full min-w-full h-auto m-0 z-10
         ${
-          status.loaded
-            ? 'opacity-100 brightness-100 contrast-100'
-            : 'opacity-0 brightness-0 contrast-50'
-        }
+      status.loaded
+        ? 'opacity-100 brightness-100 contrast-100'
+        : 'opacity-0 brightness-0 contrast-50'
+      }
           `),
       iconContainer: ctl(`
         absolute inset-0 h-full w-full
