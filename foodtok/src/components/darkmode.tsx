@@ -14,7 +14,7 @@ const ThemeButton = () => {
       <Button
         onClick={() => setMode(!mode)}
         variance='filled'
-        className="rounded-lg px-10 py-2 bg-indigo-500 hover:shadow-sm hover:bg-indigo-700 dark:bg-red-500 w-full text-slate-100 transition-colors duration-500 ease-out"
+        className="rounded-lg px-10 py-2 bg-indigo-500 hover:shadow-sm hover:bg-indigo-600 dark:bg-red-500 w-full transition-colors duration-500 ease-out"
       >
         {mode ? 'Go light!' : 'Go dark!'}
       </Button>

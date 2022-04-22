@@ -11,9 +11,10 @@ const ErrorIllustration = ({ errorMsg }: { errorMsg: string }) => {
         flex justify-center items-center
         p-1
         rounded-lg
+        overflow-hidden
       "
     >
-      <NotFound className="w-full h-full" />
+      <NotFound className="w-full h-full scale-[1.6]"/>
       <h1
         className="
             absolute inset-0

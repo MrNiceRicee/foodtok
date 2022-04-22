@@ -16,9 +16,9 @@ const App = () => {
           <Route path="recipes">
             <Route index element={<Recipes />} />
             <Route path=":id" element={<RecipeDetail />} />
+            <Route path="create" element={<>Creating</>} />
           </Route>
         </Routes>
-        <AddMain />
       </div>
       <div className="inline-block py-6" aria-hidden></div>
       <NavigationBar />

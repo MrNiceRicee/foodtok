@@ -25,13 +25,13 @@ const Button = (props: Props): React.ReactElement<Props> => {
             bg-slate-500 
             font-bold text-lg
     
-            before:absolute before:inset-0 before:w-full before:h-full before:bg-inherit before:rounded-[inherit] before:brightness-75
-            hover:before:brightness-75 hover:before:h-[calc(100%+0.75rem)] hover:before:w-[calc(100%+0.75rem)] hover:before:-left-1.5 hover:before:-top-1.5
-            after:before:brightness-75 after:before:h-[calc(100%+0.75rem)] after:before:w-[calc(100%+0.75rem)] after:before:-left-1.5 after:before:-top-1.5
-            focus:before:brightness-75 focus:before:h-[calc(100%+0.75rem)] focus:before:w-[calc(100%+0.75rem)] focus:before:-left-1.5 focus:before:-top-1.5 
+            before:absolute before:inset-0 before:w-full before:h-full before:bg-inherit before:rounded-[inherit] before:opacity-25 
+            hover:before:opacity-25 hover:before:h-[calc(100%+0.75rem)] hover:before:w-[calc(100%+0.75rem)] hover:before:-left-1.5 hover:before:-top-1.5
+            after:before:opacity-25 after:before:h-[calc(100%+0.75rem)] after:before:w-[calc(100%+0.75rem)] after:before:-left-1.5 after:before:-top-1.5
+            focus:before:opacity-25 focus:before:h-[calc(100%+0.75rem)] focus:before:w-[calc(100%+0.75rem)] focus:before:-left-1.5 focus:before:-top-1.5 
             before:z-[-1] 
     
-            shadow-md shadow-slate-800/70
+            shadow-md shadow-slate-800/50
             hover:shadow-sm focus:shadow-sm active:shadow-sm
 
             before:transition-all before:duration-150 before:ease-in
