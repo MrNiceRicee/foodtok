@@ -25,7 +25,8 @@ interface searchBase {
   length: number;
 }
 
-export type recipe = recipeBase
-export type search = searchBase;
+type recipe = recipeBase;
+type search = searchBase;
+export type { recipe, search };
 
 // <33333333333333

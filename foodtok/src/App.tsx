@@ -1,10 +1,9 @@
 import { Routes, Route } from 'react-router-dom';
 
-import ThemeButton from './components/darkmode';
-import NavigationBar from './components/NavigationBar';
+import ThemeButton from '@components//darkmode';
+import NavigationBar from '@components//NavigationBar';
 import Recipes from './pages/Recipes/Recipes';
 import RecipeDetail from './pages/Recipes/RecipeDetail';
-import AddMain from './components/AddItems/AddMain';
 
 const App = () => {
   return (

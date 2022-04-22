@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import ctl from '@netlify/classnames-template-literals';
-import { one } from '../../api/recipes';
-import { fetchData } from '../../api/tiktokEmbed';
-import { recipe } from '../../types/recipe';
-import CardLoading from '../../components/CardLoading';
-import Image from '../../components/Image';
-import { tiktok } from '../../types/tiktok';
+import { one } from '@apis/recipes';
+import { fetchData } from '@apis/tiktokEmbed';
+import { recipe } from '@foodtok-types/recipe';
+import CardLoading from '@components//CardLoading';
+import Image from '@components//Image';
+import { tiktok } from '@foodtok-types/tiktok';
 
 const DefaultUrl = () => (
   <div className="w-full h-full bg-orange-100 dark:bg-orange-200 animate-fadeIn z-40"></div>

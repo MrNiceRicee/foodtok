@@ -1,11 +1,12 @@
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useState } from 'react';
 import { useQuery } from 'react-query';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import { search as searchEndpoint } from '../../api/recipes';
-import Button from '../../components/Button';
-import CardLoading from '../../components/CardLoading';
-import ErrorIllustration from '../../components/ErrorIllustration';
+import { search as searchEndpoint } from '@apis/recipes';
+import Button from '@components/Button';
+import CardLoading from '@components/CardLoading'
+import ErrorIllustration from '@components/ErrorIllustration'
+import { recipe } from '@foodtok-types/recipe';
 
 const RecipeCard = lazy(() => import('./RecipeCard'));
 
@@ -18,8 +19,7 @@ const getRecipes = async () => {
 };
 
 const RecipesList = () => {
-  const navigate = useNavigate();
-
+  const [recipes, setRecipes] = useState<Array<recipe>>([]);
   const { isError, isLoading, data } = useQuery(`RecipeList`, () =>
     getRecipes().then((item) => item)
   );

@@ -15,7 +15,13 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["vite-plugin-svgr/client"]
+    "types": ["vite-plugin-svgr/client", "node"],
+    "baseUrl": "src",
+    "paths": {
+      "@components/*": ["components/*"],
+      "@foodtok-types/*": ["types/*"],
+      "@apis/*": ["api/*"]
+    }
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

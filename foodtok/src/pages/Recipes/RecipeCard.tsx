@@ -1,8 +1,8 @@
 import { useQuery } from 'react-query';
 import ctl from '@netlify/classnames-template-literals';
-import Image from '../../components/Image';
+import Image from '@components//Image';
 import { recipe } from '../../types/recipe';
-import { fetchData } from '../../api/tiktokEmbed';
+import { fetchData } from '@apis/tiktokEmbed';
 import { Link } from 'react-router-dom';
 
 const DefaultUrl = () => (
