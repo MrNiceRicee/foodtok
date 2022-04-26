@@ -1,5 +1,7 @@
 import ctl from '@netlify/classnames-template-literals';
 import { recipe } from '@foodtok-types/recipe';
+import TextInput from '@components/TextInput';
+import Button from '@components/Button';
 
 const RecipeForm = ({
   header = 'Recipe Form',
@@ -14,34 +16,35 @@ const RecipeForm = ({
         m-safe p-safe w-full flex justify-center content-center
         `)}
     >
-      <form className="bg-slate-50 dark:bg-slate-900 rounded-lg px-6 shadow-lg">
-        <header className="py-4 shadow-inner text-center">
+      <form
+        className={ctl(
+          `bg-slate-50 dark:bg-slate-700 rounded-lg shadow-lg
+
+          overflow-hidden
+          `
+        )}
+      >
+        <header className={ctl(`py-4 px-6 shadow-inner text-center 
+        bg-slate-300 dark:bg-slate-900
+        `)}>
           <h2
-            className="
+            className={ctl(`
             prose dark:prose-invert
             font-extrabold text-4xl
-            text-slate-800 dark:text-slate-100"
+            text-slate-800 dark:text-slate-100`)}
           >
             {header}
           </h2>
         </header>
-        <section>
-          <div className="flex flex-col min-w-[20rem] py-3">
-            <label className="prose font-semibold text-slate-800 dark:text-slate-100">
-              hahahaha
-            </label>
-            <input
-              className={ctl(`
-                prose font-medium 
-                p-2
-                text-slate-900 dark:text-slate-50
-                bg-slate-200 dark:bg-slate-700
-                rounded-lg
-                `)}
-            />
-          </div>
+        <section className="px-6">
+          <TextInput />
         </section>
-        <footer></footer>
+        <footer className="bg-slate-300 dark:bg-slate-900 py-3 px-6 flex justify-between shadow-inner">
+          <Button className="mx-2 prose-p:text-amber-300">cancel</Button>
+          <Button variance="filled" className="mx-2 bg-sky-500">
+            confirm
+          </Button>
+        </footer>
       </form>
     </div>
   );

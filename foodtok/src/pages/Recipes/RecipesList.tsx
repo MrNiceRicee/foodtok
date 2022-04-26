@@ -5,11 +5,12 @@ import { search as searchEndpoint } from '@apis/recipes';
 import CardLoading from '@components/CardLoading';
 import ErrorIllustration from '@components/ErrorIllustration';
 import { recipe } from '@foodtok-types/recipe';
+import ctl from '@netlify/classnames-template-literals';
 const RecipeCard = lazy(() => import('./RecipeCard'));
 
 const ButtonLink = () => (
   <Link
-    className="w-full max-w-lg mx-auto my-4 no-underline
+    className={ctl(`w-full max-w-lg mx-auto my-4 no-underline
     justify-center
     content-center
     relative
@@ -27,13 +28,13 @@ const ButtonLink = () => (
 
     focus:before:animate-growing
 
-    shadow-md shadow-slate-800/50
+    shadow-md shadow-slate-600/50
     hover:shadow-sm focus:shadow-sm active:shadow-sm
 
     before:transition-all before:duration-150 before:ease-in
     translate-all duration-150 ease-in
     
-    "
+    `)}
     to="create"
   >
     Add new Recipe!ssss

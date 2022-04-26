@@ -1,9 +1,12 @@
+import { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import ThemeButton from '@components//darkmode';
 import NavigationBar from '@components//NavigationBar';
 import Recipes from '@pages/Recipes/Recipes';
 import RecipeDetail from '@pages/Recipes/RecipeDetail';
-import RecipeForm from '@pages/Recipes/RecipeForm';
+import LoadingBar from '@components/LoadingBar';
+// import RecipeForm from '@pages/Recipes/RecipeForm';
+const RecipeForm = lazy(() => import('@pages/Recipes/RecipeForm'));
 
 const App = () => {
   return (
@@ -15,7 +18,14 @@ const App = () => {
           <Route path="recipes">
             <Route index element={<Recipes />} />
             <Route path=":id" element={<RecipeDetail />} />
-            <Route path="create" element={<RecipeForm />} />
+            <Route
+              path="create"
+              element={
+                <Suspense fallback={<LoadingBar />}>
+                  <RecipeForm />
+                </Suspense>
+              }
+            />
           </Route>
         </Routes>
       </div>

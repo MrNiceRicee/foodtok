@@ -31,7 +31,7 @@ const Button = (props: Props): React.ReactElement<Props> => {
             focus:before:opacity-25 focus:before:h-[calc(100%+0.75rem)] focus:before:w-[calc(100%+0.75rem)] focus:before:-left-1.5 focus:before:-top-1.5 
             before:z-[-1] 
     
-            shadow-md shadow-slate-800/50
+            shadow-md shadow-slate-600/50
             hover:shadow-sm focus:shadow-sm active:shadow-sm
 
             before:transition-all before:duration-150 before:ease-in
