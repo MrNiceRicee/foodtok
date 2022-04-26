@@ -1,9 +1,9 @@
 import { Routes, Route } from 'react-router-dom';
-
 import ThemeButton from '@components//darkmode';
 import NavigationBar from '@components//NavigationBar';
-import Recipes from './pages/Recipes/Recipes';
-import RecipeDetail from './pages/Recipes/RecipeDetail';
+import Recipes from '@pages/Recipes/Recipes';
+import RecipeDetail from '@pages/Recipes/RecipeDetail';
+import RecipeForm from '@pages/Recipes/RecipeForm';
 
 const App = () => {
   return (
@@ -15,7 +15,7 @@ const App = () => {
           <Route path="recipes">
             <Route index element={<Recipes />} />
             <Route path=":id" element={<RecipeDetail />} />
-            <Route path="create" element={<>Creating</>} />
+            <Route path="create" element={<RecipeForm />} />
           </Route>
         </Routes>
       </div>

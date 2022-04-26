@@ -20,7 +20,8 @@
     "paths": {
       "@components/*": ["components/*"],
       "@foodtok-types/*": ["types/*"],
-      "@apis/*": ["api/*"]
+      "@apis/*": ["api/*"],
+      "@pages/*": ["pages/*"]
     }
   },
   "include": ["src"],

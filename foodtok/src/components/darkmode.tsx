@@ -13,8 +13,8 @@ const ThemeButton = () => {
     <div className="prose dark:prose-invert inline-block w-full max-w-sm mx-auto">
       <Button
         onClick={() => setMode(!mode)}
-        variance='filled'
-        className="rounded-lg px-10 py-2 bg-indigo-500 hover:shadow-sm hover:bg-indigo-600 dark:bg-red-500 w-full transition-colors duration-500 ease-out"
+        variance="none"
+        className="rounded-lg px-10 py-2  hover:shadow-sm w-full transition-colors duration-500 ease-out"
       >
         {mode ? 'Go light!' : 'Go dark!'}
       </Button>

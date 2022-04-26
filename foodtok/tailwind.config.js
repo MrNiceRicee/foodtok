@@ -33,11 +33,17 @@ module.exports = {
           '0%': { opacity: '1' },
           '100%': { opacity: '0' },
         },
+        growing: {
+          '0%': { transform: 'scale(1)' },
+          '60%': { transform: 'scale(1.025)' },
+          '100%': { transform: 'scale(1)' },
+        },
       },
       animation: {
         slideX: 'slideX 2.5s infinite',
         fadeIn: 'fadeIn 2.5s forwards',
         fadeOut: 'fadeOut 2.5s forwards',
+        growing: 'growing 4s infinite',
       },
     },
   },

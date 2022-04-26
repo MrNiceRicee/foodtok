@@ -4,3 +4,4 @@ node_modules/**
 *.config.js
 *.json
 vite-env.d.ts
+tailwind.config.js
