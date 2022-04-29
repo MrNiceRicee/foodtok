@@ -1,5 +1,6 @@
 import { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import ctl from '@netlify/classnames-template-literals';
 import ThemeButton from '@components//darkmode';
 import NavigationBar from '@components//NavigationBar';
 import Recipes from '@pages/Recipes/Recipes';
@@ -10,26 +11,32 @@ const RecipeForm = lazy(() => import('@pages/Recipes/RecipeForm'));
 
 const App = () => {
   return (
-    <div className="p-safe h-screen-safe w-full h-screen">
-      <div className="container sm:max-w-4xl min-h-full flex-grow flex mx-auto flex-col mb-1 relative">
-        <ThemeButton />
-        <Routes>
+    <div
+      className={ctl(
+        `p-safe h-screen-safe w-full
+        overflow-y-scroll
+        container sm:max-w-4xl
+        flex flex-grow mx-auto flex-col mb-1 relative
+        `
+      )}
+    >
+      <ThemeButton />
+      <Routes>
+        <Route index element={<Recipes />} />
+        <Route path="recipes">
           <Route index element={<Recipes />} />
-          <Route path="recipes">
-            <Route index element={<Recipes />} />
-            <Route path=":id" element={<RecipeDetail />} />
-            <Route
-              path="create"
-              element={
-                <Suspense fallback={<LoadingBar />}>
-                  <RecipeForm />
-                </Suspense>
-              }
-            />
-          </Route>
-        </Routes>
-      </div>
-      <div className="inline-block py-6" aria-hidden></div>
+          <Route path=":id" element={<RecipeDetail />} />
+          <Route
+            path="create"
+            element={
+              <Suspense fallback={<LoadingBar />}>
+                <RecipeForm />
+              </Suspense>
+            }
+          />
+        </Route>
+      </Routes>
+      <div className="inline-block py-6 w-full" aria-hidden></div>
       <NavigationBar />
     </div>
   );

@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { search as SearchData, recipe } from '../types/recipe';
+import { search as SearchData, recipe, justRecipe } from '../types/recipe';
 import base from './base';
 
 const search = async (): Promise<AxiosResponse<SearchData>> =>
@@ -8,4 +8,10 @@ const search = async (): Promise<AxiosResponse<SearchData>> =>
 const one = async (id: number): Promise<AxiosResponse<{ data: recipe }>> =>
   base.get(`/recipes/${id}`);
 
-export { search, one };
+const post = async (payload: {
+  name: string;
+  url: string;
+  description: string;
+}): Promise<AxiosResponse<justRecipe>> => base.post('/recipes', payload);
+
+export { search, one, post };

@@ -3,11 +3,13 @@ import TextInput from '@components/TextInput';
 import Button from '@components/Button';
 import { useState } from 'react';
 import * as React from 'react';
+import { post } from '@apis/recipes';
 
 interface defaultValue {
   name: string;
   url: string;
   description: string;
+  UserId: string;
 }
 
 const RecipeForm = ({
@@ -18,8 +20,9 @@ const RecipeForm = ({
   defaultValues: defaultValue;
 }) => {
   const [model, setModel] = useState(defaultValues);
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    await post(model);
   };
 
   const onChange = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -67,6 +70,11 @@ const RecipeForm = ({
             value={model.description}
             onChange={onChange('description')}
           />
+          <TextInput
+            name="user"
+            value={model.UserId}
+            onChange={onChange('UserId')}
+          />
         </section>
         <footer className="bg-slate-300 dark:bg-slate-900 py-3 px-6 flex justify-between shadow-inner">
           <Button className="mx-2 prose-p:text-yellow-400">cancel</Button>
@@ -84,6 +92,7 @@ RecipeForm.defaultProps = {
     name: '',
     url: '',
     description: '',
+    UserId: '',
   },
 };
 

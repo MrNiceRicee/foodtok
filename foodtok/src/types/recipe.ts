@@ -1,10 +1,4 @@
-interface recipeBase {
-  _id: string;
-  name: string;
-  description: string | null;
-  url: string | null;
-  longUrl: string | null;
-  UserId: number;
+interface recipeBase extends justRecipe {
   User: {
     name: string;
     url: string | null;
@@ -15,6 +9,15 @@ interface recipeBase {
     description: string | undefined;
     name: string;
   }>;
+}
+
+interface justRecipe {
+  _id: string;
+  name: string;
+  description: string | null;
+  url: string | null;
+  longUrl: string | null;
+  UserId: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -28,6 +31,6 @@ interface searchBase {
 
 type recipe = recipeBase;
 type search = searchBase;
-export type { recipe, search };
+export type { recipe, search, justRecipe };
 
 // <33333333333333
