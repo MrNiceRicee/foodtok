@@ -1,20 +1,28 @@
 import ctl from '@netlify/classnames-template-literals';
 import * as PropTypes from 'prop-types';
+import * as React from 'react';
 
-const TextInput = ({
-  defaultValue,
-  id,
-}: {
-  defaultValue?: string;
-  id: string;
-}) => {
+interface Props
+  extends React.DetailedHTMLProps<
+      React.HtmlHTMLAttributes<HTMLInputElement>,
+      HTMLInputElement
+    >,
+    React.AriaAttributes {}
+
+interface prop extends Props {
+  name: string;
+  value: string;
+}
+
+const TextInput = (props: prop) => {
   return (
     <div className="flex flex-col min-w-[20rem] py-3">
       <label className="prose font-bold font- text-slate-800 dark:text-slate-100">
-        hahahaha
+        {props.name}
       </label>
       <input
-        name={id}
+        {...props}
+        name={props.name}
         className={ctl(`
         prose font-light 
         p-2
@@ -26,18 +34,18 @@ const TextInput = ({
         outline-none
         `)}
         type="text"
-        value={defaultValue}
+        value={props.value}
       />
     </div>
   );
 };
 
 TextInput.propTypes = {
-  defaultValue: PropTypes.string,
+  value: PropTypes.string,
 };
 
 TextInput.defaultProps = {
-  defaultValue: undefined,
+  value: undefined,
 };
 
 export default TextInput;

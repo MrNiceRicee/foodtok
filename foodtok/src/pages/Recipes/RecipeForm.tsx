@@ -1,23 +1,30 @@
 import ctl from '@netlify/classnames-template-literals';
-import { recipe } from '@foodtok-types/recipe';
 import TextInput from '@components/TextInput';
 import Button from '@components/Button';
+import { useState } from 'react';
+import * as React from 'react';
+
+interface defaultValue {
+  name: string;
+  url: string;
+  description: string;
+}
 
 const RecipeForm = ({
   header = 'Recipe Form',
-  model,
+  defaultValues,
 }: {
   header?: string;
-  model?: recipe | undefined;
+  defaultValues: defaultValue;
 }) => {
+  const [model, setModel] = useState(defaultValues);
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(event);
-    console.log('\t', event.target);
-    console.log('\t', event.target.elements.age);
-    console.log('\t', event.currentTarget);
-    console.log(formData);
   };
+
+  const onChange = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) =>
+    setModel((old) => ({ ...old, [key]: e.target.value }));
+
   return (
     <div
       className={ctl(`
@@ -49,8 +56,17 @@ const RecipeForm = ({
           </h2>
         </header>
         <section className="px-6">
-          {/* <TextInput id="name" /> */}
-          <input type="text" name="title" />
+          <TextInput
+            name="title"
+            value={model.name}
+            onChange={onChange('name')}
+          />
+          <TextInput name="url" value={model.url} onChange={onChange('url')} />
+          <TextInput
+            name="description"
+            value={model.description}
+            onChange={onChange('description')}
+          />
         </section>
         <footer className="bg-slate-300 dark:bg-slate-900 py-3 px-6 flex justify-between shadow-inner">
           <Button className="mx-2 prose-p:text-yellow-400">cancel</Button>
@@ -61,6 +77,14 @@ const RecipeForm = ({
       </form>
     </div>
   );
+};
+
+RecipeForm.defaultProps = {
+  defaultValues: {
+    name: '',
+    url: '',
+    description: '',
+  },
 };
 
 export default RecipeForm;
