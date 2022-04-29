@@ -23,8 +23,10 @@ const findUser = async (id: number): Promise<{ name: string; url: string }> =>
   );
 
 const create = async ({ UserId, name, description, url }: createPayload) => {
-  verify(name, { name: 'name' });
-  verify(UserId, { name: 'UserId' });
+  const { value: verifyName } = verify(name, { name: 'name' });
+  if (!verifyName) throw new ErrorException('name not defined', 400);
+  const { value: verifyUser } = verify(UserId, { name: 'UserId' });
+  if (!verifyUser) throw new ErrorException('UserId not defined', 400);
 
   const foundUser = await findUser(UserId);
   if (!foundUser) throw new ErrorException('User not found', 404);
@@ -32,7 +34,6 @@ const create = async ({ UserId, name, description, url }: createPayload) => {
   let longUrl = '';
   if (url) {
     longUrl = await getUrl(url);
-    console.log(longUrl);
   }
 
   const query = SQL`
@@ -61,8 +62,6 @@ const create = async ({ UserId, name, description, url }: createPayload) => {
       "updatedAt"
     `;
 
-  console.log(query.text);
-  console.log(query.values);
   const data: Recipes = await queryOne(query.text, query.values);
 
   return { data };

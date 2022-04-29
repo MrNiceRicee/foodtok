@@ -5,6 +5,7 @@ class ErrorException extends Error {
     super(message);
     this.name = 'ErrorException';
     this.statusCode = statusCode;
+    this.stack = undefined;
   }
 }
 
