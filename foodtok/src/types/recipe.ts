@@ -3,6 +3,7 @@ interface recipeBase {
   name: string;
   description: string | null;
   url: string | null;
+  longUrl: string | null;
   UserId: number;
   User: {
     name: string;

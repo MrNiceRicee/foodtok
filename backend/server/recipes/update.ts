@@ -2,6 +2,7 @@ import SQL from 'sql-template-strings';
 import verify from '@mrnicericee/verify';
 import { queryOne } from '../../connection/db';
 import ErrorException from '../util/ErrorException';
+import { getUrl } from './util';
 
 interface updatePayload {
   name: string;
@@ -46,6 +47,9 @@ const update = async (id: number, updatePayload: updatePayload) => {
   if (url) {
     updated.push('url');
     query.append(SQL`"url"=${url},`);
+    const longUrl = await getUrl(url);
+    updated.push('longUrl');
+    query.append(SQL`"longUrl"=${longUrl},`);
   }
   query.append(SQL`
     "updatedAt"=NOW()
@@ -55,6 +59,7 @@ const update = async (id: number, updatePayload: updatePayload) => {
       "name",
       "description",
       "url",
+      "longUrl"
       "UserId",
       "createdAt",
       "updatedAt"

@@ -13,6 +13,7 @@ CREATE TABLE "Recipes"(
   "name" VARCHAR(240) NOT NULL,
   "description" VARCHAR(240),
   "url" TEXT,
+  "longUrl" TEXT,
 
   "UserId" INTEGER,
 

@@ -12,12 +12,6 @@ import { tiktok } from '@foodtok-types/tiktok';
 const DefaultUrl = () => (
   <div className="w-full h-full bg-orange-100 dark:bg-orange-200 animate-fadeIn z-40"></div>
 );
-// const fetchTiktok = (url = '', id: string | 0) => {
-//   const { data: tiktokData } = useQuery(`RecipeDetail_Tiktok_${id}`, () =>
-//     fetchData(url).then((item) => item)
-//   );
-//   return tiktokData;
-// };
 
 const Thumbnail = ({
   recipe,
@@ -68,16 +62,14 @@ const RecipeDetail = () => {
   );
 
   useEffect(() => {
-    if (data?.url) {
-      fetchData(data?.url)
+    if (data?.longUrl) {
+      fetchData(data?.longUrl)
         .then((item) => {
           setTiktokdata(item);
         })
         .catch();
     }
   }, [id, data, setTiktokdata]);
-
-  // const tiktokData = fetchTiktok(data?.url || '', id || 0);
 
   if (isLoading) return <CardLoading rKey="Loading_Recipe_Detail" />;
 

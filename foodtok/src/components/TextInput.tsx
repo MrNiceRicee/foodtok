@@ -1,13 +1,20 @@
 import ctl from '@netlify/classnames-template-literals';
 import * as PropTypes from 'prop-types';
 
-const TextInput = ({ defaultValue }: { defaultValue?: string }) => {
+const TextInput = ({
+  defaultValue,
+  id,
+}: {
+  defaultValue?: string;
+  id: string;
+}) => {
   return (
     <div className="flex flex-col min-w-[20rem] py-3">
       <label className="prose font-bold font- text-slate-800 dark:text-slate-100">
         hahahaha
       </label>
       <input
+        name={id}
         className={ctl(`
         prose font-light 
         p-2
@@ -18,6 +25,7 @@ const TextInput = ({ defaultValue }: { defaultValue?: string }) => {
         rounded-lg
         outline-none
         `)}
+        type="text"
         value={defaultValue}
       />
     </div>

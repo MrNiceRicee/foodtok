@@ -9,6 +9,7 @@ const one = async (id: number) => {
     a."name",
     a."description",
     a."url",
+    a."longUrl",
     a."UserId",
     json_build_object(
         'name', "User"."name",

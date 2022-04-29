@@ -3,6 +3,7 @@ interface Recipes {
   name: string;
   description: string;
   url: string;
+  longUrl: string;
   UserId: number;
   createdAt: Date;
   updatedAt: Date;

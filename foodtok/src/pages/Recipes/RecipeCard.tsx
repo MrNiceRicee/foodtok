@@ -10,9 +10,8 @@ const DefaultUrl = () => (
 );
 
 const RecipeCard = ({ recipe }: { recipe: recipe }) => {
-  const { data: recipeData } = useQuery(
-    `RecipeCard_Tiktok_${recipe._id}`,
-    () => fetchData(recipe?.url || '').then((item) => item)
+  const { data: recipeData } = useQuery(`RecipeCard_Tiktok_${recipe._id}`, () =>
+    fetchData(recipe?.longUrl || '').then((item) => item)
   );
 
   return (

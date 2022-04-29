@@ -10,6 +10,14 @@ const RecipeForm = ({
   header?: string;
   model?: recipe | undefined;
 }) => {
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log(event);
+    console.log('\t', event.target);
+    console.log('\t', event.target.elements.age);
+    console.log('\t', event.currentTarget);
+    console.log(formData);
+  };
   return (
     <div
       className={ctl(`
@@ -23,10 +31,14 @@ const RecipeForm = ({
           overflow-hidden
           `
         )}
+        method="POST"
+        onSubmit={onSubmit}
       >
-        <header className={ctl(`py-4 px-6 shadow-inner text-center 
+        <header
+          className={ctl(`py-4 px-6 shadow-inner text-center 
         bg-slate-300 dark:bg-slate-900
-        `)}>
+        `)}
+        >
           <h2
             className={ctl(`
             prose dark:prose-invert
@@ -37,11 +49,12 @@ const RecipeForm = ({
           </h2>
         </header>
         <section className="px-6">
-          <TextInput />
+          {/* <TextInput id="name" /> */}
+          <input type="text" name="title" />
         </section>
         <footer className="bg-slate-300 dark:bg-slate-900 py-3 px-6 flex justify-between shadow-inner">
-          <Button className="mx-2 prose-p:text-amber-300">cancel</Button>
-          <Button variance="filled" className="mx-2 bg-sky-500">
+          <Button className="mx-2 prose-p:text-yellow-400">cancel</Button>
+          <Button variance="filled" className="mx-2 bg-sky-500" type="submit">
             confirm
           </Button>
         </footer>

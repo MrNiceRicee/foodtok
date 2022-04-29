@@ -26,10 +26,10 @@ const Button = (props: Props): React.ReactElement<Props> => {
             font-bold text-lg
     
             before:absolute before:inset-0 before:w-full before:h-full before:bg-inherit before:rounded-[inherit] before:opacity-25 
-            hover:before:opacity-25 hover:before:h-[calc(100%+0.75rem)] hover:before:w-[calc(100%+0.75rem)] hover:before:-left-1.5 hover:before:-top-1.5
-            after:before:opacity-25 after:before:h-[calc(100%+0.75rem)] after:before:w-[calc(100%+0.75rem)] after:before:-left-1.5 after:before:-top-1.5
-            focus:before:opacity-25 focus:before:h-[calc(100%+0.75rem)] focus:before:w-[calc(100%+0.75rem)] focus:before:-left-1.5 focus:before:-top-1.5 
-            before:z-[-1] 
+            hover:before:opacity-50 hover:before:h-[calc(100%+0.75rem)] hover:before:w-[calc(100%+0.75rem)] hover:before:-left-1.5 hover:before:-top-1.5
+            after:before:opacity-50 after:before:h-[calc(100%+0.75rem)] after:before:w-[calc(100%+0.75rem)] after:before:-left-1.5 after:before:-top-1.5
+            focus:before:opacity-50 focus:before:h-[calc(100%+0.75rem)] focus:before:w-[calc(100%+0.75rem)] focus:before:-left-1.5 focus:before:-top-1.5 
+            
     
             shadow-md shadow-slate-600/50
             hover:shadow-sm focus:shadow-sm active:shadow-sm
@@ -55,9 +55,9 @@ const Button = (props: Props): React.ReactElement<Props> => {
           brightness-90
   
           before:absolute before:inset-[12.5%] before:w-3/4 before:h-3/4  before:rounded-[inherit] before:origin-center
-          hover:before:bg-slate-50/10 hover:before:h-[calc(100%+0.75rem)] hover:before:w-[calc(100%+0.75rem)] hover:before:-left-1.5 hover:before:-top-1.5
-          after:before:bg-slate-50/10 after:before:h-[calc(100%+0.75rem)] after:before:w-[calc(100%+0.75rem)] after:before:-left-1.5 after:before:-top-1.5
-          focus:before:bg-slate-50/10 focus:before:h-[calc(100%+0.75rem)] focus:before:w-[calc(100%+0.75rem)] focus:before:-left-1.5 focus:before:-top-1.5
+          hover:before:bg-slate-50/90 hover:before:h-[calc(100%+0.75rem)] hover:before:w-[calc(100%+0.75rem)] hover:before:-left-1.5 hover:before:-top-1.5
+          after:before:bg-slate-50/90 after:before:h-[calc(100%+0.75rem)] after:before:w-[calc(100%+0.75rem)] after:before:-left-1.5 after:before:-top-1.5
+          focus:before:bg-slate-50/90 focus:before:h-[calc(100%+0.75rem)] focus:before:w-[calc(100%+0.75rem)] focus:before:-left-1.5 focus:before:-top-1.5
           before:transition-all before:duration-150 before:ease-in
   
           before:-z-[1]
