@@ -17,16 +17,14 @@ const ButtonLink = () => (
     flex
     prose dark:prose-invert
     py-2 px-3 rounded-lg
+    bg-emerald-500 
     font-bold text-lg
-    bg-emerald-400
+    group
 
-    before:absolute before:inset-0 before:w-full before:h-full before:bg-inherit before:rounded-[inherit] before:opacity-25 
-    hover:before:opacity-25 hover:before:h-[calc(100%+0.75rem)] hover:before:w-[calc(100%+0.75rem)] hover:before:-left-1.5 hover:before:-top-1.5
-    after:before:opacity-25 after:before:h-[calc(100%+0.75rem)] after:before:w-[calc(100%+0.75rem)] after:before:-left-1.5 after:before:-top-1.5
-    focus:before:opacity-25 focus:before:h-[calc(100%+0.75rem)] focus:before:w-[calc(100%+0.75rem)] focus:before:-left-1.5 focus:before:-top-1.5 
-    before:z-[-1] 
-
-    focus:before:animate-growing
+    outline-none
+    dark:hover:outline-slate-50/30 hover:outline-slate-900/30 hover:outline hover:outline-8 hover:outline-offset-0
+    dark:focus:outline-slate-50/30 focus:outline-slate-900/30 focus:outline focus:outline-8 focus:outline-offset-0
+    dark:active:outline-slate-50/30 active:outline-slate-900/30 active:outline active:outline-8 active:outline-offset-0
 
     shadow-md shadow-slate-600/50
     hover:shadow-sm focus:shadow-sm active:shadow-sm
