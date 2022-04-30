@@ -7,18 +7,17 @@ const ErrorIllustration = ({ errorMsg }: { errorMsg: string }) => {
         relative
         w-full h-screen
         min-h-full
-        bg-red-400 dark:bg-red-500
         flex justify-center items-center
         p-1
         rounded-lg
         overflow-hidden
       "
     >
-      <NotFound className="w-full h-full scale-[1.6]"/>
+      <NotFound className="w-full h-full scale-[1.6]" />
       <h1
         className="
             absolute inset-0
-            prose dark:prose-invert text-slate-100
+            prose dark:prose-invert text-slate-900
             dark:text-slate-50
             left-5
             font-light
