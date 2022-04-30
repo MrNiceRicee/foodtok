@@ -24,6 +24,7 @@ export default defineConfig({
       '@foodtok-types': path.resolve(__dirname, './src/types'),
       '@apis': path.resolve(__dirname, './src/api'),
       '@pages': path.resolve(__dirname, './src/pages'),
+      '@context': path.resolve(__dirname, './src/context'),
     },
   },
 });

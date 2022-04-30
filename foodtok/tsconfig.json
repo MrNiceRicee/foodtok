@@ -21,7 +21,8 @@
       "@components/*": ["components/*"],
       "@foodtok-types/*": ["types/*"],
       "@apis/*": ["api/*"],
-      "@pages/*": ["pages/*"]
+      "@pages/*": ["pages/*"],
+      "@context/*": ["context/*"]
     }
   },
   "include": ["src"],

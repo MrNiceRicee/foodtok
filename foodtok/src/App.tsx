@@ -1,15 +1,37 @@
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import ctl from '@netlify/classnames-template-literals';
+import { useRecoilState } from 'recoil';
 import ThemeButton from '@components//darkmode';
 import NavigationBar from '@components//NavigationBar';
 import Recipes from '@pages/Recipes/Recipes';
-import RecipeDetail from '@pages/Recipes/RecipeDetail';
 import LoadingBar from '@components/LoadingBar';
-// import RecipeForm from '@pages/Recipes/RecipeForm';
+import CardLoading from '@components/CardLoading';
 const RecipeForm = lazy(() => import('@pages/Recipes/RecipeForm'));
+const RecipeDetail = lazy(() => import('@pages/Recipes/RecipeDetail'));
+import supabase from '@apis/supabase';
+import { session as ctxSession } from '@context/Auth';
+import Account from '@pages/Accounts/Account';
 
 const App = () => {
+  const [session, setSession] = useRecoilState(ctxSession);
+
+  useEffect(() => {
+    const supSession = supabase.auth.session();
+    setSession(supSession?.user ?? null);
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      async (event, supSession) => {
+        const currentUser = supSession?.user;
+        setSession(currentUser ?? null);
+      }
+    );
+
+    return () => {
+      authListener?.unsubscribe();
+    };
+  }, [session]);
+
   return (
     <div
       className={ctl(
@@ -23,9 +45,19 @@ const App = () => {
       <ThemeButton />
       <Routes>
         <Route index element={<Recipes />} />
+        <Route path="accounts">
+          <Route index element={<Account />} />
+        </Route>
         <Route path="recipes">
           <Route index element={<Recipes />} />
-          <Route path=":id" element={<RecipeDetail />} />
+          <Route
+            path=":id"
+            element={
+              <Suspense fallback={<CardLoading rKey="RecipeDetail" />}>
+                <RecipeDetail />
+              </Suspense>
+            }
+          />
           <Route
             path="create"
             element={

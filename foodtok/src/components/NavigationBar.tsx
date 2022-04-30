@@ -4,8 +4,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faUtensils,
-  faBars,
-  faUserFriends,
+  faUserLarge,
+  faMagnifyingGlass,
 } from '@fortawesome/free-solid-svg-icons';
 
 const anchorStyle = (state: boolean) =>
@@ -35,27 +35,21 @@ const navStyle = ctl(
 const NavigationBar = () => {
   const location = useLocation();
 
-  const [open, setOpen] = useState(false);
   const [active, setActive] = useState({
-    menu: false,
+    account: location.pathname.includes('account'),
     recipes: location.pathname.includes('recipes'),
-    users: location.pathname.includes('users'),
+    search: location.pathname.includes('search'),
   });
 
-  const handleActive = (state: 'menu' | 'recipes' | 'users'): undefined => {
+  const handleActive = (state: 'account' | 'recipes' | 'search'): undefined => {
     const newState = {
-      menu: false,
+      account: false,
       recipes: false,
-      users: false,
+      search: false,
     };
     newState[state] = true;
     setActive(newState);
     return;
-  };
-
-  const menuClick = () => {
-    setOpen((old) => !old);
-    handleActive('menu');
   };
 
   return (
@@ -63,26 +57,16 @@ const NavigationBar = () => {
       <ul className="flex justify-evenly">
         <li
           className="w-full inline-block relative"
-          onClick={() => menuClick()}
+          onClick={() => handleActive('account')}
         >
-          <div className={anchorStyle(active.menu)}>
+          <Link to="account" className={anchorStyle(active.account)}>
             <FontAwesomeIcon
-              icon={faBars}
+              icon={faUserLarge}
               size="lg"
-              style={{
-                background: '',
-              }}
               className="inline-block"
             />
-            <span
-              className={ctl(`block text-sm relative select-none
-            before:content-['open'] before:absolute before:block before:inset-0 before:transition-opacity before:duration-200 before:ease-out
-            ${open ? 'before:opacity-0' : ' '}
-            after:content-['close'] after:absolute after:block after:inset-0 after:transition-opacity after:duration-200 after:ease-out
-            ${!open ? 'after:opacity-0' : ' '}
-            `)}
-            ></span>
-          </div>
+            <span className="block text-sm select-none">account</span>
+          </Link>
         </li>
         <li
           className="w-full inline-block relative"
@@ -99,11 +83,11 @@ const NavigationBar = () => {
         </li>
         <li
           className="w-full inline-block relative"
-          onClick={() => handleActive('users')}
+          onClick={() => handleActive('search')}
         >
-          <Link to="users" className={anchorStyle(active.users)}>
+          <Link to="search" className={anchorStyle(active.search)}>
             <FontAwesomeIcon
-              icon={faUserFriends}
+              icon={faMagnifyingGlass}
               size="lg"
               className="inline-block"
             />

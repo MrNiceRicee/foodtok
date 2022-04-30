@@ -38,12 +38,18 @@ module.exports = {
           '60%': { transform: 'scale(1.025)' },
           '100%': { transform: 'scale(1)' },
         },
+        wave: {
+          '0%': { transform: 'translate(-50%, 0) rotateZ(0deg)' },
+          '50%': { transform: 'translate(-50%, -2%) rotateZ(180deg)' },
+          '100%': { transform: 'translate(-50%, 0) rotateZ(360deg)' },
+        },
       },
       animation: {
         slideX: 'slideX 2.5s infinite',
         fadeIn: 'fadeIn 2.5s forwards',
         fadeOut: 'fadeOut 2.5s forwards',
         growing: 'growing 4s infinite',
+        wave: 'wave 10s infinite',
       },
     },
   },

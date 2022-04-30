@@ -2,6 +2,8 @@
 
 interface ImportMetaEnv {
   readonly VITE_BASE_URL: string;
+  readonly VITE_SUPABASE_KEY: string;
+  readonly VITE_SUPABASE_URL: string;
 }
 
 interface ImportMeta {
