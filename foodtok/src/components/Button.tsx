@@ -29,7 +29,6 @@ const Button = (props: Props): React.ReactElement<Props> => {
             inline-block
             prose dark:prose-invert
             py-2 px-3 rounded-lg
-            bg-slate-500 
             font-bold text-lg
             group
     
@@ -48,6 +47,28 @@ const Button = (props: Props): React.ReactElement<Props> => {
       >
         <p>{props?.children ? props.children : null}</p>
       </button>
+    );
+  }
+  if (props.variance === 'none') {
+    return (
+      <button
+        {...props}
+        className={ctl(`
+          relative
+          inline-block
+          prose dark:prose-invert
+          py-2 px-3 rounded-lg
+          font-bold text-lg
+
+          outline-none
+
+          shadow-md shadow-slate-600/50
+          hover:shadow-sm focus:shadow-sm active:shadow-sm
+          translate-all duration-150 ease-in
+          ${props.className}
+
+        `)}
+      ></button>
     );
   }
   return (

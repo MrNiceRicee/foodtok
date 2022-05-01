@@ -22,7 +22,8 @@
       "@foodtok-types/*": ["types/*"],
       "@apis/*": ["api/*"],
       "@pages/*": ["pages/*"],
-      "@context/*": ["context/*"]
+      "@context/*": ["context/*"],
+      "@hooks/*": ["hooks/*"]
     }
   },
   "include": ["src"],
