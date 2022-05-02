@@ -21,13 +21,15 @@ const Register = ({
 }) => {
   return (
     <>
-      <section className="px-6">
+      <section className="px-6 ">
         <TextInput
           name="username"
           value={model.username}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             onChange('username', e)
           }
+          divClass=" scale-0 animate-grow"
+          autoComplete="username"
         />
         <TextInput
           name="password"
@@ -35,13 +37,9 @@ const Register = ({
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             onChange('password', e)
           }
-        />
-        <TextInput
-          name="rePassword"
-          value={model.rePassword}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            onChange('rePassword', e)
-          }
+          divClass=" scale-0 animate-grow"
+          type="password"
+          autoComplete="new-password"
         />
       </section>
       <footer className="px-6 pt-2 pb-6">

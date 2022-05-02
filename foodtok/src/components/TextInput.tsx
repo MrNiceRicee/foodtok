@@ -1,40 +1,102 @@
 import ctl from '@netlify/classnames-template-literals';
 import * as PropTypes from 'prop-types';
-import * as React from 'react';
 
-interface Props
-  extends React.DetailedHTMLProps<
-      React.HtmlHTMLAttributes<HTMLInputElement>,
-      HTMLInputElement
-    >,
-    React.AriaAttributes {}
+type prop = JSX.IntrinsicElements['input'] & {
+  divClass?: string;
+  inputClass?: string;
+  title?: string;
+  divStyle?: React.CSSProperties;
+  variance: 'filled' | 'outline';
+};
 
-interface prop extends Props {
-  name: string;
-  value: string;
-}
-
-const TextInput = (props: prop) => {
+const TextInput = ({
+  divClass,
+  name,
+  inputClass,
+  value,
+  divStyle,
+  title,
+  variance,
+  type,
+  ...props
+}: prop) => {
+  if (variance === 'outline') {
+    return (
+      <div
+        className={ctl(`
+        relative w-full min-w-[15rem] 
+        my-3
+        border-b-2 border-slate-400 focus-within:border-blue-500
+        ${divClass}
+        ${props.className}
+      `)}
+        style={divStyle}
+      >
+        <input
+          {...props}
+          name={name}
+          className={ctl(`
+            block w-full
+            prose
+            px-0 pb-0
+            appearance-none focus:outline-none focus:ring-0
+            bg-transparent outline-none border-none
+          active:text-slate-900 focus:text-slate-900
+          dark:text-slate-400
+          dark:active:text-slate-200 dark:focus:text-slate-200
+            duration-300
+            ${inputClass}
+          `)}
+          type={type}
+          value={value}
+          placeholder=" "
+        />
+        <label
+          className={ctl(`
+            prose absolute top-1/4 -z-1 origin-top
+            dark:text-slate-200
+          `)}
+          htmlFor={name}
+        >
+          {title || name}
+        </label>
+      </div>
+    );
+  }
   return (
-    <div className="flex flex-col min-w-[20rem] py-3">
-      <label className="prose font-bold font- text-slate-800 dark:text-slate-100">
-        {props.name}
+    <div
+      className={ctl(`
+        flex flex-col w-full
+        min-w-[15rem] py-3
+        ${divClass}
+        ${props.className}
+      `)}
+      style={divStyle}
+    >
+      <label
+        className="w-full h-full prose font-bold font- text-slate-800 dark:text-slate-100"
+        htmlFor={name}
+      >
+        {title || name}
       </label>
       <input
         {...props}
-        name={props.name}
+        name={name}
         className={ctl(`
         prose font-light 
         p-2
-        text-slate-700 dark:text-slate-400
+        text-slate-500 dark:text-slate-500
         active:text-slate-900 focus:text-slate-900
         dark:active:text-slate-200 dark:focus:text-slate-200
         bg-slate-200 dark:bg-slate-800
         rounded-lg
         outline-none
+        w-full h-full
+        flex-grow
+        ${inputClass}
         `)}
-        type="text"
-        value={props.value}
+        type={type}
+        value={value}
       />
     </div>
   );
@@ -46,6 +108,8 @@ TextInput.propTypes = {
 
 TextInput.defaultProps = {
   value: undefined,
+  variance: 'filled',
+  type: 'text',
 };
 
 export default TextInput;

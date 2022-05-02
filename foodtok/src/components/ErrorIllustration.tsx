@@ -1,6 +1,5 @@
 import ctl from '@netlify/classnames-template-literals';
 import { ReactComponent as NotFound } from '../illustration/notFound.svg';
-import Wave from './Wave';
 
 const ErrorIllustration = ({ errorMsg }: { errorMsg: string }) => {
   return (
@@ -18,7 +17,6 @@ const ErrorIllustration = ({ errorMsg }: { errorMsg: string }) => {
       `)}
     >
       <NotFound className="w-full h-full scale-[1.6]" />
-      <Wave />
       <h1
         className={ctl(`
             absolute inset-0

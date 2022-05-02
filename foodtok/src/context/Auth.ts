@@ -1,11 +1,17 @@
-import { User } from '@supabase/supabase-js';
+import { Session, User } from '@supabase/supabase-js';
 import { atom } from 'recoil';
 
-type session = User | null;
+type user = User | null;
+type session = Session | null;
+
+const user = atom({
+  key: 'user',
+  default: null as user,
+});
 
 const session = atom({
   key: 'session',
   default: null as session,
 });
 
-export { session };
+export { user, session };

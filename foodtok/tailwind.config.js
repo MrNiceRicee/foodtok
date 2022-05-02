@@ -4,6 +4,12 @@ module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
+      zIndex: {
+        '-1': '-1',
+      },
+      transformOrigin: {
+        0: '0%',
+      },
       boxShadow: {
         't-sm': '0 -1px 2px 0 rgba(0, 0, 0, 0.05)',
         't-md':
@@ -14,6 +20,8 @@ module.exports = {
           '0 -20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
         't-2xl': '0 -25px 50px -12px rgba(0, 0, 0, 0.25)',
         't-3xl': '0 -35px 60px -15px rgba(0, 0, 0, 0.3)',
+        'inner-md':
+          'inset 0 1px 3px 0 rgb(0 0 0 / 0.1), inset 0 1px 2px -1px rgb(0 0 0 / 0.1);',
       },
       textShadow: {
         sm: '0 1px 2px var(--tw-shadow-color)',
@@ -43,14 +51,25 @@ module.exports = {
           '50%': { transform: 'translate(-50%, -2%) rotateZ(180deg)' },
           '100%': { transform: 'translate(-50%, 0) rotateZ(360deg)' },
         },
+        grow: {
+          '0%': { transform: 'scale(0)' },
+          '60%': { transform: 'scale(1.05)' },
+          '100%': { transform: 'scale(1)' },
+        },
       },
       animation: {
         slideX: 'slideX 2.5s infinite',
         fadeIn: 'fadeIn 2.5s forwards',
         fadeOut: 'fadeOut 2.5s forwards',
         growing: 'growing 4s infinite',
+        grow: 'grow .5s forwards',
         wave: 'wave 10s infinite',
       },
+    },
+  },
+  variants: {
+    extend: {
+      borderColor: ['responsive', 'hover', 'focus', 'focus-within'],
     },
   },
   plugins: [

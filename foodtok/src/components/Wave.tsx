@@ -7,6 +7,7 @@ const Wave = ({ className }: { className?: string }) => (
     bg-white/10
       bottom-[50vh]
       rounded-[47%]
+      transition-all duration-1000
       animate-wave ease-out
       ${className}
     `)}

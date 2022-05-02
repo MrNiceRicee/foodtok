@@ -3,27 +3,36 @@ import { useState } from 'react';
 import Button from '@components/Button';
 import * as React from 'react';
 import Login from './Login';
-import Register from './Register';
-import { useEffect } from 'react';
+import supabase from '@apis/supabase';
 
-interface LoginModel {
+interface Model {
   username: string;
   password: string;
-}
-
-interface RegisterModel extends LoginModel {
   rePassword: string;
 }
 
 const AccountLoginRegister = () => {
   const [mode, setMode] = useState<'login' | 'register'>('login');
-  const [model, setModel] = useState<LoginModel | RegisterModel>({
+  const [model, setModel] = useState<Model>({
     username: '',
     password: '',
+    rePassword: '',
   });
 
-  const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const { user, error } =
+      mode === 'login'
+        ? await supabase.auth.signIn({
+            email: model.username,
+            password: model.password,
+          })
+        : await supabase.auth.signUp({
+            email: model.username,
+            password: model.password,
+          });
+    console.log('error!', error);
+    console.log('user', user);
   };
 
   const loginRegisterState = (key: 'login' | 'register') => () => setMode(key);
@@ -32,33 +41,38 @@ const AccountLoginRegister = () => {
     setModel((old) => ({ ...old, [key]: e.target.value }));
   };
 
-  useEffect(() => {
-    console.log(model);
-  }, [model]);
+  const handleLogout = () => supabase.auth.signOut();
 
   return (
-    <div className="w-full h-screen flex justify-center items-center">
+    <div
+      className={ctl(
+        `w-full h-screen
+        flex justify-center items-center relative
+        overflow-hidden
+        `
+      )}
+    >
       <div
         className={ctl(`
-          w-full px-4
-          h-fit
-          flex
+          px-4
       `)}
       >
         <form
           className={ctl(`
-            w-full h-full
-            min-h-[20em]
-            
+            h-full
+            container
+            relative
             overflow-hidden rounded-lg
-            shadow-lg shadow-slate-700/20 dark:shadow-slate-900
+            shadow-md shadow-slate-700/40 dark:shadow-slate-900
         `)}
           onSubmit={onSubmitHandler}
         >
           <header
             className={ctl(`
               text-center 
-              bg-slate-300 dark:bg-slate-700
+              bg-slate-300/20 dark:bg-slate-700/20
+              backdrop-blur
+              rounded-t-lg
               shadow-inner
               h-20
               flex 
@@ -66,28 +80,83 @@ const AccountLoginRegister = () => {
           >
             <Button
               variance="none"
-              className="w-full h-full rounded-none shadow-none py-0 bg-inherit"
+              className={ctl(`w-full h-full
+              rounded-none py-0 
+              rounded-tl-lg
+              ${
+                mode === 'login'
+                  ? 'shadow-inner shadow-slate-600/30 dark:shadow-slate-900/30'
+                  : 'shadow-none'
+              }
+              hover:bg-slate-500/10 after:bg-slate-500/10 focus:bg-slate-500/10
+              dark:hover:bg-slate-900/30 dark:after:bg-slate-900/30 dark:focus:bg-slate-900/30  
+              bg-inherit`)}
               type="button"
               onClick={loginRegisterState('login')}
             >
-              <h2 className="prose dark:prose-invert font-extrabold">Login</h2>
+              <h2
+                className={ctl(`
+                prose dark:prose-invert
+                font-extrabold
+                transition-all duration-200
+                ${mode === 'login' ? 'text-2xl' : 'text-sm font-light'}
+              `)}
+              >
+                Login
+              </h2>
             </Button>
             <Button
               variance="none"
-              className="w-full h-full rounded-none shadow-none py-0 bg-inherit"
+              className={ctl(`w-full h-full
+              rounded-none py-0 
+              rounded-tr-lg
+              ${
+                mode === 'register'
+                  ? 'shadow-inner shadow-slate-600/30 dark:shadow-slate-900/30'
+                  : 'shadow-none'
+              }
+              hover:bg-slate-500/10 after:bg-slate-500/10 focus:bg-slate-500/10
+              dark:hover:bg-slate-900/30 dark:after:bg-slate-900/30 dark:focus:bg-slate-900/30
+              bg-inherit`)}
               type="button"
               onClick={loginRegisterState('register')}
             >
-              <h2 className="prose dark:prose-invert font-extrabold">
+              <h2
+                className={ctl(`
+                prose dark:prose-invert
+                font-extrabold
+                transition-all duration-200
+                ${mode === 'register' ? 'text-2xl' : 'text-sm font-light'}
+              `)}
+              >
                 Register
               </h2>
             </Button>
           </header>
-          {mode === 'login' ? (
-            <Login model={model} onChange={onChange} />
-          ) : (
-            <Register model={model as RegisterModel} onChange={onChange} />
-          )}
+          <Login model={model} mode={mode} onChange={onChange} />
+          <footer
+            className={ctl(`
+              flex justify-end
+              px-6 py-4
+              bg-slate-300/40 dark:bg-slate-700/40
+              backdrop-blur
+              rounded-b-lg
+            `)}
+          >
+            <Button
+              type="button"
+              className="bg-emerald-500 shadow-slate-500/40 px-9"
+              onClick={handleLogout}
+            >
+              <p className="dark:text-slate-50">logout</p>
+            </Button>
+            <Button
+              type="submit"
+              className="bg-emerald-500 shadow-slate-500/40 px-9"
+            >
+              <p className="dark:text-slate-50">ok</p>
+            </Button>
+          </footer>
         </form>
       </div>
     </div>
