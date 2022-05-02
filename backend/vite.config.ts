@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import path from 'node:path';
 import { defineConfig } from 'vite';
 import { VitePluginNode } from 'vite-plugin-node';
 
@@ -10,6 +11,12 @@ export default defineConfig({
     // vite server configs, for details see [vite doc](https://vitejs.dev/config/#server-host)
     port: +port,
     host: true,
+  },
+  resolve: {
+    alias: {
+      '@middleware': path.resolve(__dirname, './server/middleware'),
+      '@util': path.resolve(__dirname, './server/util'),
+    },
   },
   plugins: [
     ...VitePluginNode({

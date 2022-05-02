@@ -12,6 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "@mrnicericee/verify": "1.0.4",
+    "@supabase/supabase-js": "^1.35.2",
     "axios": "^0.27.2",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",

@@ -1,3 +1,4 @@
+import supabase from '@util/supabase';
 import SQL, { SQLStatement } from 'sql-template-strings';
 import { queryRows } from '../../connection/db';
 import Users from '../../types/Users';
