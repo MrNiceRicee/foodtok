@@ -1,7 +1,7 @@
 import verify from '@mrnicericee/verify';
 import SQL from 'sql-template-strings';
 import { queryOne } from '../../connection/db';
-import Users from '../../types/Users';
+import { Users } from '@foodtok-types/Users';
 
 interface createPayload {
   name: string;

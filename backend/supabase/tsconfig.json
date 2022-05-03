@@ -6,10 +6,12 @@
     "lib": ["ESNext"],
     "module": "ESNext",
     "moduleResolution": "Node",
-    "baseUrl": "server",
+    "baseUrl": ".",
     "paths": {
-      "@middleware/*": ["middleware/*"],
-      "@util/*": ["util/*"]
+      "@middleware/*": ["server/middleware/*"],
+      "@util/*": ["server/util/*"],
+      "@connection/*": ["connection/*"],
+      "@foodtok-types/*": ["types/*"]
     },
     "outDir": "./dist",
     "noEmit": true,

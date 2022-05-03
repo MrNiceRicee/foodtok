@@ -2,7 +2,7 @@ import SQL from 'sql-template-strings';
 import verify from '@mrnicericee/verify';
 import { queryOne } from '../../connection/db';
 import ErrorException from '../util/ErrorException';
-import Users from '../../types/Users';
+import { Users } from '@foodtok-types/Users';
 
 interface updatePayload {
   name: string;

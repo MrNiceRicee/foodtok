@@ -1,8 +1,7 @@
-import supabase from '@util/supabase';
 import SQL, { SQLStatement } from 'sql-template-strings';
-import { queryRows } from '../../connection/db';
-import Users from '../../types/Users';
-import { getFilter, getLimit } from '../util/utility';
+import { queryRows } from '@connection/db';
+import { Users } from '@foodtok-types/Users';
+import { getFilter, getLimit } from '@util/utility';
 
 interface searchPayload {
   filter?: string | SQLStatement;

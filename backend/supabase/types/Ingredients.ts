@@ -6,4 +6,4 @@ interface Ingredients {
   updatedAt: Date;
 }
 
-export default Ingredients;
+export type { Ingredients };

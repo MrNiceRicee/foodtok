@@ -5,6 +5,7 @@ interface config {
   password: string;
   database: string;
   max: number;
+  port: number;
   allowExitOnIdle: boolean;
 }
 
@@ -12,6 +13,7 @@ const config: config = {
   user: import.meta.env.VITE_DB_USER,
   password: import.meta.env.VITE_DB_PASSWORD,
   database: import.meta.env.VITE_DB_DATABASE,
+  port: import.meta.env.VITE_DB_PORT || 5432,
   max: 50,
   allowExitOnIdle: import.meta.env.ENV !== 'dev' ? false : true,
 };

@@ -6,4 +6,4 @@ interface Users {
   updatedAt: Date;
 }
 
-export default Users;
+export type { Users };

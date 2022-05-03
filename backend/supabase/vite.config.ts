@@ -16,6 +16,8 @@ export default defineConfig({
     alias: {
       '@middleware': path.resolve(__dirname, './server/middleware'),
       '@util': path.resolve(__dirname, './server/util'),
+      '@connection': path.resolve(__dirname, './connection'),
+      '@foodtok-types': path.resolve(__dirname, './types'),
     },
   },
   plugins: [
