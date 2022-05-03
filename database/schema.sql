@@ -1,5 +1,5 @@
 CREATE TABLE "Users"(
-  _id INT GENERATED ALWAYS AS IDENTITY,
+  _id UUID REFERENCES auth.users NOT NULL,
   "name" VARCHAR(240) NOT NULL,
   "url" TEXT,
 
@@ -15,7 +15,7 @@ CREATE TABLE "Recipes"(
   "url" TEXT,
   "longUrl" TEXT,
 
-  "UserId" INTEGER,
+  "UserId" UUID,
 
   "createdAt" TIMESTAMP NOT NULL DEFAULT NOW(),
   "updatedAt" TIMESTAMP NOT NULL DEFAULT NOW(),
