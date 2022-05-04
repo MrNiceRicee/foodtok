@@ -7,22 +7,28 @@ import { Users } from '@foodtok-types/Users';
 interface updatePayload {
   name: string;
   url: string;
+  displayName: string;
 }
 
-const findUser = async (id: number): Promise<{ name: string; url: string }> =>
+type ReturnUser = Omit<Users, "_id">
+
+const findUser = async (
+  id: string
+): Promise<{ name: string; url: string; displayName: string }> =>
   queryOne(
     `
-    SELECT "name", "url"
+    SELECT "name", "url", "displayName"
     FROM "Users"
     WHERE "_id"=$1
   `,
     [id]
   );
 
-const update = async (id: number, updatePayload: updatePayload) => {
-  verify(id, { name: 'id' }).isNumber();
-  const { name, url } = updatePayload;
-  if (!name && !url) throw new ErrorException('missing upload payload', 400);
+const update = async (id: string, updatePayload: updatePayload) => {
+  verify(id, { name: 'id' });
+  const { name, url, displayName } = updatePayload;
+  if (!name && !url && !displayName)
+    throw new ErrorException('missing upload payload', 400);
 
   const foundUser = await findUser(id);
   if (!foundUser) throw new ErrorException('user not found', 404);
@@ -40,18 +46,22 @@ const update = async (id: number, updatePayload: updatePayload) => {
     updated.push('url');
     query.append(SQL`"url"=${url},`);
   }
+  if (displayName) {
+    updated.push('displayName');
+    query.append(SQL`"displayName"=${displayName},`);
+  }
   query.append(SQL`
     "updatedAt"=NOW()
     WHERE "_id"=${id}
     RETURNING
-      "_id",
       "name",
       "url",
+      "displayName",
       "createdAt",
       "updatedAt"
     `);
 
-  const data: Users = await queryOne(query.text, query.values);
+  const data: ReturnUser = await queryOne(query.text, query.values);
   return { data, updated };
 };
 

@@ -9,6 +9,7 @@ const validateJWT = async (req: Request, res: Response, next: NextFunction) => {
   }
   const { data, error } = await supabase.auth.api.getUser(token);
   if (error) {
+    console.log('jwt', error);
     res.status(500).send('try again').end();
     return;
   }

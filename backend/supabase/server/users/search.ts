@@ -9,7 +9,7 @@ interface searchPayload {
   limit?: any;
 }
 
-const validFilter = ['name'];
+const validFilter = ['name', 'displayName'];
 
 const search = async (searchPayload: searchPayload) => {
   let { filter, limit } = searchPayload;
@@ -18,11 +18,9 @@ const search = async (searchPayload: searchPayload) => {
 
   const query = SQL`
     SELECT
-      a."_id",
-      a."name",
-      a."url",
-      a."createdAt",
-      a."updatedAt"
+      a."name" as "email",
+      a."displayName",
+      a."url"
     FROM "Users" a
       `
     .append(filter)

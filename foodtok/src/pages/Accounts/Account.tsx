@@ -19,7 +19,8 @@ const Account = () => {
         <AccountLoginRegister />
       ) : (
         <div>
-          <p>sessionToken: {session.access_token}</p>
+          <p>sessionToken:</p>
+          <code>{session.access_token}</code>
           <p>userId: {session?.user?.id}</p>
           <p>
             Keys:{' '}

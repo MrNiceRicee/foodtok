@@ -17,12 +17,12 @@ const search = (req: Request, res: Response) => {
 };
 
 const update = (req: Request, res: Response) =>
-  handleUpdate(req.header['authorization'], req.body)
+  handleUpdate(`${req.headers['foodtok-user']}`, req.body)
     .then(handleResponse(res, 200))
     .catch(handleError(res));
 
 const remove = (req: Request, res: Response) =>
-  handleRemove(+req.params.id)
+  handleRemove(`${req.headers['foodtok-user']}`)
     .then(handleResponse(res, 204))
     .catch(handleError(res));
 
