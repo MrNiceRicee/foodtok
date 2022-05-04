@@ -5,10 +5,10 @@ import handleSearch from './search';
 import handleUpdate from './update';
 import handleRemove from './remove';
 
-const create = (req: Request, res: Response) =>
-  handleCreate(req.header['authorization'], req.body)
-    .then(handleResponse(res, 201))
-    .catch(handleError(res));
+// const create = (req: Request, res: Response) =>
+//   handleCreate(req.header['authorization'], req.body)
+//     .then(handleResponse(res, 201))
+//     .catch(handleError(res));
 
 const search = (req: Request, res: Response) => {
   return handleSearch(req.query)
@@ -26,4 +26,4 @@ const remove = (req: Request, res: Response) =>
     .then(handleResponse(res, 204))
     .catch(handleError(res));
 
-export { create, search, update, remove };
+export { search, update, remove };

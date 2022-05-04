@@ -27,10 +27,17 @@ const AccountLoginRegister = () => {
             email: model.username,
             password: model.password,
           })
-        : await supabase.auth.signUp({
-            email: model.username,
-            password: model.password,
-          });
+        : await supabase.auth.signUp(
+            {
+              email: model.username,
+              password: model.password,
+            },
+            {
+              data: {
+                name: model.username,
+              },
+            }
+          );
     console.log('error!', error);
     console.log('user', user);
   };

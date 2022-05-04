@@ -9,7 +9,7 @@ interface createPayload {
 }
 
 const create = async (id: string, { name, url }: createPayload) => {
-  verify(name, { name: 'name' });
+  verify(name, { name: 'name' }).isString().isLength(6, { operator: 'gte' });
 
   const query = SQL`
     INSERT INTO "Users"("_id", "name", "url")

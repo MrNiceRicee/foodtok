@@ -19,8 +19,14 @@ const Account = () => {
         <AccountLoginRegister />
       ) : (
         <div>
-          <p>{session.access_token}</p>
-          <p>{session?.user?.id}</p>
+          <p>sessionToken: {session.access_token}</p>
+          <p>userId: {session?.user?.id}</p>
+          <p>
+            Keys:{' '}
+            {Object.keys(session?.user?.user_metadata || {}).map(
+              (key) => `${key}: ${session?.user?.user_metadata[key]}`
+            )}
+          </p>
           <Button
             type="button"
             className="bg-emerald-500 shadow-slate-500/40 mx-auto w-full"
