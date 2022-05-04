@@ -41,7 +41,10 @@ const AccountLoginRegister = () => {
     setModel((old) => ({ ...old, [key]: e.target.value }));
   };
 
-  const handleLogout = () => supabase.auth.signOut();
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    console.log('logout error', error);
+  };
 
   return (
     <div

@@ -6,7 +6,9 @@ import handleUpdate from './update';
 import handleRemove from './remove';
 
 const create = (req: Request, res: Response) =>
-  handleCreate(req.body).then(handleResponse(res, 201)).catch(handleError(res));
+  handleCreate(req.header['authorization'], req.body)
+    .then(handleResponse(res, 201))
+    .catch(handleError(res));
 
 const search = (req: Request, res: Response) => {
   return handleSearch(req.query)
@@ -15,7 +17,7 @@ const search = (req: Request, res: Response) => {
 };
 
 const update = (req: Request, res: Response) =>
-  handleUpdate(+req.params.id, req.body)
+  handleUpdate(req.header['authorization'], req.body)
     .then(handleResponse(res, 200))
     .catch(handleError(res));
 

@@ -8,12 +8,12 @@ interface createPayload {
   url?: string;
 }
 
-const create = async ({ name, url }: createPayload) => {
+const create = async (id: string, { name, url }: createPayload) => {
   verify(name, { name: 'name' });
 
   const query = SQL`
-    INSERT INTO "Users"("name", "url")
-    VALUES(${name}, ${url})
+    INSERT INTO "Users"("_id", "name", "url")
+    VALUES(${id}, ${name}, ${url})
     RETURNING
       "_id",
       "name",
