@@ -6,6 +6,8 @@ import CardLoading from '@components/CardLoading';
 import ErrorIllustration from '@components/ErrorIllustration';
 import { recipe } from '@foodtok-types/recipe';
 import ctl from '@netlify/classnames-template-literals';
+import OnError from '@components/onError';
+import { AxiosError } from 'axios';
 const RecipeCard = lazy(() => import('./RecipeCard'));
 
 const ButtonLink = () => (
@@ -49,7 +51,7 @@ const getRecipes = async () => {
 
 const RecipesList = () => {
   const [recipes, setRecipes] = useState<Array<recipe>>([]);
-  const { isError, isLoading, data } = useQuery('RecipeList', () =>
+  const { isError, isLoading, data, error } = useQuery('RecipeList', () =>
     getRecipes().then((item) => item)
   );
 
@@ -68,10 +70,10 @@ const RecipesList = () => {
 
   if (isError) {
     return (
-      <>
+      <OnError error={error as AxiosError}>
         <ButtonLink />
         <ErrorIllustration errorMsg="oops! failed to load recipes" />
-      </>
+      </OnError>
     );
   }
 
