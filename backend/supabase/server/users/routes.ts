@@ -7,6 +7,6 @@ const routes = Router();
 // routes.post('/', controller.create);
 routes.get('/', validateJWT, controller.search);
 routes.put('/', validateJWT, controller.update);
-// routes.delete('/',validateJWT, controller.remove);
+routes.delete('/',validateJWT, controller.remove);
 
 export default routes;

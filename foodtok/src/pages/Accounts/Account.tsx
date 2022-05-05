@@ -18,7 +18,7 @@ const Account = () => {
       {!session ? (
         <AccountLoginRegister />
       ) : (
-        <div>
+        <div className='break-all'>
           <p>sessionToken:</p>
           <code>{session.access_token}</code>
           <p>userId: {session?.user?.id}</p>

@@ -28,6 +28,7 @@ const search = async (searchPayload: searchPayload) => {
 
   const data: Array<Users> = await queryRows(query.text, query.values);
 
+
   return {
     data,
     length: data.length,
