@@ -31,3 +31,19 @@ CREATE TRIGGER create_profile_on_signup
   AFTER INSERT ON auth.users
   FOR EACH ROW
   EXECUTE PROCEDURE create_profile_for_new_user();
+
+CREATE OR REPLACE FUNCTION
+  delete_profile_for_user()
+  RETURNS TRIGGER AS
+  $$
+  BEGIN
+    DELETE FROM public."Users" WHERE "_id"=auth.id();
+    RETURN NEW;
+  END;
+  $$ LANGUAGE plpgsql SECURITY DEFINER;
+
+DROP TRIGGER IF EXISTS delete_profile_for_user ON auth.users;
+CREATE TRIGGER delete_profile_for_user
+  BEFORE DELETE ON auth.users
+  FOR EACH ROW
+  EXECUTE PROCEDURE delete_profile_for_user();

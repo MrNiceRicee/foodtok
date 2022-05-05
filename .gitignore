@@ -18,3 +18,4 @@ dist/
 # Supabase
 **/supabase/.branches
 **/supabase/.temp
+migrations

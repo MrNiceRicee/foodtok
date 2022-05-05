@@ -1,10 +1,11 @@
 CREATE TABLE "Users"(
-  _id UUID REFERENCES auth.users NOT NULL,
+  _id UUID NOT NULL,
   "name" VARCHAR(240) NOT NULL,
   "displayName" VARCHAR(240),
   "url" TEXT,
   "createdAt" TIMESTAMP NOT NULL DEFAULT NOW(),
   "updatedAt" TIMESTAMP NOT NULL DEFAULT NOW(),
+  CONSTRAINT "Users_AuthID_fk" FOREIGN KEY ("_id") REFERENCES auth.users(id) ON DELETE CASCADE,
   PRIMARY KEY (_id)
 );
 CREATE TABLE "Recipes"(

@@ -20,17 +20,14 @@ const remove = async (id: string) => {
 
   if (!foundRecipe) throw new ErrorException('user not found', 404);
 
-  await queryOne('DELETE FROM "Users" WHERE "_id"=$1', [id]);
-
-  const { error, data } = await supabase.auth.api.deleteUser(
+  const { error } = await supabase.auth.api.deleteUser(
     `${foundRecipe._id}`
   );
   if (error) {
-    console.log(error);
+    console.log('remove user error', error);
     throw new ErrorException(error.message, error.status);
   }
 
-  console.log(data);
   return null;
 };
 
