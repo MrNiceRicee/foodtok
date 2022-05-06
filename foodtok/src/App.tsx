@@ -10,6 +10,7 @@ const RecipeForm = lazy(() => import('@pages/Recipes/RecipeForm'));
 const RecipeDetail = lazy(() => import('@pages/Recipes/RecipeDetail'));
 import Account from '@pages/Accounts/Account';
 import watchSession from '@hooks/watchSession';
+import Unauthorized from '@pages/Unauthorized/Unauthorized';
 
 const App = () => {
   watchSession();
@@ -46,6 +47,9 @@ const App = () => {
               </Suspense>
             }
           />
+        </Route>
+        <Route path="unauthorized">
+          <Route index element={<Unauthorized />} />
         </Route>
       </Routes>
       <div className="inline-block py-6 w-full" aria-hidden></div>

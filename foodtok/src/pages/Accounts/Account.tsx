@@ -18,12 +18,14 @@ const Account = () => {
       {!session ? (
         <AccountLoginRegister />
       ) : (
-        <div className='break-all'>
+        <div className="break-all prose prose-invert text-slate-800 dark:text-slate-200">
           <p>sessionToken:</p>
-          <code>{session.access_token}</code>
+          <pre className="">
+            <code className="">{session.access_token}</code>
+          </pre>
           <p>userId: {session?.user?.id}</p>
           <p>
-            Keys:{' '}
+            Keys:
             {Object.keys(session?.user?.user_metadata || {}).map(
               (key) => `${key}: ${session?.user?.user_metadata[key]}`
             )}

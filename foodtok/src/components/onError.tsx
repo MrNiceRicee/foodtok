@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface onErrorProps {
@@ -12,10 +12,12 @@ interface onErrorProps {
  */
 const OnError = ({ error, children }: onErrorProps) => {
   const navigate = useNavigate();
-  if ([401, 403].includes(error.response?.status || 0)) {
-    navigate('unauthorized');
-    return <></>;
-  }
+
+  useEffect(() => {
+    if ([401, 403].includes(error.response?.status || 0)) {
+      navigate('/unauthorized');
+    }
+  }, [error]);
 
   return <>{children}</>;
 };
