@@ -8,14 +8,14 @@ const watchSession = () => {
   const [session, setSession] = useRecoilState(ctxSession);
 
   useEffect(() => {
-    const session = supabase.auth.session();
-    setUser(session?.user ?? null);
-    setSession(session);
+    const supabaseSession = supabase.auth.session();
+    setUser(supabaseSession?.user ?? null);
+    setSession(supabaseSession);
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (event, supSession) => {
-        setUser(supSession?.user ?? null);
-        setSession(supSession);
+      async (_event, changeSession) => {
+        setUser(changeSession?.user ?? null);
+        setSession(changeSession);
       }
     );
 
