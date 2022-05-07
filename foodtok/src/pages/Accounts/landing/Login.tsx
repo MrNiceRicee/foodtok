@@ -19,7 +19,7 @@ const Login = ({
   onChange,
 }: {
   model: model;
-  mode: string;
+  mode: 'register' | 'login';
   onChange: onChange;
 }) => {
   return (
@@ -51,7 +51,7 @@ const Login = ({
         divClass="scale-0 animate-grow"
         variance="outline"
         type="password"
-        autoComplete="current-password"
+        autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
         minLength={6}
       />
       <GrowIn open={mode === 'register'}>

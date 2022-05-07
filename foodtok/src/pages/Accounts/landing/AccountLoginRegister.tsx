@@ -42,7 +42,15 @@ const AccountLoginRegister = () => {
     console.log('user', user);
   };
 
-  const loginRegisterState = (key: 'login' | 'register') => () => setMode(key);
+  const loginRegisterState = (key: 'login' | 'register') => () => {
+    if (key === 'login')
+      setModel((old) => ({
+        username: old.username,
+        password: '',
+        rePassword: '',
+      }));
+    setMode(key);
+  };
 
   const onChange = (key: string, e: React.ChangeEvent<HTMLInputElement>) => {
     setModel((old) => ({ ...old, [key]: e.target.value }));
@@ -66,7 +74,7 @@ const AccountLoginRegister = () => {
           className={ctl(`
             h-full
             relative
-            overflow-hidden rounded-lg
+            overflow-hidden rounded-md
             shadow-md shadow-slate-700/40 dark:shadow-slate-900
             border
         `)}
@@ -80,12 +88,18 @@ const AccountLoginRegister = () => {
               h-fit
          `)}
           >
-            <h1 className="pt-3 text-4xl font-bold text-slate-800 dark:text-slate-200">
-              <span className="text-shadow-sm shadow-pink-500">food</span>
-              <span className="text-shadow-sm shadow-cyan-500">tok</span>
+            <h1 className="pt-3 text-4xl font-bold text-black  relative">
+              <span>foodtok</span>
+              <span className="absolute inset-0 top-1/2 -translate-y-[55%] left-[.1rem] text-transparent -z-1 text-shadow-sm shadow-cyan-400">
+                foodtok
+              </span>
+              <span className="absolute inset-0 top-1/2 -translate-y-[55%] -left-[.1rem] text-transparent -z-1 text-shadow-sm shadow-pink-400">
+                foodtok
+              </span>
             </h1>
             <div className="pb-2 pt-2 text-slate-800 dark:text-slate-200">
               <button
+                type="button"
                 className={ctl(
                   `relative
                   ${
@@ -101,6 +115,7 @@ const AccountLoginRegister = () => {
               </button>
               {' or '}
               <button
+                type="button"
                 className={ctl(
                   `relative
                   ${
@@ -126,7 +141,7 @@ const AccountLoginRegister = () => {
           >
             <Button
               type="submit"
-              className="bg-emerald-500 shadow-slate-500/40 px-9"
+              className="bg-blue-500 shadow-slate-500/40 px-9"
             >
               <p className="dark:text-slate-50">ok</p>
             </Button>

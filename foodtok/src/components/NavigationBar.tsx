@@ -11,40 +11,40 @@ import {
 
 const anchorStyle = (state: boolean, open: boolean, bar = true) =>
   ctl(`
-  cursor-pointer
-  w-full h-full flex flex-col
-  justify-center inline-block text-center
-  pb-1 pt-2
-  ${
-    bar &&
-    `
-    before:bg-orange-400 before:h-0 before:w-full
-    before:hover:h-1 before:focus:h-1 before:active:h-1
-    before:absolute before:inset-0
-    before:transition-color before:duration-300 before:ease-out
+    cursor-pointer
+    w-full h-full flex flex-col
+    justify-center inline-block text-center
+    pb-1 pt-2
+    ${
+      bar &&
+      `
+      before:bg-cyan-400 before:h-0 before:w-full
+      before:hover:h-1 before:focus:h-1 before:active:h-1
+      before:absolute before:inset-0
+      before:transition-color before:duration-300 before:ease-out
 
-    md:before:w-0 md:before:h-full
-    md:before:left-full md:before:-translate-x-full
-    md:before:hover:h-full md:before:focus:h-full md:before:active:h-full
-    `
-  }
-  text-slate-800 dark:text-slate-100 hover:text-orange-600 active:text-orange-600 focus:text-orange-600 transition-color duration-300 ease-out
-  dark:hover:text-orange-400 dark:active:text-orange-400 dark:focus:text-orange-400
-  ${
-    state ?
-    `
-    text-orange-400 
-    before:h-1
-    md:before:h-full
-    md:before:w-[.5rem]
-    ` : 'before:bg-transparent'
-  }
-  ${
-    open
-      ? 'md:justify-center md:items-center'
-      : 'md:justify-center md:items-end pt-5 pr-4 prose:span'
-  }
-  md:pt-5
+      md:before:w-0 md:before:h-full
+      md:before:left-full md:before:-translate-x-full
+      md:before:hover:h-full md:before:focus:h-full md:before:active:h-full
+      `
+    }
+    text-slate-800 dark:text-slate-100 hover:text-cyan-600 active:text-cyan-600 focus:text-cyan-600 transition-color duration-300 ease-out
+    dark:hover:text-cyan-400 dark:active:text-cyan-400 dark:focus:text-cyan-400
+    ${
+      state ?
+      `
+      text-cyan-400 
+      before:h-1
+      md:before:h-full
+      md:before:w-[.5rem]
+      ` : 'before:bg-inherit'
+    }
+    ${
+      open
+        ? 'md:justify-center md:items-center'
+        : 'md:justify-center md:items-end pt-5 pr-4 prose:span'
+    }
+    md:pt-5
   `);
 
 const NavigationBar = () => {
@@ -72,18 +72,18 @@ const NavigationBar = () => {
     <nav
       className={ctl(
         `
-      bg-slate-100 dark:bg-slate-800
-      border-t border-slate-400 dark:border-slate-600
-      shadow-t-sm dark:shadow-slate-600
-      block fixed inset-x-0 bottom-0 z-[9999] mx-auto
-      overflow-hidden
-      transition-all duration-300 ease-out
+        bg-slate-50 dark:bg-black
+        border-t border-slate-400 dark:border-slate-600
+        shadow-t-sm dark:shadow-slate-600
+        block fixed inset-x-0 bottom-0 z-[9999] mx-auto
+        overflow-hidden
+        transition-all duration-300 ease-out
 
-      md:bottom-1/2 md:translate-y-1/2 md:mx-0
-      ${!open ? 'md:-translate-x-[70%]' : ''}
-      md:max-w-[10rem]
-      md:rounded-r-md
-      md:shadow-none md:border-y md:border-r
+        md:bottom-1/2 md:translate-y-1/2 md:mx-0
+        ${!open ? 'md:-translate-x-[70%]' : ''}
+        md:max-w-[10rem]
+        md:rounded-r-md
+        md:shadow-none md:border-y md:border-r
       `
       )}
     >

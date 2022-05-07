@@ -43,8 +43,8 @@ const TextInput = ({
             px-0 pb-0
             appearance-none focus:outline-none focus:ring-0
             bg-transparent outline-none border-none
+            text-slate-400 dark:text-slate-500
             active:text-slate-900 focus:text-slate-900
-            dark:text-slate-400
             dark:active:text-slate-200 dark:focus:text-slate-200
             duration-300
             ${inputClass}
