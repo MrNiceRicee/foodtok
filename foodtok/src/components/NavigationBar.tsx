@@ -26,9 +26,12 @@ const anchorStyle = (state: boolean, open: boolean, bar = true) =>
       md:before:w-0 md:before:h-full
       md:before:left-full md:before:-translate-x-full
       md:before:hover:h-full md:before:focus:h-full md:before:active:h-full
+      md:before:hover:w-[.5rem] md:before:focus:w-[.5rem] md:before:active:w-[.5rem]
       `
     }
-    text-slate-800 dark:text-slate-100 hover:text-cyan-600 active:text-cyan-600 focus:text-cyan-600 transition-color duration-300 ease-out
+    text-slate-800 dark:text-slate-100
+    transition-color duration-300 ease-out
+    hover:text-cyan-600 active:text-cyan-600 focus:text-cyan-600
     dark:hover:text-cyan-400 dark:active:text-cyan-400 dark:focus:text-cyan-400
     ${
       state ?
@@ -42,7 +45,7 @@ const anchorStyle = (state: boolean, open: boolean, bar = true) =>
     ${
       open
         ? 'md:justify-center md:items-center'
-        : 'md:justify-center md:items-end pt-5 pr-4 prose:span'
+        : 'md:justify-center md:items-end pt-5 pr-4 prose:span md:before:w-[.25rem]'
     }
     md:pt-5
   `);

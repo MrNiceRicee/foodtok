@@ -61,7 +61,7 @@ const RecipeForm = ({
           >
             <h1 className="pt-3 text-4xl font-bold text-black tracking-wider relative">
               <span>{header}</span>
-              <span className="absolute inset-0 top-1/2 -translate-y-[60%] left-[.1rem] text-transparent -z-1 text-shadow-xs shadow-pink-500">
+              <span className="absolute inset-0 top-1/2 -translate-y-[55%] left-[.1rem] text-transparent -z-1 text-shadow-xs shadow-pink-500">
                 {header}
               </span>
               <span className="absolute inset-0 top-1/2 -translate-y-[60%] -left-[.2rem] text-transparent -z-1 text-shadow-xs shadow-cyan-500">
