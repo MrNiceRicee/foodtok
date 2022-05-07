@@ -77,7 +77,7 @@ const NavigationBar = () => {
       shadow-t-md dark:shadow-slate-600
       block fixed inset-x-0 bottom-0 z-[9999] mx-auto
       overflow-hidden
-      transition-all duration-200
+      transition-all duration-300 ease-out
 
       md:bottom-1/2 md:translate-y-1/2 md:mx-0
       ${!open ? 'md:-translate-x-[70%]' : ''}
