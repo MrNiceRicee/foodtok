@@ -55,7 +55,7 @@ const Button = (props: Props): React.ReactElement<Props> => {
 
           outline-none
 
-          border
+          border border-slate-800 dark:border-slate-200
           translate-all duration-150 ease-in
           ring-cyan-500
           hover:ring-2 focus:ring-2 active:ring-2

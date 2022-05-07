@@ -1,4 +1,5 @@
 import verify from '@mrnicericee/verify';
+import supabase from '@util/supabase';
 import SQL from 'sql-template-strings';
 import { queryOne } from '../../connection/db';
 import { Recipes } from '../../types/Recipes';
@@ -28,6 +29,7 @@ const create = async ({ UserId, name, description, url }: createPayload) => {
   const { value: verifyUser } = verify(UserId, { name: 'UserId' });
   if (!verifyUser) throw new ErrorException('UserId not defined', 400);
 
+  console.log(UserId);
   const foundUser = await findUser(UserId);
   if (!foundUser) throw new ErrorException('User not found', 404);
 

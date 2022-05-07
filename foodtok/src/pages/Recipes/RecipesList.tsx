@@ -13,26 +13,19 @@ const RecipeCard = lazy(() => import('./RecipeCard'));
 const ButtonLink = () => (
   <Link
     className={ctl(`w-full max-w-lg mx-auto my-4 no-underline
-    justify-center
-    content-center
+    text-center
     relative
-    flex
+    inline-block
     prose dark:prose-invert
     py-2 px-3 rounded-lg
-    bg-emerald-500 
     font-bold text-lg
-    group
 
     outline-none
-    dark:hover:outline-slate-50/30 hover:outline-slate-900/30 hover:outline hover:outline-8 hover:outline-offset-0
-    dark:focus:outline-slate-50/30 focus:outline-slate-900/30 focus:outline focus:outline-8 focus:outline-offset-0
-    dark:active:outline-slate-50/30 active:outline-slate-900/30 active:outline active:outline-8 active:outline-offset-0
 
-    shadow-md shadow-slate-600/50
-    hover:shadow-sm focus:shadow-sm active:shadow-sm
-
-    before:transition-all before:duration-150 before:ease-in
+    border border-slate-800 dark:border-slate-200 
     translate-all duration-150 ease-in
+    ring-cyan-500
+    hover:ring-2 focus:ring-2 active:ring-2
     
     `)}
     to="create"
