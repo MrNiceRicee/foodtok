@@ -18,7 +18,7 @@ const App = () => {
     <div
       className={ctl(
         `p-safe h-screen-safe w-full
-        container sm:max-w-4xl
+        container
         flex flex-grow mx-auto flex-col mb-1 relative
         `
       )}
