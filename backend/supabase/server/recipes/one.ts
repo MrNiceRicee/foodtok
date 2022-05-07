@@ -10,7 +10,6 @@ const one = async (id: number) => {
     a."description",
     a."url",
     a."longUrl",
-    a."UserId",
     json_build_object(
         'name', "User"."name",
         'url', "User"."url"

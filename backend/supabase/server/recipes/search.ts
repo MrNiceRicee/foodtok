@@ -38,7 +38,6 @@ const search = async (searchPayload: searchPayload) => {
       a."description",
       a."url",
       a."longUrl",
-      a."UserId",
       json_build_object(
         'name', "User"."name",
         'url', "User"."url"

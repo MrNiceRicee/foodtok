@@ -6,13 +6,13 @@ const CardLoading = ({ rows = 1, rKey }: { rows?: number; rKey: string }) => {
     <>
       {newArray.map((_, index) => (
         <div
-          className="container w-full rounded-lg md:flex py-2"
+          className=" w-full rounded-lg md:flex py-2"
           key={`${rKey}_${index}`}
         >
           <div className="md:basis-full h-72">
             <LoadingBar rounded />
           </div>
-          <div className="container md:ml-3 md:basis-2/3 flex flex-col pt-1 pl-1">
+          <div className=" md:ml-3 md:basis-2/3 flex flex-col pt-1 pl-1">
             <div className="h-12 w-full">
               <LoadingBar rounded />
             </div>
