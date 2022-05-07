@@ -27,8 +27,6 @@ const Login = ({
       className={ctl(`
         px-6
         py-4
-        border-t border-b border-slate-50/30
-        shadow-sm shadow-slate-900
         flex flex-col
         gap-3
       `)}
