@@ -26,7 +26,9 @@ const TextInput = ({
         className={ctl(`
         relative w-full min-w-[15rem] 
         my-3
-        border-b-2 border-slate-400 focus-within:border-blue-500
+        border-b-2 border-slate-400 
+        focus-within:border-pink-500
+        text-slate-800 dark:text-slate-200
         ${divClass}
         ${props.className}
       `)}
@@ -41,9 +43,9 @@ const TextInput = ({
             px-0 pb-0
             appearance-none focus:outline-none focus:ring-0
             bg-transparent outline-none border-none
-          active:text-slate-900 focus:text-slate-900
-          dark:text-slate-400
-          dark:active:text-slate-200 dark:focus:text-slate-200
+            active:text-slate-900 focus:text-slate-900
+            dark:text-slate-400
+            dark:active:text-slate-200 dark:focus:text-slate-200
             duration-300
             ${inputClass}
           `)}
@@ -54,7 +56,6 @@ const TextInput = ({
         <label
           className={ctl(`
             prose absolute top-1/4 -z-1 origin-top
-            dark:text-slate-200
           `)}
           htmlFor={name}
         >

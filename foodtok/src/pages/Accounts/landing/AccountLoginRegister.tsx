@@ -81,7 +81,8 @@ const AccountLoginRegister = () => {
          `)}
           >
             <h1 className="pt-3 text-4xl font-bold text-slate-800 dark:text-slate-200">
-              foodtok
+              <span className="text-shadow-sm shadow-pink-500">food</span>
+              <span className="text-shadow-sm shadow-cyan-500">tok</span>
             </h1>
             <div className="pb-2 pt-2 text-slate-800 dark:text-slate-200">
               <button
@@ -89,7 +90,7 @@ const AccountLoginRegister = () => {
                   `relative
                   ${
                     mode === 'login'
-                      ? `text-orange-600 dark:text-orange-400
+                      ? `text-pink-500
                         font-semibold`
                       : 'text-slate-400 dark:text-slate-500'
                   }`
@@ -104,7 +105,7 @@ const AccountLoginRegister = () => {
                   `relative
                   ${
                     mode === 'register'
-                      ? `text-orange-600 dark:text-orange-400
+                      ? `text-pink-500
                         font-semibold`
                       : 'text-slate-400 dark:text-slate-500'
                   }`
