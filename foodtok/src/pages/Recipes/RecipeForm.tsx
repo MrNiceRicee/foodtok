@@ -31,58 +31,74 @@ const RecipeForm = ({
   return (
     <div
       className={ctl(`
-        m-safe p-safe w-full flex justify-center content-center
-        `)}
+        w-full h-screen
+        flex justify-center items-center relative o
+        overflow-hidden
+      `)}
     >
-      <form
-        className={ctl(
-          `bg-slate-50 dark:bg-slate-700 rounded-lg shadow-lg
-
-          overflow-hidden
-          `
-        )}
-        method="POST"
-        onSubmit={onSubmit}
-      >
-        <header
-          className={ctl(`py-4 px-6 shadow-inner text-center 
-        bg-slate-300 dark:bg-slate-900
+      <div
+        className={ctl(`
+          px-4    
         `)}
+      >
+        <form
+          className={ctl(`
+          h-full
+          relative
+          overflow-hidden rounded-md
+          shadow-md shadow-slate-700/40 dark:shadow-slate-900
+          border
+        `)}
+          method="POST"
+          onSubmit={onSubmit}
         >
-          <h2
+          <header
             className={ctl(`
-            prose dark:prose-invert
-            font-extrabold text-4xl
-            text-slate-800 dark:text-slate-100`)}
+              text-center 
+              rounded-t-lg
+              h-fit
+            `)}
           >
-            {header}
-          </h2>
-        </header>
-        <section className="px-6">
-          <TextInput
-            name="title"
-            value={model.name}
-            onChange={onChange('name')}
-          />
-          <TextInput name="url" value={model.url} onChange={onChange('url')} />
-          <TextInput
-            name="description"
-            value={model.description}
-            onChange={onChange('description')}
-          />
-          <TextInput
-            name="user"
-            value={model.UserId}
-            onChange={onChange('UserId')}
-          />
-        </section>
-        <footer className="bg-slate-300 dark:bg-slate-900 py-3 px-6 flex justify-between shadow-inner">
-          <Button className="mx-2 prose-p:text-yellow-400">cancel</Button>
-          <Button variance="filled" className="mx-2 bg-sky-500" type="submit">
-            confirm
-          </Button>
-        </footer>
-      </form>
+            <h1 className="pt-3 text-4xl font-bold text-black tracking-wider relative">
+              <span>{header}</span>
+              <span className="absolute inset-0 top-1/2 -translate-y-[60%] left-[.1rem] text-transparent -z-1 text-shadow-xs shadow-pink-500">
+                {header}
+              </span>
+              <span className="absolute inset-0 top-1/2 -translate-y-[60%] -left-[.2rem] text-transparent -z-1 text-shadow-xs shadow-cyan-500">
+                {header}
+              </span>
+            </h1>
+          </header>
+          <section className="px-6">
+            <TextInput
+              name="title"
+              value={model.name}
+              onChange={onChange('name')}
+            />
+            <TextInput
+              name="url"
+              value={model.url}
+              onChange={onChange('url')}
+            />
+            <TextInput
+              name="description"
+              value={model.description}
+              onChange={onChange('description')}
+            />
+            <TextInput
+              name="user"
+              value={model.UserId}
+              onChange={onChange('UserId')}
+            />
+          </section>
+          <footer className="bg-slate-300 dark:bg-slate-900 py-3 px-6 flex justify-between shadow-inner">
+            <Button className="mx-2 prose-p:text-yellow-400">cancel</Button>
+            <Button variance="filled" className="mx-2 bg-sky-500" type="submit">
+              confirm
+            </Button>
+          </footer>
+        </form>
+      </div>
     </div>
   );
 };

@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react';
 import Button from './Button';
 
 const ThemeButton = () => {
-  const [mode, setMode] = useState(false);
+  const [mode, setMode] = useState(
+    window.matchMedia('(prefers-color-scheme: dark)').matches
+  );
 
   useEffect(() => {
     if (mode) return document.documentElement.classList.add('dark');

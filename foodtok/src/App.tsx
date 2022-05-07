@@ -43,7 +43,7 @@ const App = () => {
             path="create"
             element={
               <Suspense fallback={<LoadingBar />}>
-                <RecipeForm />
+                <RecipeForm header='create recipe' />
               </Suspense>
             }
           />
