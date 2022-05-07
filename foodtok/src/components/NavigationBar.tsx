@@ -21,22 +21,22 @@ const anchorStyle = (state: boolean, open: boolean, bar = true) =>
       before:bg-cyan-400 before:h-0 before:w-full
       before:hover:h-1 before:focus:h-1 before:active:h-1
       before:absolute before:inset-0
-      before:transition-color before:duration-300 before:ease-out
+      before:transition-all before:duration-300 before:ease-in-out
 
       md:before:w-0 md:before:h-full
       md:before:left-full md:before:-translate-x-full
       md:before:hover:h-full md:before:focus:h-full md:before:active:h-full
-      md:before:hover:w-[.5rem] md:before:focus:w-[.5rem] md:before:active:w-[.5rem]
       `
     }
     text-slate-800 dark:text-slate-100
-    transition-color duration-300 ease-out
+    transition-color duration-200 ease-out
     hover:text-cyan-600 active:text-cyan-600 focus:text-cyan-600
     dark:hover:text-cyan-400 dark:active:text-cyan-400 dark:focus:text-cyan-400
     ${
       state ?
       `
       text-cyan-400 
+      dark:text-cyan-400
       before:h-1
       md:before:h-full
       md:before:w-[.5rem]

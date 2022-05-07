@@ -9,7 +9,6 @@ interface defaultValue {
   name: string;
   url: string;
   description: string;
-  UserId: string;
 }
 
 const RecipeForm = ({
@@ -74,26 +73,35 @@ const RecipeForm = ({
               name="title"
               value={model.name}
               onChange={onChange('name')}
+              divClass="scale-0 animate-grow"
+              variance="outline"
             />
             <TextInput
               name="url"
               value={model.url}
               onChange={onChange('url')}
+              divClass="scale-0 animate-grow"
+              variance="outline"
             />
             <TextInput
               name="description"
               value={model.description}
               onChange={onChange('description')}
-            />
-            <TextInput
-              name="user"
-              value={model.UserId}
-              onChange={onChange('UserId')}
+              divClass="scale-0 animate-grow"
+              variance="outline"
             />
           </section>
-          <footer className="bg-slate-300 dark:bg-slate-900 py-3 px-6 flex justify-between shadow-inner">
-            <Button className="mx-2 prose-p:text-yellow-400">cancel</Button>
-            <Button variance="filled" className="mx-2 bg-sky-500" type="submit">
+          <footer
+            className={ctl(`
+              flex justify-between
+              px-3 py-4
+              rounded-b-lg
+            `)}
+          >
+            <Button className="mx-2 prose-p:text-yellow-400" type="reset">
+              cancel
+            </Button>
+            <Button className="mx-2" type="submit">
               confirm
             </Button>
           </footer>
@@ -108,7 +116,6 @@ RecipeForm.defaultProps = {
     name: '',
     url: '',
     description: '',
-    UserId: '',
   },
 };
 
