@@ -139,10 +139,7 @@ const AccountLoginRegister = () => {
               rounded-b-lg
             `)}
           >
-            <Button
-              type="submit"
-              className="bg-blue-500 shadow-slate-500/40 px-9"
-            >
+            <Button type="submit" className="px-9">
               <p className="dark:text-slate-50">ok</p>
             </Button>
           </footer>

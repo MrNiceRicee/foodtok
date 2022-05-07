@@ -12,13 +12,6 @@ interface Props extends ButtonProps {
   variance: 'filled' | 'outlined' | 'none';
 }
 
-/*
-            before:absolute before:inset-0 before:w-full before:h-full before:bg-inherit before:rounded-[inherit] before:opacity-25 
-            group-hover:before:opacity-50 hover:before:h-[calc(100%+0.75rem)] hover:before:w-[calc(100%+0.75rem)] hover:before:-left-1.5 hover:before:-top-1.5
-            group-after:before:opacity-50 after:before:h-[calc(100%+0.75rem)] after:before:w-[calc(100%+0.75rem)] after:before:-left-1.5 after:before:-top-1.5
-            group-focus:before:opacity-50 focus:before:h-[calc(100%+0.75rem)] focus:before:w-[calc(100%+0.75rem)] focus:before:-left-1.5 focus:before:-top-1.5 
-
-*/
 const Button = (props: Props): React.ReactElement<Props> => {
   if (props.variance === 'filled') {
     return (
@@ -62,13 +55,14 @@ const Button = (props: Props): React.ReactElement<Props> => {
 
           outline-none
 
-          shadow-md shadow-slate-600/50
-          hover:shadow-sm focus:shadow-sm active:shadow-sm
+          border
           translate-all duration-150 ease-in
+          ring-cyan-500
+          hover:ring-2 focus:ring-2 active:ring-2
           ${props.className}
 
         `)}
-      ></button>
+      />
     );
   }
   return (
