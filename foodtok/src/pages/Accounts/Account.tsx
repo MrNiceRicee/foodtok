@@ -23,7 +23,7 @@ const Account = () => {
           <p>
             Keys:
             {Object.keys(session?.user?.user_metadata || {}).map(
-              (key) => `${key}: ${session?.user?.user_metadata[key]}`
+              (key) => ` ${key}: ${session?.user?.user_metadata[key]} \n`
             )}
           </p>
           <Button

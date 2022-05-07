@@ -31,13 +31,13 @@ const anchorStyle = (state: boolean, open: boolean, bar = true) =>
   text-slate-800 dark:text-slate-100 hover:text-orange-600 active:text-orange-600 focus:text-orange-600 transition-color duration-300 ease-out
   dark:hover:text-orange-400 dark:active:text-orange-400 dark:focus:text-orange-400
   ${
-    state &&
+    state ?
     `
     text-orange-400 
     before:h-1
     md:before:h-full
     md:before:w-[.5rem]
-    `
+    ` : 'before:bg-transparent'
   }
   ${
     open
@@ -74,7 +74,7 @@ const NavigationBar = () => {
         `
       bg-slate-100 dark:bg-slate-800
       border-t border-slate-400 dark:border-slate-600
-      shadow-t-md dark:shadow-slate-600
+      shadow-t-sm dark:shadow-slate-600
       block fixed inset-x-0 bottom-0 z-[9999] mx-auto
       overflow-hidden
       transition-all duration-300 ease-out
@@ -82,7 +82,8 @@ const NavigationBar = () => {
       md:bottom-1/2 md:translate-y-1/2 md:mx-0
       ${!open ? 'md:-translate-x-[70%]' : ''}
       md:max-w-[10rem]
-      md:rounded-r-lg
+      md:rounded-r-md
+      md:shadow-none md:border-y md:border-r
       `
       )}
     >
