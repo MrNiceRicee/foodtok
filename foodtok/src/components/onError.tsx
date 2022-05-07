@@ -1,3 +1,4 @@
+import supabase from '@apis/supabase';
 import { AxiosError } from 'axios';
 import { ReactNode, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -16,6 +17,9 @@ const OnError = ({ error, children }: onErrorProps) => {
   useEffect(() => {
     if ([401, 403].includes(error.response?.status || 0)) {
       navigate('/unauthorized');
+      (async () => {
+        await supabase.auth.signOut();
+      })();
     }
   }, [error]);
 
