@@ -50,7 +50,6 @@ const RecipesList = () => {
   } = useInfiniteQuery(
     ['RecipeList'],
     async ({ pageParam }) => {
-      console.log(pageParam);
       return search({
         limit: 2,
         cursor: pageParam,
@@ -65,7 +64,6 @@ const RecipesList = () => {
   );
 
   useEffect(() => {
-    console.log('hasNextPage', hasNextPage);
     if (inView && !isFetchingNextPage && hasNextPage) {
       (async () => {
         await fetchNextPage();
