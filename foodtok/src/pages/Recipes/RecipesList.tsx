@@ -1,13 +1,15 @@
-import { Suspense, lazy, useState, useEffect } from 'react';
+import { lazy, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import ctl from '@netlify/classnames-template-literals';
-import { recipe } from '@foodtok-types/recipe';
-import { getRecipes } from '@apis/recipes';
+import { useInView } from 'react-intersection-observer';
+import { search } from '@apis/recipes';
 import CardLoading from '@components/CardLoading';
 import ErrorIllustration from '@components/ErrorIllustration';
 import OnError from '@components/onError';
 import LoadingBar from '@components/LoadingBar';
+import { useInfiniteQuery } from 'react-query';
+import * as React from 'react';
 const RecipeCard = lazy(() => import('./RecipeCard'));
 
 const ButtonLink = () => (
@@ -35,15 +37,43 @@ const ButtonLink = () => (
 );
 
 const RecipesList = () => {
-  const [recipes, setRecipes] = useState<Array<recipe>>([]);
-  const { isError, isLoading, data, error } = getRecipes();
+  const { ref, inView } = useInView();
+  // const { isError, isLoading, data, error } = getRecipes();
+  const {
+    isError,
+    isLoading,
+    data,
+    error,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery(
+    ['RecipeList'],
+    async ({ pageParam }) => {
+      console.log(pageParam);
+      return search({
+        limit: 2,
+        cursor: pageParam,
+        filter: null,
+      }).then((item) => item.data);
+    },
+    {
+      getNextPageParam: (lastPage) => {
+        return lastPage.hasNextPage ? lastPage.cursor : undefined;
+      },
+    }
+  );
 
-  console.log(data);
   useEffect(() => {
-    if (!isLoading && !isError && data) setRecipes(data.data);
-  }, [data]);
+    console.log('hasNextPage', hasNextPage);
+    if (inView && !isFetchingNextPage && hasNextPage) {
+      (async () => {
+        await fetchNextPage();
+      })();
+    }
+  }, [inView]);
 
-  if (isLoading) {
+  if (isLoading || isFetchingNextPage) {
     return (
       <>
         <ButtonLink />
@@ -61,33 +91,56 @@ const RecipesList = () => {
     );
   }
 
+  // <Suspense
+  //   fallback={<CardLoading rows={3} rKey="Fallback_Recipe_List" />}
+  //   key={`${item._id}_${index}`}
+  // >
+  // </Suspense>
   return (
-    <>
+    <div className="h-fit">
       <ButtonLink />
-      {recipes && recipes.length ? (
+      {data?.pages ? (
         <>
-          {recipes.map((item, index) => (
-            <Suspense
-              fallback={<CardLoading rows={3} rKey="Fallback_Recipe_List" />}
-              key={`${item._id}_${index}`}
-            >
-              <RecipeCard recipe={item} />
-            </Suspense>
+          {data.pages.map((page, index) => (
+            <React.Fragment key={`${index}_${page.cursor}`}>
+              {page.data.map((item, index) => (
+                <React.Suspense
+                  key={`${item._id}_${index}`}
+                  fallback={
+                    <CardLoading rKey="Fallback_Recipe_List" rows={3} />
+                  }
+                >
+                  <RecipeCard recipe={item} />
+                </React.Suspense>
+              ))}
+            </React.Fragment>
           ))}
-          <div className="relative w-full h-20">
-            <LoadingBar />
-            <div className="absolute inset-0 top-1/2 -translate-y-1/2 px-2 flex justify-center items-center">
-              <p className="text-xl font-semibold tracking-widest bg-clip-text fill-transparent">
-                Loading More
-              </p>
-            </div>
+          {}
+          <div className="relative w-full h-20" ref={ref}>
+            {hasNextPage && (
+              <>
+                <LoadingBar />
+                <div className="absolute inset-0 top-1/2 -translate-y-1/2 px-2 flex justify-center items-center">
+                  <p className="text-xl font-semibold tracking-widest bg-clip-text fill-transparent">
+                    Loading More
+                  </p>
+                </div>
+              </>
+            )}
           </div>
         </>
       ) : (
         <ErrorIllustration errorMsg="oops! no recipes to display" />
       )}
-    </>
+    </div>
   );
+  // return <div>{status === 'error' ?
+  // <ErrorIllustration errorMsg="oops! no recipes to display" />
+  // : (
+  //   <>
+  //   </>
+
+  // )</div>;
 };
 
 export default RecipesList;

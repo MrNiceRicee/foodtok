@@ -14,6 +14,7 @@ const watchSession = () => {
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (_event, changeSession) => {
+        console.log(_event);
         setUser(changeSession?.user ?? null);
         setSession(changeSession);
       }

@@ -4,8 +4,10 @@ import { search as SearchData, recipe, justRecipe } from '../types/recipe';
 import base from './base';
 
 // Routes
-const search = async (): Promise<AxiosResponse<SearchData>> =>
-  base.get('/recipes');
+const search = async (params?: object): Promise<AxiosResponse<SearchData>> =>
+  base.get('/recipes', {
+    params,
+  });
 
 const one = async (id: number): Promise<AxiosResponse<{ data: recipe }>> =>
   base.get(`/recipes/${id}`);
@@ -31,7 +33,7 @@ const addRecipe = () => {
 };
 
 const getRecipes = () => {
-  return useQuery(['RecipeList'], search, {
+  return useQuery(['RecipeList'], () => search(), {
     retry: false,
     select: (data) => data.data,
   });
@@ -47,4 +49,4 @@ const getRecipe = (id: number) => {
   });
 };
 
-export { getRecipes, getRecipe, addRecipe };
+export { getRecipes, getRecipe, search, addRecipe };
