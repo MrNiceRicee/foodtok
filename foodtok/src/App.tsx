@@ -52,7 +52,7 @@ const App = () => {
           <Route index element={<Unauthorized />} />
         </Route>
       </Routes>
-      <div className="inline-block py-6 w-full" aria-hidden></div>
+      <div className="inline-block py-10 w-full" aria-hidden></div>
       <NavigationBar />
     </div>
   );

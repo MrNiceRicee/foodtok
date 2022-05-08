@@ -1,7 +1,11 @@
 import ctl from '@netlify/classnames-template-literals';
 import * as PropTypes from 'prop-types';
 
-const LoadingBar = ({ rounded }: { rounded: boolean }) => (
+type prop = JSX.IntrinsicElements['div'] & {
+  rounded?: boolean;
+};
+
+const LoadingBar = ({ rounded, className, children }: prop) => (
   <div
     className={ctl(`
       bg-gray-400 w-full h-full
@@ -13,8 +17,11 @@ const LoadingBar = ({ rounded }: { rounded: boolean }) => (
       after:to-transparent
       after:animate-[slideX_1.5s_ease-out_infinite]
       ${rounded ? 'rounded-lg' : ' '}
+      ${className}
   `)}
-  />
+  >
+    {children}
+  </div>
 );
 
 LoadingBar.propTypes = {

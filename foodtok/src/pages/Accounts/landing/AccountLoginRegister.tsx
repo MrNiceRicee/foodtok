@@ -89,7 +89,7 @@ const AccountLoginRegister = () => {
               h-fit
             `)}
           >
-            <h1 className="pt-3 text-4xl font-bold text-black tracking-wider relative">
+            <h1 className="pt-3 text-4xl font-bold text-black dark:text-white tracking-wider relative">
               <span>foodtok</span>
               <span className="absolute inset-0 top-1/2 -translate-y-[55%] left-[.1rem] text-transparent -z-1 text-shadow-xs shadow-pink-500">
                 foodtok

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ctl from '@netlify/classnames-template-literals';
 import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -33,14 +33,15 @@ const anchorStyle = (state: boolean, open: boolean, bar = true) =>
     hover:text-cyan-600 active:text-cyan-600 focus:text-cyan-600
     dark:hover:text-cyan-400 dark:active:text-cyan-400 dark:focus:text-cyan-400
     ${
-      state ?
-      `
+      state
+        ? `
       text-cyan-400 
       dark:text-cyan-400
       before:h-1
       md:before:h-full
       md:before:w-[.5rem]
-      ` : 'before:bg-inherit'
+      `
+        : 'before:bg-inherit'
     }
     ${
       open
@@ -52,13 +53,21 @@ const anchorStyle = (state: boolean, open: boolean, bar = true) =>
 
 const NavigationBar = () => {
   const location = useLocation();
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const [active, setActive] = useState({
-    account: location.pathname.includes('account'),
-    recipes: location.pathname.includes('recipes'),
-    search: location.pathname.includes('search'),
+    account: false,
+    recipes: false,
+    search: false,
   });
+
+  useEffect(() => {
+    setActive({
+      account: location.pathname.includes('account'),
+      recipes: location.pathname.includes('recipes'),
+      search: location.pathname.includes('search'),
+    });
+  }, [location]);
 
   const handleActive = (state: 'account' | 'recipes' | 'search'): undefined => {
     const newState = {

@@ -1,13 +1,13 @@
 import { Suspense, lazy, useState, useEffect } from 'react';
-import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
-import { search as searchEndpoint } from '@apis/recipes';
+import { AxiosError } from 'axios';
+import ctl from '@netlify/classnames-template-literals';
+import { recipe } from '@foodtok-types/recipe';
+import { getRecipes } from '@apis/recipes';
 import CardLoading from '@components/CardLoading';
 import ErrorIllustration from '@components/ErrorIllustration';
-import { recipe } from '@foodtok-types/recipe';
-import ctl from '@netlify/classnames-template-literals';
 import OnError from '@components/onError';
-import { AxiosError } from 'axios';
+import LoadingBar from '@components/LoadingBar';
 const RecipeCard = lazy(() => import('./RecipeCard'));
 
 const ButtonLink = () => (
@@ -34,22 +34,13 @@ const ButtonLink = () => (
   </Link>
 );
 
-const getRecipes = async () => {
-  const { data } = await searchEndpoint();
-  if (data) {
-    return data.data;
-  }
-  return [];
-};
-
 const RecipesList = () => {
   const [recipes, setRecipes] = useState<Array<recipe>>([]);
-  const { isError, isLoading, data, error } = useQuery('RecipeList', () =>
-    getRecipes().then((item) => item)
-  );
+  const { isError, isLoading, data, error } = getRecipes();
 
+  console.log(data);
   useEffect(() => {
-    if (!isLoading && !isError && data) setRecipes(data);
+    if (!isLoading && !isError && data) setRecipes(data.data);
   }, [data]);
 
   if (isLoading) {
@@ -74,14 +65,24 @@ const RecipesList = () => {
     <>
       <ButtonLink />
       {recipes && recipes.length ? (
-        recipes.map((item, index) => (
-          <Suspense
-            fallback={<CardLoading rows={3} rKey="Fallback_Recipe_List" />}
-            key={`${item._id}_${index}`}
-          >
-            <RecipeCard recipe={item} />
-          </Suspense>
-        ))
+        <>
+          {recipes.map((item, index) => (
+            <Suspense
+              fallback={<CardLoading rows={3} rKey="Fallback_Recipe_List" />}
+              key={`${item._id}_${index}`}
+            >
+              <RecipeCard recipe={item} />
+            </Suspense>
+          ))}
+          <div className="relative w-full h-20">
+            <LoadingBar />
+            <div className="absolute inset-0 top-1/2 -translate-y-1/2 px-2 flex justify-center items-center">
+              <p className="text-xl font-semibold tracking-widest bg-clip-text fill-transparent">
+                Loading More
+              </p>
+            </div>
+          </div>
+        </>
       ) : (
         <ErrorIllustration errorMsg="oops! no recipes to display" />
       )}

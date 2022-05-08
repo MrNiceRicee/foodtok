@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useQuery } from 'react-query';
 import ctl from '@netlify/classnames-template-literals';
-import { one } from '@apis/recipes';
+import { getRecipe } from '@apis/recipes';
 import { fetchData } from '@apis/tiktokEmbed';
 import { recipe } from '@foodtok-types/recipe';
 import CardLoading from '@components//CardLoading';
@@ -57,9 +56,7 @@ const RecipeDetail = () => {
   const { id } = useParams();
   const [tiktokData, setTiktokdata] = useState<tiktok | null | undefined>();
 
-  const { isLoading, data } = useQuery(`Recipe_${id}`, () =>
-    one(id ? +id : 0).then(({ data }) => data.data)
-  );
+  const { isLoading, data } = getRecipe(id ? +id : 0);
 
   useEffect(() => {
     if (data?.longUrl) {

@@ -3,9 +3,10 @@ import TextInput from '@components/TextInput';
 import Button from '@components/Button';
 import { useState } from 'react';
 import * as React from 'react';
-import { post } from '@apis/recipes';
+import { addRecipe } from '@apis/recipes';
+import { useNavigate } from 'react-router-dom';
 
-interface defaultValue {
+interface Model {
   name: string;
   url: string;
   description: string;
@@ -16,12 +17,19 @@ const RecipeForm = ({
   defaultValues,
 }: {
   header?: string;
-  defaultValues: defaultValue;
+  defaultValues: Model;
 }) => {
   const [model, setModel] = useState(defaultValues);
+  const navigate = useNavigate();
+
+  const newRecipe = addRecipe();
+
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await post(model);
+
+    const { data } = await newRecipe.mutateAsync(model);
+    console.log(data);
+    navigate(`/recipes/${data.data._id}`);
   };
 
   const onChange = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -58,7 +66,13 @@ const RecipeForm = ({
               h-fit
             `)}
           >
-            <h1 className="pt-3 text-4xl font-bold text-black tracking-wider relative">
+            <h1
+              className={ctl(`
+                pt-3 text-4xl font-bold relative
+                tracking-wider 
+                text-black dark:text-white
+              `)}
+            >
               <span>{header}</span>
               <span className="absolute inset-0 top-1/2 -translate-y-[55%] left-[.1rem] text-transparent -z-1 text-shadow-xs shadow-pink-500">
                 {header}
