@@ -4,7 +4,6 @@ import { AxiosError } from 'axios';
 import ctl from '@netlify/classnames-template-literals';
 import { useInView } from 'react-intersection-observer';
 import { search } from '@apis/recipes';
-import CardLoading from '@components/CardLoading';
 import ErrorIllustration from '@components/ErrorIllustration';
 import OnError from '@components/onError';
 import LoadingBar from '@components/LoadingBar';
@@ -38,10 +37,8 @@ const ButtonLink = () => (
 
 const RecipesList = () => {
   const { ref, inView } = useInView();
-  // const { isError, isLoading, data, error } = getRecipes();
   const {
     isError,
-    isLoading,
     data,
     error,
     isFetchingNextPage,
@@ -51,7 +48,7 @@ const RecipesList = () => {
     ['RecipeList'],
     async ({ pageParam }) => {
       return search({
-        limit: 2,
+        limit: 25,
         cursor: pageParam,
         filter: null,
       }).then((item) => item.data);
@@ -64,21 +61,13 @@ const RecipesList = () => {
   );
 
   useEffect(() => {
-    if (inView && !isFetchingNextPage && hasNextPage) {
+    if (inView) {
+      console.log('hey!');
       (async () => {
         await fetchNextPage();
       })();
     }
   }, [inView]);
-
-  if (isLoading || isFetchingNextPage) {
-    return (
-      <>
-        <ButtonLink />
-        <CardLoading rows={3} rKey="Loading_Recipe_List" />
-      </>
-    );
-  }
 
   if (isError) {
     return (
@@ -89,56 +78,43 @@ const RecipesList = () => {
     );
   }
 
-  // <Suspense
-  //   fallback={<CardLoading rows={3} rKey="Fallback_Recipe_List" />}
-  //   key={`${item._id}_${index}`}
-  // >
-  // </Suspense>
   return (
-    <div className="h-fit">
+    <>
       <ButtonLink />
       {data?.pages ? (
-        <>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
           {data.pages.map((page, index) => (
-            <React.Fragment key={`${index}_${page.cursor}`}>
-              {page.data.map((item, index) => (
-                <React.Suspense
-                  key={`${item._id}_${index}`}
-                  fallback={
-                    <CardLoading rKey="Fallback_Recipe_List" rows={3} />
-                  }
-                >
+            <React.Fragment key={`${index}`}>
+              {page.data.map((item) => (
+                <React.Suspense key={`${item._id}`} fallback={<LoadingBar />}>
                   <RecipeCard recipe={item} />
                 </React.Suspense>
               ))}
             </React.Fragment>
           ))}
-          {}
-          <div className="relative w-full h-20" ref={ref}>
-            {hasNextPage && (
-              <>
-                <LoadingBar />
-                <div className="absolute inset-0 top-1/2 -translate-y-1/2 px-2 flex justify-center items-center">
-                  <p className="text-xl font-semibold tracking-widest bg-clip-text fill-transparent">
-                    Loading More
-                  </p>
-                </div>
-              </>
-            )}
-          </div>
-        </>
+        </div>
       ) : (
         <ErrorIllustration errorMsg="oops! no recipes to display" />
       )}
-    </div>
+      <button
+        className="relative w-full h-20"
+        ref={ref}
+        type="button"
+        onClick={() => fetchNextPage()}
+        disabled={!hasNextPage || isFetchingNextPage}
+      >
+        {hasNextPage && (
+          <>
+            <div className="absolute inset-0 top-1/2 -translate-y-1/2 px-2 flex justify-center items-center">
+              <p className="text-xl font-semibold tracking-widest text-pink-500">
+                more
+              </p>
+            </div>
+          </>
+        )}
+      </button>
+    </>
   );
-  // return <div>{status === 'error' ?
-  // <ErrorIllustration errorMsg="oops! no recipes to display" />
-  // : (
-  //   <>
-  //   </>
-
-  // )</div>;
 };
 
 export default RecipesList;

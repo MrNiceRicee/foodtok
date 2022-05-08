@@ -10,6 +10,9 @@ module.exports = {
       transformOrigin: {
         0: '0%',
       },
+      aspectRatio: {
+        'vertical': '9 / 16'
+      },
       boxShadow: {
         't-sm': '0 -1px 2px 0 rgba(0, 0, 0, 0.05)',
         't-md':

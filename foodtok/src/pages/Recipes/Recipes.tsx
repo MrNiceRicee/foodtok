@@ -1,11 +1,5 @@
 import RecipesList from './RecipesList';
 
-const Recipes = () => {
-  return (
-    <div className="min-w-full prose flex flex-col flex-nowrap ">
-      <RecipesList />
-    </div>
-  );
-};
+const Recipes = () => <RecipesList />;
 
 export default Recipes;
