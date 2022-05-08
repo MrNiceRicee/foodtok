@@ -3,8 +3,8 @@ import SQL, { SQLStatement } from 'sql-template-strings';
 import ErrorException from './ErrorException';
 
 const encode64 = (string: string) => Buffer.from(string).toString('base64');
-const decode64 = (base64: string) =>
-  Buffer.from(base64, 'base64').toString('ascii');
+const decode64 = (encoded: string) =>
+  Buffer.from(encoded, 'base64').toString('ascii');
 
 const getLimit = (limit: any) => {
   const limitCheck = verify(limit, { soft: true, name: 'limit' }).isNumber();

@@ -17,7 +17,7 @@ interface searchPayload {
 }
 
 const validFilter = ['_id', 'name', 'description', 'UserId'];
-const validOrder = ['_id', 'name', 'UserId'];
+const validOrder = ['_id', 'name', 'createdAt', 'updatedAt'];
 const defaultOrder = '_id:ASC';
 
 const search = async (searchPayload: searchPayload) => {
