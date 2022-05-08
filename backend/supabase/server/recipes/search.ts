@@ -40,7 +40,8 @@ const search = async (searchPayload: searchPayload) => {
       a."longUrl",
       json_build_object(
         'name', "User"."name",
-        'url', "User"."url"
+        'url', "User"."url",
+        'displayName', "User"."displayName"
       ) as "User",
       (SELECT json_agg(x) FROM
         (

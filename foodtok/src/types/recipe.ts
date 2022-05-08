@@ -1,16 +1,3 @@
-interface recipeBase extends justRecipe {
-  User: {
-    name: string;
-    url: string | null;
-  };
-  Ingredients: Array<{
-    IngredientId: number;
-    customDescription: string | undefined;
-    description: string | undefined;
-    name: string;
-  }>;
-}
-
 interface justRecipe {
   _id: string;
   name: string;
@@ -20,6 +7,19 @@ interface justRecipe {
   UserId: string;
   createdAt: Date;
   updatedAt: Date;
+}
+interface recipeBase extends justRecipe {
+  User: {
+    name: string;
+    url: string | null;
+    displayName: string | null;
+  };
+  Ingredients: Array<{
+    IngredientId: number;
+    customDescription: string | undefined;
+    description: string | undefined;
+    name: string;
+  }>;
 }
 
 interface searchBase {

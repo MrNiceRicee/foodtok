@@ -37,6 +37,7 @@ const RecipeCard = ({ recipe }: { recipe: recipe }) => {
         <section className="container flex flex-col prose dark:prose-invert">
           <h3
             className={ctl(`
+            font-black
               uppercase
               text-xl
               tracking-wide
@@ -45,7 +46,7 @@ const RecipeCard = ({ recipe }: { recipe: recipe }) => {
             {recipe.name}
           </h3>
           <p className="font-light">
-            <strong className="font-black">{`${recipe.User.name} `}</strong>
+            <strong className="font-normal">{`${recipe.User.displayName || recipe.User.name} `}</strong>
             {recipe.description}
           </p>
         </section>
