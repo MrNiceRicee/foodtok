@@ -19,6 +19,8 @@ const Thumbnail = ({
   recipe?: recipe;
   tiktokData?: tiktok;
 }) => {
+  console.log('recipe', recipe);
+  console.log('tiktokData', tiktokData);
   return (
     <header
       className={ctl(`
@@ -30,7 +32,7 @@ const Thumbnail = ({
         overflow-hidden
       `)}
     >
-      <div className="absolute inset-0 h-10 z-30 flex m-3">
+      <div className="absolute inset-0 h-10 z-30 flex m-3 pointer-events-none">
         <h1
           className={ctl(`
           font-black
@@ -47,7 +49,9 @@ const Thumbnail = ({
           {recipe?.name}
         </h1>
       </div>
-      <Image src={tiktokData?.thumbnail_url || ''} error={<DefaultUrl />} />
+      <a href={recipe?.url || undefined}>
+        <Image src={tiktokData?.thumbnail_url || ''} error={<DefaultUrl />} />
+      </a>
     </header>
   );
 };
