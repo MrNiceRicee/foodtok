@@ -1,11 +1,15 @@
 import supabase from '@apis/supabase';
+import { getUser } from '@apis/user';
 import Button from '@components/Button';
 import useSession from '@hooks/useSession';
+import EditForm from './EditForm';
 
-import AccountLoginRegister from './landing/AccountLoginRegister';
+import AccountLoginRegister from './LoginRegister/AccountLoginRegister';
 
 const Account = () => {
   const session = useSession();
+  const sessionUser = session?.user;
+  const { data: user, isSuccess } = getUser(sessionUser?.id);
 
   const handleLogout = () => supabase.auth.signOut();
 
@@ -33,6 +37,7 @@ const Account = () => {
           >
             <p className="dark:text-slate-50">logout</p>
           </Button>
+          {isSuccess && <EditForm user={user} id={sessionUser?.id}/>}
         </div>
       )}
     </>

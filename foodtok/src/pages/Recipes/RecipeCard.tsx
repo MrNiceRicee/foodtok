@@ -37,7 +37,7 @@ const RecipeCard = ({ recipe }: { recipe: recipe }) => {
         <section className="container flex flex-col prose dark:prose-invert">
           <h3
             className={ctl(`
-            font-black
+              font-black
               uppercase
               text-xl
               tracking-wide

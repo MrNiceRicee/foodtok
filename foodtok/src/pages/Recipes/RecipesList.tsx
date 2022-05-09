@@ -62,7 +62,6 @@ const RecipesList = () => {
 
   useEffect(() => {
     if (inView) {
-      console.log('hey!');
       (async () => {
         await fetchNextPage();
       })();

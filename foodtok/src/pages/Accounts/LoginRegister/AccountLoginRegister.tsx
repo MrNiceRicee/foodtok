@@ -2,7 +2,7 @@ import ctl from '@netlify/classnames-template-literals';
 import { useState } from 'react';
 import Button from '@components/Button';
 import * as React from 'react';
-import Login from './Login';
+import Login from './Form';
 import supabase from '@apis/supabase';
 
 interface Model {
@@ -61,7 +61,7 @@ const AccountLoginRegister = () => {
       className={ctl(
         `
         w-full h-screen
-        flex justify-center items-center relative o
+        flex justify-center items-center relative
         overflow-hidden
         `
       )}
