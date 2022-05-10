@@ -13,7 +13,7 @@ interface recipeBase extends justRecipe {
     name: string;
     url: string | null;
     displayName: string | null;
-    id: number;
+    id: string;
   };
   Ingredients: Array<{
     IngredientId: number;

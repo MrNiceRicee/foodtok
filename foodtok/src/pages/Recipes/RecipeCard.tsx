@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 import ctl from '@netlify/classnames-template-literals';
 import Image from '@components//Image';
-import { recipe } from '../../types/recipe';
+import { recipe as recipeType } from '@foodtok-types/recipe';
 import { fetchData } from '@apis/tiktokEmbed';
 import { Link } from 'react-router-dom';
 
@@ -11,7 +11,7 @@ const DefaultUrl = () => (
 
 // ${recipeData?.thumbnail_url ? 'h-auto min-h-[18rem]' : 'h-96'}
 
-const RecipeCard = ({ recipe }: { recipe: recipe }) => {
+const RecipeCard = ({ recipe }: { recipe: recipeType }) => {
   const { data: recipeData } = useQuery(`RecipeCard_Tiktok_${recipe._id}`, () =>
     fetchData(recipe?.longUrl || '').then((item) => item)
   );

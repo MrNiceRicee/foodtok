@@ -3,10 +3,11 @@ import { useParams } from 'react-router-dom';
 import ctl from '@netlify/classnames-template-literals';
 import { getRecipe } from '@apis/recipes';
 import { fetchData } from '@apis/tiktokEmbed';
-import { recipe } from '@foodtok-types/recipe';
+import { recipe as RecipeType } from '@foodtok-types/recipe';
 import CardLoading from '@components//CardLoading';
 import Image from '@components//Image';
 import { tiktok } from '@foodtok-types/tiktok';
+import useUser from '@hooks/useUser';
 
 const DefaultUrl = () => (
   <div className="w-full h-full bg-orange-100 dark:bg-orange-200 animate-fadeIn z-40"></div>
@@ -16,11 +17,11 @@ const Thumbnail = ({
   recipe,
   tiktokData,
 }: {
-  recipe?: recipe;
+  recipe?: RecipeType;
   tiktokData?: tiktok;
 }) => {
-  console.log('recipe', recipe);
-  console.log('tiktokData', tiktokData);
+  const user = useUser();
+  console.log(user?.id);
   return (
     <header
       className={ctl(`
@@ -49,7 +50,11 @@ const Thumbnail = ({
           {recipe?.name}
         </h1>
       </div>
-      <a href={recipe?.url || undefined}>
+      <a
+        href={recipe?.url || undefined}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <Image src={tiktokData?.thumbnail_url || ''} error={<DefaultUrl />} />
       </a>
     </header>
