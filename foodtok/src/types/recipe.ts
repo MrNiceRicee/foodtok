@@ -4,7 +4,6 @@ interface justRecipe {
   description: string | null;
   url: string | null;
   longUrl: string | null;
-  UserId: string;
   createdAt: Date;
   updatedAt: Date;
 }

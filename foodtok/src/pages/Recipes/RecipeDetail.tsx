@@ -8,6 +8,7 @@ import CardLoading from '@components//CardLoading';
 import Image from '@components//Image';
 import { tiktok } from '@foodtok-types/tiktok';
 import useUser from '@hooks/useUser';
+import Button from '@components/Button';
 
 const DefaultUrl = () => (
   <div className="w-full h-full bg-orange-100 dark:bg-orange-200 animate-fadeIn z-40"></div>
@@ -20,8 +21,6 @@ const Thumbnail = ({
   recipe?: RecipeType;
   tiktokData?: tiktok;
 }) => {
-  const user = useUser();
-  console.log(user?.id);
   return (
     <header
       className={ctl(`
@@ -64,8 +63,17 @@ const Thumbnail = ({
 const RecipeDetail = () => {
   const { id } = useParams();
   const [tiktokData, setTiktokdata] = useState<tiktok | null | undefined>();
+  const [userMatch, setUserMatch] = useState(false);
 
   const { isLoading, data } = getRecipe(id ? +id : 0);
+
+  const user = useUser();
+
+  useEffect(() => {
+    if (user?.id === data?.User.id) {
+      setUserMatch(true);
+    }
+  }, [user]);
 
   useEffect(() => {
     if (data?.longUrl) {
@@ -101,6 +109,11 @@ const RecipeDetail = () => {
             {tiktokData?.title}
           </p>
         ) : null}
+        {userMatch && (
+          <div>
+            <Button type="button">Edit</Button>
+          </div>
+        )}
       </section>
     </div>
   );
