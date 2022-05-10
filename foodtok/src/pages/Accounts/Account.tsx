@@ -2,7 +2,7 @@ import supabase from '@apis/supabase';
 import { getUser } from '@apis/user';
 import Button from '@components/Button';
 import useSession from '@hooks/useSession';
-import EditForm from './EditForm';
+import EditForm from './EditAccount/EditForm';
 
 import AccountLoginRegister from './LoginRegister/AccountLoginRegister';
 
@@ -37,7 +37,8 @@ const Account = () => {
           >
             <p className="dark:text-slate-50">logout</p>
           </Button>
-          {isSuccess && <EditForm user={user} id={sessionUser?.id}/>}
+          {/* {isSuccess && <Button>edit profile</Button>} */}
+          {isSuccess && <EditForm user={user} id={sessionUser?.id} />}
         </div>
       )}
     </>

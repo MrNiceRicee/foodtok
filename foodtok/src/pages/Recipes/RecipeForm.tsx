@@ -86,6 +86,7 @@ const RecipeForm = ({
               className={ctl(`
                 pt-3 text-4xl font-bold relative
                 tracking-wider 
+                w-full
                 text-black dark:text-white
               `)}
             >

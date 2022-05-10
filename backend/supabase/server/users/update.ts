@@ -51,6 +51,8 @@ const update = async (id: string, updatePayload: updatePayload) => {
       .isString()
       .isLength(2, { operator: 'gte' })
       .isLength(26, { operator: 'lte' });
+    if (displayName.includes(' '))
+      throw new ErrorException('cannot have spaces!', 400);
     updated.push('displayName');
     query.append(SQL`"displayName"=${displayName},`);
   }
