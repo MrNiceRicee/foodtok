@@ -29,12 +29,13 @@ const create = async ({ UserId, name, description, url }: createPayload) => {
   const { value: verifyUser } = verify(UserId, { name: 'UserId' });
   if (!verifyUser) throw new ErrorException('UserId not defined', 400);
 
-  console.log(UserId);
   const foundUser = await findUser(UserId);
   if (!foundUser) throw new ErrorException('User not found', 404);
 
   let longUrl = '';
   if (url) {
+    if (!url.includes('vm.tiktok.com') || !url.includes('www.tiktok.com'))
+      throw new ErrorException('url must be from Tiktok', 400);
     longUrl = await getUrl(url);
   }
 

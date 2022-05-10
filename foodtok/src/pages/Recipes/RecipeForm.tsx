@@ -5,6 +5,7 @@ import { useState } from 'react';
 import * as React from 'react';
 import { addRecipe } from '@apis/recipes';
 import { useNavigate } from 'react-router-dom';
+import GrowIn from '@components/GrowIn';
 
 interface Model {
   name: string;
@@ -20,6 +21,7 @@ const RecipeForm = ({
   defaultValues: Model;
 }) => {
   const [model, setModel] = useState(defaultValues);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const newRecipe = addRecipe();
@@ -27,13 +29,21 @@ const RecipeForm = ({
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const { data } = await newRecipe.mutateAsync(model);
-    console.log(data);
-    navigate(`/recipes/${data.data._id}`);
+    const { data, error: err } = await newRecipe.start(model);
+    if (err) {
+      setError(err);
+    }
+    if (data) {
+      navigate(`/recipes/${data._id}`);
+    }
   };
 
   const onChange = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setModel((old) => ({ ...old, [key]: e.target.value }));
+
+  const onDismissError = () => {
+    setError(null);
+  };
 
   return (
     <div
@@ -51,6 +61,7 @@ const RecipeForm = ({
         <form
           className={ctl(`
           h-full
+          max-w-sm
           relative
           overflow-hidden rounded-md
           shadow-md shadow-slate-700/40 dark:shadow-slate-900
@@ -82,7 +93,7 @@ const RecipeForm = ({
               </span>
             </h1>
           </header>
-          <section className="px-6">
+          <section className="px-6 py-3">
             <TextInput
               name="title"
               value={model.name}
@@ -105,6 +116,20 @@ const RecipeForm = ({
               variance="outline"
             />
           </section>
+          <GrowIn height='3rem' open={!!error}>
+            <Button
+              className={ctl(`
+                rounded-none 
+              bg-red-500 dark:bg-red-700
+                outline-none border-none
+                w-full break-words
+              `)}
+              type="button"
+              onClick={onDismissError}
+            >
+              <p>{error}</p>
+            </Button>
+          </GrowIn>
           <footer
             className={ctl(`
               flex justify-between

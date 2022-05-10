@@ -1,5 +1,5 @@
-import { AxiosResponse } from 'axios';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import axios, { AxiosResponse } from 'axios';
+import { useQuery, useQueryClient } from 'react-query';
 import { search as SearchData, recipe, justRecipe } from '../types/recipe';
 import base from './base';
 
@@ -20,16 +20,42 @@ const post = async (payload: {
   base.post('/recipes', payload);
 
 // hooks
+// const addRecipe = () => {
+//   const queryClient = useQueryClient();
+
+//   return useMutation(
+//     (payload: { name: string; url: string; description: string }) =>
+//       post(payload),
+//     {
+//       onSuccess: () => queryClient.invalidateQueries(['RecipeList']),
+//     }
+//   );
+// };
 const addRecipe = () => {
   const queryClient = useQueryClient();
 
-  return useMutation(
-    (payload: { name: string; url: string; description: string }) =>
-      post(payload),
-    {
-      onSuccess: () => queryClient.invalidateQueries(['RecipeList']),
-    }
-  );
+  return {
+    start: async (payload: {
+      name: string;
+      url: string;
+      description: string;
+    }) => {
+      let error: null | string = null;
+      let data: null | justRecipe = null;
+      try {
+        const res = await post(payload);
+        data = res.data.data;
+        queryClient.invalidateQueries('RecipeList');
+      } catch (err: any) {
+        if (axios.isAxiosError(err)) {
+          error = err.response?.data || err.message;
+        } else {
+          error = err;
+        }
+      }
+      return { data, error };
+    },
+  };
 };
 
 const getRecipes = () => {

@@ -15,7 +15,7 @@ const GrowIn = ({ duration, open, height, children }: props) => (
       maxHeight: open ? height : '0px',
       visibility: !open ? 'hidden' : undefined,
       transition: `
-        max-height ${duration}ms,
+        max-height ${duration * 0.75}ms,
         overflow ${duration}ms ${duration}ms
         `,
     }}
@@ -25,7 +25,7 @@ const GrowIn = ({ duration, open, height, children }: props) => (
 );
 
 GrowIn.defaultProps = {
-  duration: 250,
+  duration: 200,
   open: false,
   height: '6em',
 };
