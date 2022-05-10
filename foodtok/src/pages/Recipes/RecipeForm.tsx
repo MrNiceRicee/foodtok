@@ -116,19 +116,21 @@ const RecipeForm = ({
               variance="outline"
             />
           </section>
-          <GrowIn height='3rem' open={!!error}>
-            <Button
-              className={ctl(`
+          <GrowIn height="3rem" open={!!error}>
+            <figure>
+              <Button
+                className={ctl(`
                 rounded-none 
               bg-red-500 dark:bg-red-700
                 outline-none border-none
                 w-full break-words
               `)}
-              type="button"
-              onClick={onDismissError}
-            >
-              <p>{error}</p>
-            </Button>
+                type="button"
+                onClick={onDismissError}
+              >
+                <p>{error}</p>
+              </Button>
+            </figure>
           </GrowIn>
           <footer
             className={ctl(`
