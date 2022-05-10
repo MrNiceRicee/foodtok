@@ -10,8 +10,8 @@ CREATE TABLE "Users"(
 );
 CREATE TABLE "Recipes"(
   _id INT GENERATED ALWAYS AS IDENTITY,
-  "name" VARCHAR(240) NOT NULL,
-  "description" VARCHAR(240),
+  "name" VARCHAR(26) NOT NULL,
+  "description" VARCHAR(20),
   "url" TEXT,
   "longUrl" TEXT,
   "UserId" UUID,

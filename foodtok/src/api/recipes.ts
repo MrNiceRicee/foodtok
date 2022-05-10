@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { useQuery, useQueryClient } from 'react-query';
 import { search as SearchData, recipe, justRecipe } from '../types/recipe';
 import base from './base';
@@ -20,17 +20,6 @@ const post = async (payload: {
   base.post('/recipes', payload);
 
 // hooks
-// const addRecipe = () => {
-//   const queryClient = useQueryClient();
-
-//   return useMutation(
-//     (payload: { name: string; url: string; description: string }) =>
-//       post(payload),
-//     {
-//       onSuccess: () => queryClient.invalidateQueries(['RecipeList']),
-//     }
-//   );
-// };
 const addRecipe = () => {
   const queryClient = useQueryClient();
 
@@ -46,11 +35,12 @@ const addRecipe = () => {
         const res = await post(payload);
         data = res.data.data;
         queryClient.invalidateQueries('RecipeList');
-      } catch (err: any) {
-        if (axios.isAxiosError(err)) {
-          error = err.response?.data || err.message;
+      } catch (err) {
+        const catchError = err as Error | AxiosError;
+        if (axios.isAxiosError(catchError)) {
+          error = catchError.response?.data || catchError.message;
         } else {
-          error = err;
+          error = catchError.message;
         }
       }
       return { data, error };

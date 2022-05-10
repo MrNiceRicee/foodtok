@@ -10,7 +10,7 @@ interface updatePayload {
   displayName: string;
 }
 
-type ReturnUser = Omit<Users, "_id">
+type ReturnUser = Omit<Users, '_id'>;
 
 const findUser = async (
   id: string
@@ -47,6 +47,10 @@ const update = async (id: string, updatePayload: updatePayload) => {
     query.append(SQL`"url"=${url},`);
   }
   if (displayName) {
+    verify(displayName, { name: 'display name' })
+      .isString()
+      .isLength(2, { operator: 'gte' })
+      .isLength(26, { operator: 'lte' });
     updated.push('displayName');
     query.append(SQL`"displayName"=${displayName},`);
   }
