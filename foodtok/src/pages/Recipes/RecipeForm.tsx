@@ -45,6 +45,11 @@ const RecipeForm = ({
     setError(null);
   };
 
+  const onCancel = () => {
+    setModel({ name: '', url: '', description: '' });
+    onDismissError();
+  };
+
   return (
     <div
       className={ctl(`
@@ -95,7 +100,7 @@ const RecipeForm = ({
           </header>
           <section className="px-6 py-3">
             <TextInput
-              name="name"
+              name="title"
               value={model.name}
               onChange={onChange('name')}
               divClass="scale-0 animate-grow"
@@ -139,7 +144,11 @@ const RecipeForm = ({
               rounded-b-lg
             `)}
           >
-            <Button className="mx-2 prose-p:text-yellow-400" type="reset">
+            <Button
+              className="mx-2 prose-p:text-yellow-400"
+              type="reset"
+              onClick={onCancel}
+            >
               cancel
             </Button>
             <Button className="mx-2" type="submit">
