@@ -42,7 +42,7 @@ const search = async (searchPayload: searchPayload) => {
         'name', "User"."name",
         'url', "User"."url",
         'displayName', "User"."displayName",
-        'UserId', "User"."id"
+        'id', "User"."_id"
       ) as "User",
       (SELECT json_agg(x) FROM
         (

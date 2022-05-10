@@ -1,6 +1,5 @@
 CREATE TABLE "Users"(
   _id UUID NOT NULL,
-  "id" INT GENERATED,
   "name" VARCHAR(26) UNIQUE NOT NULL ,
   "displayName" VARCHAR(26),
   "url" TEXT,
