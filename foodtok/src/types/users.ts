@@ -1,4 +1,5 @@
 interface Users {
+  id: number;
   name: string;
   url: string;
   displayName: string;

@@ -1,6 +1,7 @@
 CREATE TABLE "Users"(
   _id UUID NOT NULL,
-  "name" VARCHAR(26) NOT NULL,
+  "id" INT GENERATED,
+  "name" VARCHAR(26) UNIQUE NOT NULL ,
   "displayName" VARCHAR(26),
   "url" TEXT,
   "createdAt" TIMESTAMP NOT NULL DEFAULT NOW(),
@@ -8,6 +9,8 @@ CREATE TABLE "Users"(
   CONSTRAINT "Users_AuthID_fk" FOREIGN KEY ("_id") REFERENCES auth.users(id) ON DELETE CASCADE,
   PRIMARY KEY (_id)
 );
+ALTER TABLE public."Users" ADD CONSTRAINT "unique_user_name" UNIQUE ("name");
+
 CREATE TABLE "Recipes"(
   _id INT GENERATED ALWAYS AS IDENTITY,
   "name" VARCHAR(26) NOT NULL,

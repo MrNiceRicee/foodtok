@@ -12,7 +12,9 @@ const one = async (id: number) => {
     a."longUrl",
     json_build_object(
         'name', "User"."name",
-        'url', "User"."url"
+        'url', "User"."url",
+        'displayName', "User"."displayName",
+        'UserId', "User"."id"
     ) as "User",
     (SELECT json_agg(x) FROM
         (

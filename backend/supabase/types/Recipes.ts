@@ -10,7 +10,9 @@ interface Recipes {
 
 interface JoinedRecipe extends Recipes {
   User: {
+    UserId: number;
     name: string;
+    displayName: string;
     url: string;
   };
   Ingredients: {
