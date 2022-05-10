@@ -55,7 +55,7 @@ const TextInput = ({
         />
         <label
           className={ctl(`
-            prose absolute top-1/4 -z-1 origin-top
+            prose absolute top-1/2 -translate-y-1/2 -z-1 origin-top
           `)}
           htmlFor={name}
         >

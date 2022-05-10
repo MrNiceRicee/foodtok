@@ -95,7 +95,7 @@ const RecipeForm = ({
           </header>
           <section className="px-6 py-3">
             <TextInput
-              name="title"
+              name="name"
               value={model.name}
               onChange={onChange('name')}
               divClass="scale-0 animate-grow"
