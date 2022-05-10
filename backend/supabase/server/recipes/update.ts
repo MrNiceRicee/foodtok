@@ -7,7 +7,6 @@ import { getUrl } from './util';
 interface updatePayload {
   name: string;
   description: string;
-  url: string;
 }
 
 const findRecipe = async (
@@ -24,8 +23,8 @@ const findRecipe = async (
 
 const update = async (id: number, updatePayload: updatePayload) => {
   verify(id, { name: 'id' }).isNumber();
-  const { name, description, url } = updatePayload;
-  if (!name && !description && !url)
+  const { name, description } = updatePayload;
+  if (!name && !description)
     throw new ErrorException('missing upload payload', 400);
 
   const foundRecipe = await findRecipe(id);
@@ -37,19 +36,20 @@ const update = async (id: number, updatePayload: updatePayload) => {
     SET
   `;
   if (name) {
+    verify(name, { name: 'name' })
+      .isString()
+      .isLength(2, { operator: 'gte' })
+      .isLength(26, { operator: 'lte' });
+    if (name.includes(' '))
+      throw new ErrorException('cannot have spaces!', 400);
     updated.push('name');
     query.append(SQL`"name"=${name},`);
   }
   if (description) {
-    updated.push('description');
+    verify(name, { name: 'description' })
+      .isString()
+      .isLength(240, { operator: 'lte' });
     query.append(SQL`"description"=${description},`);
-  }
-  if (url) {
-    updated.push('url');
-    query.append(SQL`"url"=${url},`);
-    const longUrl = await getUrl(url);
-    updated.push('longUrl');
-    query.append(SQL`"longUrl"=${longUrl},`);
   }
   query.append(SQL`
     "updatedAt"=NOW()
