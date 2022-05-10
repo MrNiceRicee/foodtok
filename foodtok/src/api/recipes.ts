@@ -12,6 +12,13 @@ const search = async (params?: object): Promise<AxiosResponse<SearchData>> =>
 const one = async (id: number): Promise<AxiosResponse<{ data: recipe }>> =>
   base.get(`/recipes/${id}`);
 
+const userRecipe = async (params?: {
+  UserId?: string;
+  limit?: number;
+  cursor?: string;
+}): Promise<AxiosResponse<SearchData>> =>
+  base.get(`/recipes/user/${params?.UserId}`, { params });
+
 const post = async (payload: {
   name: string;
   url: string;
@@ -65,4 +72,4 @@ const getRecipe = (id: number) => {
   });
 };
 
-export { getRecipes, getRecipe, search, addRecipe };
+export { getRecipes, getRecipe, search, addRecipe, userRecipe };

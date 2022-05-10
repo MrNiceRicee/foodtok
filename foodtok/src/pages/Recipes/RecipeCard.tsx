@@ -20,7 +20,7 @@ const RecipeCard = ({ recipe }: { recipe: recipeType }) => {
     <div>
       <Link
         className=" border-orange-200 py-3 no-underline"
-        to={`${recipe._id}`}
+        to={`/recipes/${recipe._id}`}
       >
         <header
           className={ctl(`

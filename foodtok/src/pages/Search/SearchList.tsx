@@ -3,14 +3,13 @@ import { Link } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import ctl from '@netlify/classnames-template-literals';
 import { useInView } from 'react-intersection-observer';
-import { userRecipe } from '@apis/recipes';
+import { search } from '@apis/recipes';
 import ErrorIllustration from '@components/ErrorIllustration';
 import OnError from '@components/onError';
 import LoadingBar from '@components/LoadingBar';
 import { useInfiniteQuery } from 'react-query';
 import * as React from 'react';
-import useUser from '@hooks/useUser';
-const RecipeCard = lazy(() => import('./RecipeCard'));
+const RecipeCard = lazy(() => import('@pages/Recipes/RecipeCard'));
 
 const ButtonLink = () => (
   <Link
@@ -38,7 +37,6 @@ const ButtonLink = () => (
 
 const RecipesList = () => {
   const { ref, inView } = useInView();
-  const user = useUser();
   const {
     isError,
     data,
@@ -47,12 +45,12 @@ const RecipesList = () => {
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery(
-    ['RecipeList'],
+    ['SearchList'],
     async ({ pageParam }) => {
-      return userRecipe({
+      return search({
         limit: 25,
         cursor: pageParam,
-        UserId: user?.id,
+        filter: null,
       }).then((item) => item.data);
     },
     {

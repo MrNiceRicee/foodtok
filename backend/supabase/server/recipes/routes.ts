@@ -5,6 +5,7 @@ import * as controller from './controller';
 const routes = Router();
 
 routes.post('/', validateJWT, controller.create);
+routes.get('/user/:id', controller.userRecipe);
 routes.get('/:id', controller.one);
 routes.get('/', validateJWT, controller.search);
 routes.put('/:id', controller.update);

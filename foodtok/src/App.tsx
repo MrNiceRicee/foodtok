@@ -11,6 +11,7 @@ const RecipeDetail = lazy(() => import('@pages/Recipes/RecipeDetail'));
 import Account from '@pages/Accounts/Account';
 import watchSession from '@hooks/watchSession';
 import Unauthorized from '@pages/Unauthorized/Unauthorized';
+import Search from '@pages/Search/Search';
 
 const App = () => {
   watchSession();
@@ -43,10 +44,13 @@ const App = () => {
             path="create"
             element={
               <Suspense fallback={<LoadingBar />}>
-                <RecipeForm header='create recipe' />
+                <RecipeForm header="create recipe" />
               </Suspense>
             }
           />
+        </Route>
+        <Route path="search">
+          <Route index element={<Search />} />
         </Route>
         <Route path="unauthorized">
           <Route index element={<Unauthorized />} />
