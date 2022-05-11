@@ -32,6 +32,7 @@ const create = async ({ UserId, name, description, url }: createPayload) => {
   const foundUser = await findUser(UserId);
   if (!foundUser) throw new ErrorException('User not found', 404);
 
+  const acceptedName = name.trim();
   let longUrl = '';
   if (url) {
     if (
@@ -52,7 +53,7 @@ const create = async ({ UserId, name, description, url }: createPayload) => {
       "longUrl"
       )
     VALUES(
-      ${name},
+      ${acceptedName},
       ${description},
       ${url},
       ${UserId},

@@ -3,7 +3,7 @@ import ctl from '@netlify/classnames-template-literals';
 import Image from '@components//Image';
 import { recipe as recipeType } from '@foodtok-types/recipe';
 import { fetchData } from '@apis/tiktokEmbed';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -14,21 +14,24 @@ const DefaultUrl = () => (
 // ${recipeData?.thumbnail_url ? 'h-auto min-h-[18rem]' : 'h-96'}
 
 const RecipeCard = ({ recipe }: { recipe: recipeType }) => {
+  const { pathname } = useLocation();
   const { data: recipeData } = useQuery(`RecipeCard_Tiktok_${recipe._id}`, () =>
     fetchData(recipe?.longUrl || '').then((item) => item)
   );
 
   return (
     <div className="relative">
-      <Link
-        to="/recipes/edit/"
-        className="absolute z-10 inset-0  h-fit w-fit p-2"
-      >
-        <FontAwesomeIcon
-          className="text-slate-100 drop-shadow-md shadow-slate-800"
-          icon={faPen}
-        />
-      </Link>
+      {pathname === '/recipes' && (
+        <Link
+          to="/recipes/edit/"
+          className="absolute z-10 inset-0  h-fit w-fit p-2"
+        >
+          <FontAwesomeIcon
+            className="text-slate-100 drop-shadow-md shadow-slate-800"
+            icon={faPen}
+          />
+        </Link>
+      )}
       <Link
         className=" border-orange-200 py-3 no-underline"
         to={`/recipes/${recipe._id}`}

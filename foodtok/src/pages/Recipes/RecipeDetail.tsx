@@ -10,8 +10,6 @@ import { tiktok } from '@foodtok-types/tiktok';
 import useUser from '@hooks/useUser';
 import Button from '@components/Button';
 import { useQuery } from 'react-query';
-import { faPen } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const DefaultUrl = () => (
   <div className="w-full h-full bg-orange-100 dark:bg-orange-200 animate-fadeIn z-40"></div>
