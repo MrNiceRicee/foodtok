@@ -8,6 +8,7 @@ import {
   faMagnifyingGlass,
   faAngleDoubleLeft,
 } from '@fortawesome/free-solid-svg-icons';
+import { useQueryClient } from 'react-query';
 
 const anchorStyle = (state: boolean, open: boolean, bar = true) =>
   ctl(`
@@ -54,6 +55,7 @@ const anchorStyle = (state: boolean, open: boolean, bar = true) =>
 const NavigationBar = () => {
   const location = useLocation();
   const [open, setOpen] = useState(false);
+  const queryClient = useQueryClient();
 
   const [active, setActive] = useState({
     account: false,
@@ -69,15 +71,16 @@ const NavigationBar = () => {
     });
   }, [location]);
 
-  const handleActive = (state: 'account' | 'recipes' | 'search'): undefined => {
-    const newState = {
-      account: false,
-      recipes: false,
-      search: false,
-    };
-    newState[state] = true;
-    setActive(newState);
-    return;
+  const handleActive = (state: 'account' | 'recipes' | 'search') => {
+    setActive({
+      account: state === 'account',
+      recipes: state === 'recipes',
+      search: state === 'search',
+    });
+    if (location.pathname.includes('recipes'))
+      queryClient.invalidateQueries(['RecipeList']);
+    if (location.pathname.includes('search'))
+      queryClient.invalidateQueries(['SearchList']);
   };
 
   return (
