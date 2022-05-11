@@ -66,6 +66,8 @@ const RecipeDetail = () => {
   const [tiktokData, setTiktokdata] = useState<tiktok | null | undefined>();
   const [userMatch, setUserMatch] = useState(false);
 
+  const user = useUser();
+
   const { isLoading, data } = getRecipe(id ? +id : 0);
   useQuery(
     `RecipeCard_Tiktok_${data?._id}`,
@@ -73,13 +75,11 @@ const RecipeDetail = () => {
       data && fetchData(data.longUrl || '').then((item) => setTiktokdata(item))
   );
 
-  const user = useUser();
-
   useEffect(() => {
     if (user?.id === data?.User.id) {
       setUserMatch(true);
     }
-  }, [user]);
+  }, [user, data, id, setUserMatch]);
 
   if (isLoading) return <CardLoading rKey="Loading_Recipe_Detail" />;
 
