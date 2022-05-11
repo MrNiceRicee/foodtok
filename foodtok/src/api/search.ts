@@ -20,7 +20,6 @@ export const searchQuery = ({
       if (description) {
         payload.description = description;
       }
-      console.log(name);
       return search({
         limit: 25,
         cursor: pageParam,

@@ -77,9 +77,9 @@ const NavigationBar = () => {
       recipes: state === 'recipes',
       search: state === 'search',
     });
-    if (location.pathname.includes('recipes'))
+    if (location.pathname === '/recipes')
       queryClient.invalidateQueries(['RecipeList']);
-    if (location.pathname.includes('search'))
+    if (location.pathname === '/search')
       queryClient.invalidateQueries(['SearchList']);
   };
 
