@@ -47,7 +47,7 @@ const RecipesList = () => {
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery(
-    ['RecipeList'],
+    ['RecipeList', `${user?.id}`],
     async ({ pageParam }) => {
       return userRecipe({
         limit: 25,

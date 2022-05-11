@@ -4,6 +4,8 @@ import Image from '@components//Image';
 import { recipe as recipeType } from '@foodtok-types/recipe';
 import { fetchData } from '@apis/tiktokEmbed';
 import { Link } from 'react-router-dom';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const DefaultUrl = () => (
   <div className="w-full h-full bg-orange-100 dark:bg-orange-200 animate-fadeIn"></div>
@@ -17,7 +19,16 @@ const RecipeCard = ({ recipe }: { recipe: recipeType }) => {
   );
 
   return (
-    <div>
+    <div className="relative">
+      <Link
+        to="/recipes/edit/"
+        className="absolute z-10 inset-0  h-fit w-fit p-2"
+      >
+        <FontAwesomeIcon
+          className="text-slate-100 drop-shadow-md shadow-slate-800"
+          icon={faPen}
+        />
+      </Link>
       <Link
         className=" border-orange-200 py-3 no-underline"
         to={`/recipes/${recipe._id}`}

@@ -1,3 +1,4 @@
+import useUser from '@hooks/useUser';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { search as SearchData, recipe, justRecipe } from '../types/recipe';
@@ -33,6 +34,7 @@ type errorFnType = (message: string) => void;
 
 const addRecipe = (errorFn: errorFnType) => {
   const queryClient = useQueryClient();
+  const user = useUser();
   return useMutation(
     (payload: { name: string; url: string; description: string }) =>
       post(payload).then((data) => data.data.data),
@@ -41,6 +43,7 @@ const addRecipe = (errorFn: errorFnType) => {
         return queryClient.invalidateQueries([
           'RecipeList',
           `Recipe_${data._id}`,
+          `${user?.id}`,
         ]);
       },
       onError: (err) => {
@@ -63,7 +66,8 @@ const addRecipe = (errorFn: errorFnType) => {
 };
 
 const getRecipes = () => {
-  return useQuery(['RecipeList'], () => search(), {
+  const user = useUser();
+  return useQuery(['RecipeList', `${user?.id}`], () => search(), {
     retry: false,
     select: (data) => data.data,
   });
@@ -74,7 +78,8 @@ const getRecipes = () => {
 // }
 
 const getRecipe = (id: number) => {
-  return useQuery([`Recipe_${id}`], () => one(id), {
+  const user = useUser();
+  return useQuery([`Recipe_${id}`, `${user?.id}`], () => one(id), {
     select: (data) => data.data.data,
   });
 };

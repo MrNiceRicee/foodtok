@@ -1,3 +1,4 @@
+import useUser from '@hooks/useUser';
 import { useInfiniteQuery } from 'react-query';
 import { search } from './recipes';
 
@@ -7,9 +8,10 @@ export const searchQuery = ({
 }: {
   name?: string;
   description?: string;
-}) =>
-  useInfiniteQuery(
-    ['SearchList'],
+}) => {
+  const user = useUser();
+  return useInfiniteQuery(
+    ['SearchList', `${user?.id}`],
     async ({ pageParam }) => {
       const payload: { name?: string; description?: string } = {};
       if (name) {
@@ -30,3 +32,4 @@ export const searchQuery = ({
         lastPage.hasNextPage ? lastPage.cursor : undefined,
     }
   );
+};
