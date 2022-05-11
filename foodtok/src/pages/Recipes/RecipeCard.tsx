@@ -45,9 +45,15 @@ const RecipeCard = ({ recipe }: { recipe: recipeType }) => {
           >
             {recipe.name}
           </h3>
-          <p className="font-light">
-            <strong className="font-normal">{`${recipe.User.displayName || recipe.User.name} `}</strong>
-            {recipe.description}
+          <p className="font-light h-14 truncate whitespace-normal">
+            <strong className="font-normal">{`${
+              recipe.User.displayName || recipe.User.name
+            } `}</strong>
+            <span className="">
+              {recipe.description && recipe.description.length > 40
+                ? `${recipe.description?.slice(0, 40)}...`
+                : recipe.description}
+            </span>
           </p>
         </section>
       </Link>
