@@ -92,3 +92,13 @@ CREATE TRIGGER ingredients_name_lower_trigger
     ON public."Ingredients"
     FOR EACH ROW
     EXECUTE FUNCTION public.name_lower();
+
+CREATE TRIGGER create_profile_on_signup
+  AFTER INSERT ON auth.users
+  FOR EACH ROW
+  EXECUTE PROCEDURE create_profile_for_new_user();
+
+CREATE TRIGGER delete_profile_for_user
+  BEFORE DELETE ON auth.users
+  FOR EACH ROW
+  EXECUTE PROCEDURE delete_profile_for_user();
