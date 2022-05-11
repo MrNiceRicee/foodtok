@@ -85,7 +85,7 @@ const RecipesList = () => {
       {data?.pages && data.pages[0].length ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
           {data.pages.map((page, index) => (
-            <React.Fragment key={`${index}`}>
+            <React.Fragment key={`${page.cursor}_${index}`}>
               {page.data.map((item) => (
                 <React.Suspense key={`${item._id}`} fallback={<LoadingBar />}>
                   <RecipeCard recipe={item} />

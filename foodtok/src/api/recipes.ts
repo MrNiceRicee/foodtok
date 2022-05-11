@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { search as SearchData, recipe, justRecipe } from '../types/recipe';
 import base from './base';
 
@@ -27,32 +27,39 @@ const post = async (payload: {
   base.post('/recipes', payload);
 
 // hooks
-const addRecipe = () => {
-  const queryClient = useQueryClient();
 
-  return {
-    start: async (payload: {
-      name: string;
-      url: string;
-      description: string;
-    }) => {
-      let error: null | string = null;
-      let data: null | justRecipe = null;
-      try {
-        const res = await post(payload);
-        data = res.data.data;
-        queryClient.invalidateQueries('RecipeList');
-      } catch (err) {
+// eslint-disable-next-line no-unused-vars
+type errorFnType = (message: string) => void;
+
+const addRecipe = (errorFn: errorFnType) => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (payload: { name: string; url: string; description: string }) =>
+      post(payload).then((data) => data.data.data),
+    {
+      onSuccess: (data) => {
+        return queryClient.invalidateQueries([
+          'RecipeList',
+          `Recipe_${data._id}`,
+        ]);
+      },
+      onError: (err) => {
         const catchError = err as Error | AxiosError;
         if (axios.isAxiosError(catchError)) {
-          error = catchError.response?.data || catchError.message;
+          if (
+            typeof catchError.response?.data === 'string' &&
+            catchError.response.data.includes('duplicate')
+          ) {
+            errorFn('title is already taken');
+          } else {
+            errorFn(catchError.response?.data || catchError.message);
+          }
         } else {
-          error = catchError.message;
+          errorFn(catchError.message);
         }
-      }
-      return { data, error };
-    },
-  };
+      },
+    }
+  );
 };
 
 const getRecipes = () => {

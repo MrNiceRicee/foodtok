@@ -24,15 +24,13 @@ const RecipeForm = ({
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const newRecipe = addRecipe();
+  const newRecipe = addRecipe(setError);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const { data, error: err } = await newRecipe.start(model);
-    if (err) {
-      setError(err);
-    }
+    const data = await newRecipe.mutateAsync(model);
+
     if (data) {
       navigate(`/recipes/${data._id}`);
     }

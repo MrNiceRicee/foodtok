@@ -35,8 +35,8 @@ const create = async ({ UserId, name, description, url }: createPayload) => {
   let longUrl = '';
   if (url) {
     if (
-      !url.includes('vm.tiktok.com') ||
-      !url.includes('www.tiktok.com') ||
+      !url.includes('vm.tiktok.com') &&
+      !url.includes('www.tiktok.com') &&
       !url.includes('tiktok')
     )
       throw new ErrorException('url must be from Tiktok', 400);

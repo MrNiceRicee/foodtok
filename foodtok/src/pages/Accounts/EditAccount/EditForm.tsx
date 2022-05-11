@@ -89,7 +89,7 @@ const EditForm = ({ user, id }: { user?: Users; id?: string }) => {
             Edit Account
           </button>
         </header>
-        <GrowIn open={editing}>
+        <GrowIn open={editing} height='20rem'>
           <section className="px-6 py-3">
             <TextInput
               name="name"

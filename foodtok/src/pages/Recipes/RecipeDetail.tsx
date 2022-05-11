@@ -9,6 +9,7 @@ import Image from '@components//Image';
 import { tiktok } from '@foodtok-types/tiktok';
 import useUser from '@hooks/useUser';
 import Button from '@components/Button';
+import { useQuery } from 'react-query';
 
 const DefaultUrl = () => (
   <div className="w-full h-full bg-orange-100 dark:bg-orange-200 animate-fadeIn z-40"></div>
@@ -66,26 +67,19 @@ const RecipeDetail = () => {
   const [userMatch, setUserMatch] = useState(false);
 
   const { isLoading, data } = getRecipe(id ? +id : 0);
+  useQuery(
+    `RecipeCard_Tiktok_${data?._id}`,
+    () =>
+      data && fetchData(data.longUrl || '').then((item) => setTiktokdata(item))
+  );
 
   const user = useUser();
 
   useEffect(() => {
-    console.log(user?.id);
-    console.log(data?.User.id);
     if (user?.id === data?.User.id) {
       setUserMatch(true);
     }
   }, [user]);
-
-  useEffect(() => {
-    if (data?.longUrl) {
-      fetchData(data?.longUrl)
-        .then((item) => {
-          setTiktokdata(item);
-        })
-        .catch();
-    }
-  }, [id, data, setTiktokdata]);
 
   if (isLoading) return <CardLoading rKey="Loading_Recipe_Detail" />;
 

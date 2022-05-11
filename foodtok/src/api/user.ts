@@ -22,6 +22,8 @@ export const updateUser = (id?: string) => {
   const queryClient = useQueryClient();
 
   return useMutation((updatePayload: UpdatePayload) => update(updatePayload), {
-    onSuccess: () => queryClient.invalidateQueries([`User_${id}`]),
+    onSuccess: () => {
+      return queryClient.invalidateQueries([`User_${id}`, 'RecipeList']);
+    },
   });
 };
