@@ -41,6 +41,14 @@ const App = () => {
             }
           />
           <Route
+            path=":id/:action"
+            element={
+              <Suspense fallback={<CardLoading rKey="RecipeDetail" />}>
+                <div className='dark:text-slate-100'>place holder for me to add recipe edit</div>
+              </Suspense>
+            }
+          />
+          <Route
             path="create"
             element={
               <Suspense fallback={<LoadingBar />}>

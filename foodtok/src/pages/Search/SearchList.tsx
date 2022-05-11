@@ -67,7 +67,9 @@ const RecipesList = () => {
           ))}
         </div>
       ) : (
-        <ErrorIllustration errorMsg="oops! found nothing" />
+        <figure className="prose dark:text-slate-100">
+          <p>{'No Results :('}</p>
+        </figure>
       )}
       <button
         className="relative w-full h-20"

@@ -23,7 +23,7 @@ const RecipeCard = ({ recipe }: { recipe: recipeType }) => {
     <div className="relative">
       {pathname === '/recipes' && (
         <Link
-          to="/recipes/edit/"
+          to={`/recipes/${recipe._id}/edit`}
           className="absolute z-10 inset-0  h-fit w-fit p-2"
         >
           <FontAwesomeIcon
