@@ -1,14 +1,14 @@
 CREATE TABLE "Users"(
   _id UUID NOT NULL,
-  "name" VARCHAR(26) UNIQUE NOT NULL ,
+  "name" VARCHAR(26) UNIQUE NOT NULL,
   "displayName" VARCHAR(26),
   "url" TEXT,
   "createdAt" TIMESTAMP NOT NULL DEFAULT NOW(),
   "updatedAt" TIMESTAMP NOT NULL DEFAULT NOW(),
   CONSTRAINT "Users_AuthID_fk" FOREIGN KEY ("_id") REFERENCES auth.users(id) ON DELETE CASCADE,
+  UNIQUE("name"),
   PRIMARY KEY (_id)
 );
-ALTER TABLE public."Users" ADD CONSTRAINT "unique_user_name" UNIQUE ("name");
 
 CREATE TABLE "Recipes"(
   _id INT GENERATED ALWAYS AS IDENTITY,
@@ -20,12 +20,14 @@ CREATE TABLE "Recipes"(
   "createdAt" TIMESTAMP NOT NULL DEFAULT NOW(),
   "updatedAt" TIMESTAMP NOT NULL DEFAULT NOW(),
   CONSTRAINT "Recipes_UserId_fk" FOREIGN KEY ("UserId") REFERENCES "Users"(_id) ON UPDATE CASCADE ON DELETE CASCADE,
+  UNIQUE("UserId", "name"),
   PRIMARY KEY (_id)
 );
 CREATE TABLE "Categories"(
   _id INT GENERATED ALWAYS AS IDENTITY,
   "name" VARCHAR(16) NOT NULL,
   "createdAt" TIMESTAMP NOT NULL DEFAULT NOW(),
+  UNIQUE("name"),
   PRIMARY KEY (_id)
 );
 CREATE TABLE "Ingredients"(
@@ -41,7 +43,6 @@ CREATE TABLE "Recipes_Categories"(
   "RecipeId" INT,
   "CategoryId" INT,
   "UserId" UUID,
-  "name" varchar(16),
   "description" varchar(240),
   CONSTRAINT "Recipes_Categories_RecipeId_fk" FOREIGN KEY ("RecipeId") REFERENCES "Recipes"(_id) ON UPDATE CASCADE ON DELETE CASCADE,
   CONSTRAINT "Recipes_Categories_CategoryId_fk" FOREIGN KEY ("CategoryId") REFERENCES "Categories"(_id) ON UPDATE CASCADE ON DELETE CASCADE,

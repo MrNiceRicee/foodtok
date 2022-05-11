@@ -86,13 +86,7 @@ const EditForm = ({ user, id }: { user?: Users; id?: string }) => {
             type="button"
             onClick={toggleEditing}
           >
-            <span>Edit Account</span>
-            <span className="absolute inset-0 top-1/2 -translate-y-[55%] left-[.1rem] text-transparent -z-1 text-shadow-xs shadow-pink-500">
-              Edit Account
-            </span>
-            <span className="absolute inset-0 top-1/2 -translate-y-[60%] -left-[.2rem] text-transparent -z-1 text-shadow-xs shadow-cyan-500">
-              Edit Account
-            </span>
+            Edit Account
           </button>
         </header>
         <GrowIn open={editing}>

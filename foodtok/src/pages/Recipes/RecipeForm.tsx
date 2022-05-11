@@ -90,13 +90,7 @@ const RecipeForm = ({
                 text-black dark:text-white
               `)}
             >
-              <span>{header}</span>
-              <span className="absolute inset-0 top-1/2 -translate-y-[55%] left-[.1rem] text-transparent -z-1 text-shadow-xs shadow-pink-500">
-                {header}
-              </span>
-              <span className="absolute inset-0 top-1/2 -translate-y-[60%] -left-[.2rem] text-transparent -z-1 text-shadow-xs shadow-cyan-500">
-                {header}
-              </span>
+              {header}
             </h1>
           </header>
           <section className="px-6 py-3">

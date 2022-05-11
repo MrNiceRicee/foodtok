@@ -70,6 +70,8 @@ const RecipeDetail = () => {
   const user = useUser();
 
   useEffect(() => {
+    console.log(user?.id);
+    console.log(data?.User.id);
     if (user?.id === data?.User.id) {
       setUserMatch(true);
     }
