@@ -32,7 +32,7 @@ const ButtonLink = () => (
     `)}
     to="create"
   >
-    Add new Recipe!ssss
+    Add new Recipe!
   </Link>
 );
 

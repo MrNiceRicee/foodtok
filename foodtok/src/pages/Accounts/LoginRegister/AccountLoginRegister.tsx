@@ -21,25 +21,23 @@ const AccountLoginRegister = () => {
 
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { user, error } =
-      mode === 'login'
-        ? await supabase.auth.signIn({
-            email: model.username,
-            password: model.password,
-          })
-        : await supabase.auth.signUp(
-            {
-              email: model.username,
-              password: model.password,
-            },
-            {
-              data: {
-                name: model.username,
-              },
-            }
-          );
-    console.log('error!', error);
-    console.log('user', user);
+    if (mode === 'login') {
+      return supabase.auth.signIn({
+        email: model.username,
+        password: model.password,
+      });
+    }
+    return supabase.auth.signUp(
+      {
+        email: model.username,
+        password: model.password,
+      },
+      {
+        data: {
+          name: model.username,
+        },
+      }
+    );
   };
 
   const loginRegisterState = (key: 'login' | 'register') => () => {

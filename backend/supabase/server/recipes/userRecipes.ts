@@ -16,7 +16,6 @@ const defaultOrder = '_id:ASC';
 const userRecipe = async (payload: Payload) => {
   let { UserId, limit, cursor, order = defaultOrder } = payload;
 
-  console.log('payload', payload);
   limit = getLimit(limit);
   const [field, direction, orderQuery] = getOrder(order, validOrder);
   const cursorQuery = getCursor({

@@ -14,19 +14,13 @@ const findUser = async (id: string): Promise<{ _id: string }> =>
   );
 
 const remove = async (id: string) => {
-  console.log('id', id);
   verify(id, { name: 'id' });
   const foundRecipe = await findUser(id);
 
   if (!foundRecipe) throw new ErrorException('user not found', 404);
 
-  const { error } = await supabase.auth.api.deleteUser(
-    `${foundRecipe._id}`
-  );
-  if (error) {
-    console.log('remove user error', error);
-    throw new ErrorException(error.message, error.status);
-  }
+  const { error } = await supabase.auth.api.deleteUser(`${foundRecipe._id}`);
+  if (error) throw new ErrorException(error.message, error.status);
 
   return null;
 };
