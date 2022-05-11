@@ -55,17 +55,18 @@ const RecipeCard = ({ recipe }: { recipe: recipeType }) => {
               uppercase
               text-xl
               tracking-wide
+              mb-0
             `)}
           >
             {recipe.name}
           </h3>
-          <p className="font-light h-14 truncate whitespace-normal">
+          <p className="font-light h-16 truncate whitespace-normal">
             <strong className="font-normal">{`${
               recipe.User.displayName || recipe.User.name
             } `}</strong>
             <span className="">
-              {recipe.description && recipe.description.length > 40
-                ? `${recipe.description?.slice(0, 40)}...`
+              {recipe.description && recipe.description.length > 30
+                ? `${recipe.description?.slice(0, 30)}...`
                 : recipe.description}
             </span>
           </p>

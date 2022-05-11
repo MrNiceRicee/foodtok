@@ -83,7 +83,7 @@ const RecipesList = () => {
     <>
       <ButtonLink />
       {data?.pages && data.pages[0].length ? (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
           {data.pages.map((page, index) => (
             <React.Fragment key={`${page.cursor}_${index}`}>
               {page.data.map((item) => (
