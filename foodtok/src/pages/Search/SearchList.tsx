@@ -55,7 +55,7 @@ const RecipesList = () => {
         onChange={handleFilter}
       />
       {data?.pages && data.pages[0].length ? (
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-4">
           {data.pages.map((page, index) => (
             <React.Fragment key={`${index}`}>
               {page.data.map((item) => (
@@ -79,13 +79,11 @@ const RecipesList = () => {
         disabled={!hasNextPage || isFetching}
       >
         {hasNextPage && (
-          <>
-            <div className="absolute inset-0 top-1/2 -translate-y-1/2 px-2 flex justify-center items-center">
-              <p className="text-xl font-semibold tracking-widest text-pink-500">
-                more
-              </p>
-            </div>
-          </>
+          <div className="absolute inset-0 top-1/2 -translate-y-1/2 px-2 flex justify-center items-center">
+            <p className="text-xl font-semibold tracking-widest text-pink-500">
+              more
+            </p>
+          </div>
         )}
       </button>
     </>
