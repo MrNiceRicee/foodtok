@@ -8,6 +8,7 @@ import LoadingBar from '@components/LoadingBar';
 import CardLoading from '@components/CardLoading';
 const RecipeForm = lazy(() => import('@pages/Recipes/RecipeForm'));
 const RecipeDetail = lazy(() => import('@pages/Recipes/RecipeDetail'));
+const RecipeEdit = lazy(() => import('@pages/Recipes/Edit/RecipeEditForm'));
 import Account from '@pages/Accounts/Account';
 import watchSession from '@hooks/watchSession';
 import Unauthorized from '@pages/Unauthorized/Unauthorized';
@@ -41,10 +42,10 @@ const App = () => {
             }
           />
           <Route
-            path=":id/:action"
+            path=":id/edit"
             element={
               <Suspense fallback={<CardLoading rKey="RecipeDetail" />}>
-                <div className='dark:text-slate-100'>place holder for me to add recipe edit</div>
+                <RecipeEdit />
               </Suspense>
             }
           />

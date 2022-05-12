@@ -16,8 +16,8 @@ interface recipeBase extends justRecipe {
   };
   Ingredients: Array<{
     IngredientId: number;
-    customDescription: string | undefined;
-    description: string | undefined;
+    customDescription: string | null;
+    description: string | null;
     name: string;
   }>;
 }

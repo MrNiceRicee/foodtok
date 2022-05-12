@@ -7,6 +7,7 @@ import { getUrl } from './util';
 interface updatePayload {
   name: string;
   description: string;
+  url: string;
 }
 
 const findRecipe = async (
@@ -23,12 +24,14 @@ const findRecipe = async (
 
 const update = async (id: number, updatePayload: updatePayload) => {
   verify(id, { name: 'id' }).isNumber();
-  const { name, description } = updatePayload;
-  if (!name && !description)
+  const { name, description, url } = updatePayload;
+  if (!name && !description && !url)
     throw new ErrorException('missing upload payload', 400);
 
   const foundRecipe = await findRecipe(id);
   if (!foundRecipe) throw new ErrorException('recipe not found', 404);
+  if (url && foundRecipe.url && url !== foundRecipe.url)
+    throw new ErrorException('url already set', 400);
 
   const updated = [];
   const query = SQL`
@@ -40,8 +43,6 @@ const update = async (id: number, updatePayload: updatePayload) => {
       .isString()
       .isLength(2, { operator: 'gte' })
       .isLength(26, { operator: 'lte' });
-    if (name.includes(' '))
-      throw new ErrorException('cannot have spaces!', 400);
     updated.push('name');
     query.append(SQL`"name"=${name},`);
   }
@@ -50,6 +51,16 @@ const update = async (id: number, updatePayload: updatePayload) => {
       .isString()
       .isLength(240, { operator: 'lte' });
     query.append(SQL`"description"=${description},`);
+  }
+  if (url) {
+    if (
+      !url.includes('vm.tiktok.com') &&
+      !url.includes('www.tiktok.com') &&
+      !url.includes('tiktok')
+    )
+      throw new ErrorException('url must be from Tiktok', 400);
+    const longUrl = await getUrl(url);
+    query.append(SQL`"url"=${url}, "longUrl"=${longUrl},`)
   }
   query.append(SQL`
     "updatedAt"=NOW()

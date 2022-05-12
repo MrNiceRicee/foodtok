@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ctl from '@netlify/classnames-template-literals';
 import { getRecipe } from '@apis/recipes';
 import { fetchData } from '@apis/tiktokEmbed';
@@ -9,7 +9,7 @@ import Image from '@components//Image';
 import { tiktok } from '@foodtok-types/tiktok';
 import useUser from '@hooks/useUser';
 import Button from '@components/Button';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 
 const DefaultUrl = () => (
   <div className="w-full h-full bg-orange-100 dark:bg-orange-200 animate-fadeIn z-40"></div>
@@ -63,13 +63,15 @@ const Thumbnail = ({
 
 const RecipeDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [tiktokData, setTiktokdata] = useState<tiktok | null | undefined>();
   const [userMatch, setUserMatch] = useState(false);
 
   const user = useUser();
+  const { isLoading, data, refetch } = getRecipe(id ? +id : 0);
 
-  const { isLoading, data } = getRecipe(id ? +id : 0);
-  useQuery(
+  const { refetch: tiktokRes } = useQuery(
     [`RecipeCard_Tiktok_${data?._id}`, `${user?.id}`],
     () =>
       data && fetchData(data.longUrl || '').then((item) => setTiktokdata(item))
@@ -80,6 +82,14 @@ const RecipeDetail = () => {
       setUserMatch(true);
     }
   }, [user, data, id, setUserMatch]);
+
+  const onEdit = () => navigate('edit');
+
+  const onRefresh = () => {
+    refetch();
+    tiktokRes();
+    queryClient.invalidateQueries([`Recipe_${data?._id}`, `${user?.id}`]);
+  };
 
   if (isLoading) return <CardLoading rKey="Loading_Recipe_Detail" />;
 
@@ -107,7 +117,12 @@ const RecipeDetail = () => {
         ) : null}
         {userMatch && (
           <div>
-            <Button type="button">edit recipe</Button>
+            <Button type="button" onClick={onRefresh}>
+              refresh
+            </Button>
+            <Button type="button" onClick={onEdit}>
+              edit recipe
+            </Button>
           </div>
         )}
       </section>

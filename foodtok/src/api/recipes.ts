@@ -1,7 +1,8 @@
 import useUser from '@hooks/useUser';
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { search as SearchData, recipe, justRecipe } from '../types/recipe';
+import { parseError } from './util';
 import base from './base';
 
 // Routes
@@ -27,7 +28,32 @@ const post = async (payload: {
 }): Promise<AxiosResponse<{ data: justRecipe }>> =>
   base.post('/recipes', payload);
 
+const put = async (
+  id: number | string | undefined,
+  payload: {
+    name: string | null;
+    description: string | null;
+    url: string | null;
+  }
+): Promise<AxiosResponse<{ data: justRecipe }>> =>
+  base.put(`/recipes/${id}`, payload);
+
 // hooks
+
+const getRecipes = () => {
+  const user = useUser();
+  return useQuery(['RecipeList', `${user?.id}`], () => search(), {
+    retry: false,
+    select: (data) => data.data,
+  });
+};
+
+const getRecipe = (id: number) => {
+  const user = useUser();
+  return useQuery([`Recipe_${id}`, `${user?.id}`], () => one(id), {
+    select: (data) => data.data.data,
+  });
+};
 
 // eslint-disable-next-line no-unused-vars
 type errorFnType = (message: string) => void;
@@ -44,44 +70,39 @@ const addRecipe = (errorFn: errorFnType) => {
           'RecipeList',
           `Recipe_${data._id}`,
           `${user?.id}`,
+          `RecipeCard_Tiktok_${data?._id}`,
         ]);
       },
       onError: (err) => {
-        const catchError = err as Error | AxiosError;
-        if (axios.isAxiosError(catchError)) {
-          if (
-            typeof catchError.response?.data === 'string' &&
-            catchError.response.data.includes('duplicate')
-          ) {
-            errorFn('title is already taken');
-          } else {
-            errorFn(catchError.response?.data || catchError.message);
-          }
-        } else {
-          errorFn(catchError.message);
-        }
+        errorFn(parseError(err));
       },
     }
   );
 };
 
-const getRecipes = () => {
+const updateRecipe = (
+  id: string | number | undefined,
+  errorFn: errorFnType
+) => {
+  const queryClient = useQueryClient();
   const user = useUser();
-  return useQuery(['RecipeList', `${user?.id}`], () => search(), {
-    retry: false,
-    select: (data) => data.data,
-  });
+  return useMutation(
+    (payload: { name: string; description: string; url: string }) =>
+      put(id, payload).then((data) => data.data.data),
+    {
+      onSuccess: (data) => {
+        return queryClient.invalidateQueries([
+          'RecipeList',
+          `Recipe_${data._id}`,
+          `${user?.id}`,
+          `RecipeCard_Tiktok_${data?._id}`,
+        ]);
+      },
+      onError: (err) => {
+        errorFn(parseError(err));
+      },
+    }
+  );
 };
 
-// const getInfiniteRecipes = () => {
-//   const {data, }
-// }
-
-const getRecipe = (id: number) => {
-  const user = useUser();
-  return useQuery([`Recipe_${id}`, `${user?.id}`], () => one(id), {
-    select: (data) => data.data.data,
-  });
-};
-
-export { getRecipes, getRecipe, search, addRecipe, userRecipe };
+export { getRecipes, getRecipe, search, addRecipe, updateRecipe, userRecipe };
