@@ -9,6 +9,15 @@ import TextInput from '@components/TextInput';
 import { searchQuery } from '@apis/search';
 const RecipeCard = lazy(() => import('@pages/Recipes/RecipeCard'));
 
+const Loading = ({ isLoading }: { isLoading: boolean }) => {
+  if (isLoading) return <LoadingBar />;
+  return (
+    <figure className="prose dark:text-slate-100">
+      <p>{'No Results :('}</p>
+    </figure>
+  );
+};
+
 const RecipesList = () => {
   const [filter, setFilter] = useState('');
   const { ref, inView } = useInView();
@@ -17,6 +26,7 @@ const RecipesList = () => {
     data,
     error,
     isFetching,
+    isLoading,
     fetchNextPage,
     refetch,
     hasNextPage,
@@ -67,9 +77,7 @@ const RecipesList = () => {
           ))}
         </div>
       ) : (
-        <figure className="prose dark:text-slate-100">
-          <p>{'No Results :('}</p>
-        </figure>
+        <Loading isLoading={isLoading} />
       )}
       <button
         className="relative w-full h-20"

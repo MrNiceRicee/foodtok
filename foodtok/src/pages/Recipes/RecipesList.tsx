@@ -36,6 +36,11 @@ const ButtonLink = () => (
   </Link>
 );
 
+const Loading = ({ isLoading }: { isLoading: boolean }) => {
+  if (isLoading) return <LoadingBar />;
+  return <ErrorIllustration errorMsg="oops! no recipes to display" />;
+};
+
 const RecipesList = () => {
   const { ref, inView } = useInView();
   const user = useUser();
@@ -43,6 +48,7 @@ const RecipesList = () => {
     isError,
     data,
     error,
+    isLoading,
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
@@ -95,7 +101,7 @@ const RecipesList = () => {
           ))}
         </div>
       ) : (
-        <ErrorIllustration errorMsg="oops! no recipes to display" />
+        <Loading isLoading={isLoading} />
       )}
       <button
         className="relative w-full h-20"
