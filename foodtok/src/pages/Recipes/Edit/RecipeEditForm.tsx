@@ -58,6 +58,14 @@ const RecipeEditForm = () => {
 
   const onCancel = () => {
     if (data) {
+      if (
+        model.name === data.name &&
+        model.description === data.description &&
+        model.url === data.url
+      ) {
+        // go back if it's already default
+        navigate(-1);
+      }
       setModel({
         name: data.name ?? '',
         description: data.description ?? '',
@@ -123,7 +131,9 @@ const RecipeEditForm = () => {
             <TextInput
               name="url"
               value={model.url || ''}
+              disabled={!!data?.url}
               onChange={onChange('url')}
+              inputClass={`${data?.url ? 'opacity-50' : ''}`}
               divClass="scale-0 animate-grow"
               variance="outline"
             />

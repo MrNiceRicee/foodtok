@@ -44,6 +44,13 @@ const RecipeForm = ({
   };
 
   const onCancel = () => {
+    if (
+      model.name === defaultValues.name &&
+      model.description === defaultValues.description &&
+      model.url === defaultValues.url
+    ) {
+      navigate(-1);
+    }
     setModel({ name: '', url: '', description: '' });
     onDismissError();
   };

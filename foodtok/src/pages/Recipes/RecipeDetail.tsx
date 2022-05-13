@@ -88,7 +88,11 @@ const RecipeDetail = () => {
   const onRefresh = () => {
     refetch();
     tiktokRes();
-    queryClient.invalidateQueries([`Recipe_${data?._id}`, `${user?.id}`]);
+    queryClient.invalidateQueries([
+      `Recipe_${data?._id}`,
+      `RecipeCard_Tiktok_${data?._id}`,
+      `${user?.id}`,
+    ]);
   };
 
   if (isLoading) return <CardLoading rKey="Loading_Recipe_Detail" />;

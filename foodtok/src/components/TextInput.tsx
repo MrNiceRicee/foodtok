@@ -50,7 +50,7 @@ const TextInput = ({
             ${inputClass}
           `)}
           type={type}
-          value={value}
+          value={value ?? ''}
           placeholder=" "
         />
         <label
