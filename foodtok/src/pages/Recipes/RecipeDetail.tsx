@@ -10,6 +10,7 @@ import { tiktok } from '@foodtok-types/tiktok';
 import useUser from '@hooks/useUser';
 import Button from '@components/Button';
 import { useQuery, useQueryClient } from 'react-query';
+import RecipeDetailIngredients from './RecipeDetailIngredients';
 
 const DefaultUrl = () => (
   <div className="w-full h-full bg-orange-100 dark:bg-orange-200 animate-fadeIn z-40"></div>
@@ -109,15 +110,19 @@ const RecipeDetail = () => {
           prose dark:prose-invert
         "
       >
-        <p className="font-light w-full p-2 flex flex-col">
-          <strong className="font-black">{`${data?.User.name} `}</strong>
+        <strong className="text-xl font-black">{`${data?.User.name} `}</strong>
+        <p className="font-light w-full px-2 flex flex-col">
           {data?.description}
         </p>
         {tiktokData ? (
-          <p className="font-light w-full p-2 flex flex-col">
-            <strong className="font-black">@{tiktokData?.author_name}</strong>
-            {tiktokData?.title}
-          </p>
+          <>
+            <strong className="text-xl font-black">
+              @{tiktokData?.author_name}
+            </strong>
+            <p className="font-light w-full px-2 flex flex-col mt-0">
+              {tiktokData?.title}
+            </p>
+          </>
         ) : null}
         {userMatch && (
           <div>
@@ -130,6 +135,7 @@ const RecipeDetail = () => {
           </div>
         )}
       </section>
+      <RecipeDetailIngredients Ingredients={[]} />
     </div>
   );
 };
