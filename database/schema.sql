@@ -16,7 +16,7 @@ CREATE TABLE "Recipes"(
   "description" VARCHAR(240),
   "url" TEXT,
   "longUrl" TEXT,
-  "UserId" UUID,
+  "UserId" UUID NOT NULL,
   "createdAt" TIMESTAMP NOT NULL DEFAULT NOW(),
   "updatedAt" TIMESTAMP NOT NULL DEFAULT NOW(),
   CONSTRAINT "Recipes_UserId_fk" FOREIGN KEY ("UserId") REFERENCES "Users"(_id) ON UPDATE CASCADE ON DELETE CASCADE,
@@ -26,15 +26,19 @@ CREATE TABLE "Recipes"(
 CREATE TABLE "Categories"(
   _id INT GENERATED ALWAYS AS IDENTITY,
   "name" VARCHAR(16) NOT NULL,
+  "UserId" UUID NOT NULL,
   "createdAt" TIMESTAMP NOT NULL DEFAULT NOW(),
-  UNIQUE("name"),
+  CONSTRAINT "Categories_UserId_fk" FOREIGN KEY ("UserId") REFERENCES "Users"(_id) ON UPDATE CASCADE ON DELETE CASCADE,
+  UNIQUE("UserId", "name"),
   PRIMARY KEY (_id)
 );
 CREATE TABLE "Ingredients"(
   _id INT GENERATED ALWAYS AS IDENTITY,
   "name" VARCHAR(16) NOT NULL,
+  "UserId" UUID NOT NULL,
   "createdAt" TIMESTAMP NOT NULL DEFAULT NOW(),
-  UNIQUE("name"),
+  CONSTRAINT "Ingredients_UserId_fk" FOREIGN KEY ("UserId") REFERENCES "Users"(_id) ON UPDATE CASCADE ON DELETE CASCADE,
+  UNIQUE("UserId", "name"),
   PRIMARY KEY (_id)
 );
 -- relationship tables
