@@ -7,8 +7,9 @@ CREATE TABLE IF NOT EXISTS public."Categories"
 (
     _id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     name character varying(16) COLLATE pg_catalog."default" NOT NULL,
-    "UserId" uuid,
+    "UserId" uuid NOT NULL,
     "createdAt" timestamp without time zone NOT NULL DEFAULT now(),
+    "updatedAt" timestamp without time zone NOT NULL DEFAULT now(),
     CONSTRAINT "Categories_pkey" PRIMARY KEY (_id),
     CONSTRAINT "Categories_name_key" UNIQUE ("UserId", name),
     CONSTRAINT "Categories_UserId_fk" FOREIGN KEY ("UserId")
@@ -34,8 +35,9 @@ CREATE TABLE IF NOT EXISTS public."Ingredients"
 (
     _id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     name character varying(16) COLLATE pg_catalog."default" NOT NULL,
-    "UserId" uuid,
+    "UserId" uuid NOT NULL,
     "createdAt" timestamp without time zone NOT NULL DEFAULT now(),
+    "updatedAt" timestamp without time zone NOT NULL DEFAULT now(),
     CONSTRAINT "Ingredients_pkey" PRIMARY KEY (_id),
     CONSTRAINT "Ingredients_name_key" UNIQUE (name),
         CONSTRAINT "Ingredients_UserId_fk" FOREIGN KEY ("UserId")

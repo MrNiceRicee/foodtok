@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS public."Recipes"
     description character varying(240) COLLATE pg_catalog."default",
     url text COLLATE pg_catalog."default",
     "longUrl" text COLLATE pg_catalog."default",
-    "UserId" uuid,
+    "UserId" uuid NOT NULL,
     "createdAt" timestamp without time zone NOT NULL DEFAULT now(),
     "updatedAt" timestamp without time zone NOT NULL DEFAULT now(),
     CONSTRAINT "Recipes_pkey" PRIMARY KEY (_id),

@@ -37,7 +37,7 @@ CREATE OR REPLACE FUNCTION public.name_lower()
     VOLATILE NOT LEAKPROOF SECURITY DEFINER
 AS $BODY$
 BEGIN
-  new.name := LOWER(new.name);
+  new.name := TRIM(LOWER(new.name));
   RETURN new;
 END;
 $BODY$;
