@@ -21,6 +21,8 @@ const one = async (id: number) => {
         SELECT 
             i._id as "IngredientId",
             i.name,
+            ri."servingSize",
+            ri."servingUnit",
             ri.description as "customDescription"
         FROM "Ingredients" i
         LEFT OUTER JOIN "Recipes_Ingredients" as ri ON i._id=ri."IngredientId"

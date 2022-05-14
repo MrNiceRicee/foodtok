@@ -19,6 +19,8 @@ interface JoinedRecipe extends Recipes {
     IngredientId: number;
     name: string;
     description: string;
+    servingSize: number;
+    servingUnit: string;
     customDescription: string;
   };
 }
