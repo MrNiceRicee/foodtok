@@ -28,13 +28,12 @@ const Thumbnail = ({
       className={ctl(`
         relative 
         ${tiktokData?.thumbnail_url ? 'h-auto' : 'h-[42rem]'}
-        bg-gray-600
         md:basis-2/3
         rounded-t-lg
         overflow-hidden
       `)}
     >
-      <div className="absolute inset-0 h-10 z-30 flex m-3 pointer-events-none">
+      <div className="flex pointer-events-none">
         <h1
           className={ctl(`
           font-black
@@ -134,7 +133,7 @@ const RecipeDetail = () => {
             </Button>
           </div>
         )}
-        <RecipeDetailIngredients Ingredients={[]} />
+        <RecipeDetailIngredients Ingredients={data?.Ingredients} />
       </section>
     </div>
   );

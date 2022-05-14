@@ -29,7 +29,6 @@ const RecipeEditForm = () => {
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    console.log('model', model);
     const updated = await sendUpdate.mutateAsync(model);
 
     if (updated) {
