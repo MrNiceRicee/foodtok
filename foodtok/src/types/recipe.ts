@@ -7,6 +7,16 @@ interface justRecipe {
   createdAt: Date;
   updatedAt: Date;
 }
+
+interface Ingredients { 
+  IngredientId: number;
+  customDescription: string | null;
+  servingSize: number | null;
+  servingUnit: string | null;
+  description: string | null;
+  name: string;
+}
+
 interface recipeBase extends justRecipe {
   User: {
     name: string;
@@ -14,12 +24,7 @@ interface recipeBase extends justRecipe {
     displayName: string | null;
     id: string;
   };
-  Ingredients: Array<{
-    IngredientId: number;
-    customDescription: string | null;
-    description: string | null;
-    name: string;
-  }>;
+  Ingredients: Array<Ingredients>;
 }
 
 interface searchBase {
@@ -31,6 +36,6 @@ interface searchBase {
 
 type recipe = recipeBase;
 type search = searchBase;
-export type { recipe, search, justRecipe };
+export type { recipe, search, justRecipe, Ingredients };
 
 // <33333333333333
