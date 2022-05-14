@@ -98,14 +98,14 @@ const RecipeDetail = () => {
   if (isLoading) return <CardLoading rKey="Loading_Recipe_Detail" />;
 
   return (
-    <div className="w-full border-orange-200 py-3 pb-10 mb-10 lg:flex no-underline">
+    <div className="w-full border-orange-200 py-3 pb-10 mb-10 md:flex no-underline">
       <Thumbnail
         recipe={data}
         tiktokData={tiktokData ? tiktokData : undefined}
       />
       <section
         className="container flex flex-col 
-          px-2 lg:basis-2/3
+          px-2 md:basis-2/3
           prose dark:prose-invert
         "
       >

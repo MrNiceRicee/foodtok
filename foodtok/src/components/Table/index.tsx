@@ -1,11 +1,8 @@
 import Body from './Body';
 import Header from './Header';
+import { CellParams } from './types';
 import { useTable } from './util';
 
-interface CellParams {
-  row: any;
-  value: any;
-}
 interface Props {
   column: Array<{
     header: string;
@@ -23,7 +20,7 @@ const Table = ({ column, data }: Props) => {
   if (Array.isArray(column)) {
     const { headers, rows } = useTable(column, data);
     return (
-      <table>
+      <table className='container'>
         <Header headers={headers} />
         <Body rows={rows} />
       </table>

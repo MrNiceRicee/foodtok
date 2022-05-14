@@ -1,3 +1,5 @@
+type GenericObject = { [key: string]: any };
+
 interface CellParams {
   row: any;
   value: any;
@@ -12,4 +14,11 @@ type Column = Array<{
   align?: 'left' | 'center' | 'right';
 }>;
 
-export type { CellParams, Column, CellFunc };
+interface Cell {
+  display: JSX.Element;
+  row: GenericObject;
+  align?: 'left' | 'center' | 'right';
+  value: string | number | '-';
+}
+
+export type { CellParams, Column, CellFunc, Cell };

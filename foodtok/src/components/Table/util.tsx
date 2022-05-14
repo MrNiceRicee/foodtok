@@ -2,18 +2,25 @@ import { CellFunc, Column } from './types';
 
 type GenericObject = { [key: string]: any };
 
-const accessValue = (obj: GenericObject, stringPath: string) => {
+type AccessedValue = string | '-';
+
+const accessValue = (
+  obj: GenericObject | AccessedValue,
+  stringPath: string
+): string | '-' => {
   if (!stringPath) {
-    return '-';
+    return obj as AccessedValue;
   }
   try {
     stringPath.split('.').forEach((key) => {
-      obj = obj[key] ?? '-';
+      if (typeof obj === 'object') {
+        obj = obj[key] ?? '-';
+      }
     });
   } catch (err) {
     return '-';
   }
-  return '-';
+  return obj as AccessedValue;
 };
 
 const getAccessors = (columns: Column) => {

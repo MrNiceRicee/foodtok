@@ -1,5 +1,7 @@
 const TableRow = ({ data }: { data: string }) => (
-  <span className="dark:text-slate-100">{data}</span>
+  <th>
+    <span className="dark:text-slate-100">{data}</span>
+  </th>
 );
 
 const Header = ({ headers }: { headers: string[] }) => {
