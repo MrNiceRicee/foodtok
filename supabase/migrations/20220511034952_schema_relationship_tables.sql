@@ -57,6 +57,10 @@ CREATE TABLE IF NOT EXISTS public."Recipes_Ingredients"
     CONSTRAINT "Recipes_Ingredients_RecipeId_fk" FOREIGN KEY ("RecipeId")
         REFERENCES public."Recipes" (_id) MATCH SIMPLE
         ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT "Recipes_Ingredients_IngredientId_fk" FOREIGN KEY ("IngredientId")
+        REFERENCES public."Ingredients" (_id) MATCH SIMPLE
+        ON UPDATE CASCADE
         ON DELETE CASCADE
 )
 

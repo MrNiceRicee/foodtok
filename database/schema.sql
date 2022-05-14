@@ -62,6 +62,7 @@ CREATE TABLE "Recipes_Ingredients"(
   "servingSize" DECIMAL,
   "servingUnit" VARCHAR(20),
   CONSTRAINT "Recipes_Ingredients_RecipeId_fk" FOREIGN KEY ("RecipeId") REFERENCES "Recipes"(_id) ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT "Recipes_Ingredients_IngredientId_fk" FOREIGN KEY ("IngredientId") REFERENCES "Ingredients"(_id) ON UPDATE CASCADE ON DELETE CASCADE,
   CONSTRAINT "Categories_UserId_fk" FOREIGN KEY ("UserId") REFERENCES "Users"(_id) ON UPDATE CASCADE ON DELETE CASCADE,
   "createdAt" TIMESTAMP NOT NULL DEFAULT NOW(),
   "updatedAt" TIMESTAMP NOT NULL DEFAULT NOW(),

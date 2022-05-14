@@ -58,7 +58,6 @@ const RecipesList = () => {
       return userRecipe({
         limit: 25,
         cursor: pageParam,
-        UserId: user?.id,
       }).then((item) => item.data);
     },
     {
