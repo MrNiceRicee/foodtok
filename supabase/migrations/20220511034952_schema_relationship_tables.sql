@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS public."Recipes_Ingredients"
     "servingUnit" character varying(20) COLLATE pg_catalog."default",
     "createdAt" timestamp without time zone NOT NULL DEFAULT now(),
     "updatedAt" timestamp without time zone NOT NULL DEFAULT now(),
-    CONSTRAINT "Recipes_Ingredients_pkey" PRIMARY KEY (_id, "RecipeId", "IngredientId"),
+    CONSTRAINT "Recipes_Ingredients_pkey" PRIMARY KEY (_id, "UserId", "RecipeId", "IngredientId"),
     CONSTRAINT "Categories_UserId_fk" FOREIGN KEY ("UserId")
         REFERENCES public."Users" (_id) MATCH SIMPLE
         ON UPDATE CASCADE
