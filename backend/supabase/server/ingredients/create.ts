@@ -5,19 +5,24 @@ import { Ingredients } from '../../types/Ingredients';
 
 interface createPayload {
   name: string;
+  UserId: string;
 }
 
-const create = async ({ name }: createPayload) => {
+const create = async ({ name, UserId }: createPayload) => {
   verify(name, { name: 'name' });
+  verify(UserId, { name: 'UserId' });
 
   const query = SQL`
-    INSERT INTO "Ingredients"("name")
-    VALUES(${name})
+    INSERT INTO "Ingredients"("name", "UserId")
+    VALUES(${name}, ${UserId})
     RETURNING
       "_id",
       "name",
+      "UserId",
       "createdAt"
   `;
+
+  console.log(query.text, query.values);
   const data: Ingredients = await queryOne(query.text, query.values);
   return { data };
 };

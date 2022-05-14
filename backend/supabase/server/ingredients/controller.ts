@@ -6,7 +6,9 @@ import handleUpdate from './update';
 import handleRemove from './remove';
 
 const create = (req: Request, res: Response) =>
-  handleCreate(req.body).then(handleResponse(res, 201)).catch(handleError(res));
+  handleCreate({ ...req.body, UserId: req.headers['foodtok-user'] })
+    .then(handleResponse(res, 201))
+    .catch(handleError(res));
 
 const search = (req: Request, res: Response) => {
   return handleSearch(req.query)
