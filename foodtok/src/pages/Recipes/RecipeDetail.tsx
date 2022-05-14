@@ -10,7 +10,7 @@ import { tiktok } from '@foodtok-types/tiktok';
 import useUser from '@hooks/useUser';
 import Button from '@components/Button';
 import { useQuery, useQueryClient } from 'react-query';
-import RecipeDetailIngredients from './RecipeDetailIngredients';
+import RecipeDetailIngredients from './Ingredients/RecipeDetailIngredients';
 
 const DefaultUrl = () => (
   <div className="w-full h-full bg-orange-100 dark:bg-orange-200 animate-fadeIn z-40"></div>
@@ -133,7 +133,13 @@ const RecipeDetail = () => {
             </Button>
           </div>
         )}
-        <RecipeDetailIngredients Ingredients={data?.Ingredients} />
+        {data?.Ingredients && user?.id && (
+          <RecipeDetailIngredients
+            Ingredients={data?.Ingredients}
+            RecipeId={data._id}
+            UserId={user.id}
+          />
+        )}
       </section>
     </div>
   );
