@@ -2,14 +2,16 @@ import SQL from 'sql-template-strings';
 import verify from '@mrnicericee/verify';
 import { queryOne } from '../../connection/db';
 import ErrorException from '../util/ErrorException';
-import Ingredients from '../../types/Ingredients';
+import { Ingredients } from '../../types/Ingredients';
 
 interface updatePayload {
   name: string;
   description: string;
 }
 
-const findIngredient = async (id: number): Promise<{ name: string; description: string }> =>
+const findIngredient = async (
+  id: number
+): Promise<{ name: string; description: string }> =>
   queryOne(
     `
     SELECT "name", "description"
@@ -22,7 +24,8 @@ const findIngredient = async (id: number): Promise<{ name: string; description: 
 const update = async (id: number, updatePayload: updatePayload) => {
   verify(id, { name: 'id' }).isNumber();
   const { name, description } = updatePayload;
-  if (!name && !description) throw new ErrorException('missing upload payload', 400);
+  if (!name && !description)
+    throw new ErrorException('missing upload payload', 400);
 
   const foundIngredient = await findIngredient(id);
   if (!foundIngredient) throw new ErrorException('ingredient not found', 404);

@@ -1,6 +1,6 @@
 import SQL, { SQLStatement } from 'sql-template-strings';
 import { queryRows } from '../../connection/db';
-import Ingredients from '../../types/Ingredients';
+import { Ingredients } from '../../types/Ingredients';
 import { getFilter, getLimit } from '../util/utility';
 
 interface searchPayload {

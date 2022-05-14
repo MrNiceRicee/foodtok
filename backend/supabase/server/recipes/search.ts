@@ -55,6 +55,7 @@ const search = async (searchPayload: searchPayload) => {
           FROM "Ingredients" i
           LEFT OUTER JOIN "Recipes_Ingredients" as ri ON i._id=ri."IngredientId"
           WHERE a._id=ri."RecipeId"
+          ORDER BY i."name"
         ) as x
       ) as "Ingredients",
       a."createdAt",

@@ -1,4 +1,10 @@
-interface Ingredients {
+interface Ingredient {
+  _id: number;
+  name: string;
+  createdAt: Date;
+}
+
+interface Ingredients extends Ingredient {
   _id: number;
   name: string;
   description: string;
@@ -8,4 +14,4 @@ interface Ingredients {
   updatedAt: Date;
 }
 
-export type { Ingredients };
+export type { Ingredient, Ingredients };
