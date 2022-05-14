@@ -51,7 +51,7 @@ CREATE TABLE "Recipes_Categories"(
   CONSTRAINT "Recipes_Categories_RecipeId_fk" FOREIGN KEY ("RecipeId") REFERENCES "Recipes"(_id) ON UPDATE CASCADE ON DELETE CASCADE,
   CONSTRAINT "Recipes_Categories_CategoryId_fk" FOREIGN KEY ("CategoryId") REFERENCES "Categories"(_id) ON UPDATE CASCADE ON DELETE CASCADE,
   CONSTRAINT "Categories_UserId_fk" FOREIGN KEY ("UserId") REFERENCES "Users"(_id) ON UPDATE CASCADE ON DELETE CASCADE,
-  PRIMARY KEY ("_id", "RecipeId", "CategoryId")
+  PRIMARY KEY ("_id", "UserId", "RecipeId", "CategoryId")
 );
 CREATE TABLE "Recipes_Ingredients"(
   _id INT GENERATED ALWAYS AS IDENTITY,
@@ -66,5 +66,5 @@ CREATE TABLE "Recipes_Ingredients"(
   CONSTRAINT "Categories_UserId_fk" FOREIGN KEY ("UserId") REFERENCES "Users"(_id) ON UPDATE CASCADE ON DELETE CASCADE,
   "createdAt" TIMESTAMP NOT NULL DEFAULT NOW(),
   "updatedAt" TIMESTAMP NOT NULL DEFAULT NOW(),
-  PRIMARY KEY ("_id", "RecipeId", "IngredientId")
+  PRIMARY KEY ("_id", "UserId", "RecipeId", "IngredientId")
 );
