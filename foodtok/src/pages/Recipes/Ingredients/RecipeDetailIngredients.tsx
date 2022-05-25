@@ -35,6 +35,8 @@ const RecipeDetailIngredients = ({
     <article className="px-2 py-4 dark:text-slate-100">
       <div>
         <h2 className="text-xl font-black inline-block">Ingredients</h2>
+      </div>
+      <div>
         <button
           className="inline-block px-2"
           // onClick={onClick}

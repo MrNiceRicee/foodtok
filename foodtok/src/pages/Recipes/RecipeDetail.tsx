@@ -97,6 +97,8 @@ const RecipeDetail = () => {
 
   if (isLoading) return <CardLoading rKey="Loading_Recipe_Detail" />;
 
+  // console.log(data);
+  // console.log(user);
   return (
     <div className="w-full border-orange-200 py-3 pb-10 mb-10 md:flex no-underline">
       <Thumbnail
@@ -133,7 +135,7 @@ const RecipeDetail = () => {
             </Button>
           </div>
         )}
-        {data?.Ingredients && user?.id && (
+        {data && user?.id && (
           <RecipeDetailIngredients
             Ingredients={data?.Ingredients}
             RecipeId={data._id}

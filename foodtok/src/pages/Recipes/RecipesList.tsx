@@ -64,6 +64,7 @@ const RecipesList = () => {
       getNextPageParam: (lastPage) => {
         return lastPage.hasNextPage ? lastPage.cursor : undefined;
       },
+      retry: 1,
     }
   );
 

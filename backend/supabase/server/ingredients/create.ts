@@ -22,7 +22,6 @@ const create = async ({ name, UserId }: createPayload) => {
       "createdAt"
   `;
 
-  console.log(query.text, query.values);
   const data: Ingredients = await queryOne(query.text, query.values);
   return { data };
 };
