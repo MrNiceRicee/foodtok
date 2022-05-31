@@ -11,3 +11,7 @@ input:not(:placeholder-shown) ~ label {
 input:not(:focus-within) ~ label {
   @apply transform duration-300 scale-100 text-inherit;
 }
+
+.react-select__input {
+  @apply focus:ring-0 
+}

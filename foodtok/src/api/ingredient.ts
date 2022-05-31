@@ -13,4 +13,11 @@ const post = (
 ): Promise<AxiosResponse<{ data: Ingredient }>> =>
   base.post('/ingredients', payload);
 
-export { post };
+const get = (
+  params?: object
+): Promise<AxiosResponse<{ data: Array<Ingredient> }>> =>
+  base.get('/ingredients', {
+    params: { filters: params },
+  });
+
+export { post, get };

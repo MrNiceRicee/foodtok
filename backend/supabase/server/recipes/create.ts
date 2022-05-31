@@ -41,7 +41,8 @@ const create = async ({ UserId, name, description, url }: createPayload) => {
       !url.includes('tiktok')
     )
       throw new ErrorException('url must be from Tiktok', 400);
-    longUrl = await getUrl(url);
+    let scrubbedURL = url.replace('/www.', '/vm.');
+    longUrl = await getUrl(scrubbedURL);
   }
 
   const query = SQL`

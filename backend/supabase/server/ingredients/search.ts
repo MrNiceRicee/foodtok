@@ -1,6 +1,6 @@
 import SQL, { SQLStatement } from 'sql-template-strings';
 import { queryRows } from '../../connection/db';
-import { Ingredients } from '../../types/Ingredients';
+import { Ingredient } from '../../types/Ingredients';
 import { getFilter, getLimit } from '../util/utility';
 
 interface searchPayload {
@@ -9,7 +9,7 @@ interface searchPayload {
   limit?: any;
 }
 
-const validFilter = ['name', 'description'];
+const validFilter = ['name'];
 
 const search = async (searchPayload: searchPayload) => {
   let { filter, limit } = searchPayload;
@@ -20,7 +20,6 @@ const search = async (searchPayload: searchPayload) => {
     SELECT
       a."_id",
       a."name",
-      a."description",
       a."createdAt",
       a."updatedAt"
     FROM "Ingredients" a
@@ -28,7 +27,7 @@ const search = async (searchPayload: searchPayload) => {
     .append(filter)
     .append(SQL` LIMIT ${limit}`);
 
-  const data: Array<Ingredients> = await queryRows(query.text, query.values);
+  const data: Array<Ingredient> = await queryRows(query.text, query.values);
 
   return {
     data,
