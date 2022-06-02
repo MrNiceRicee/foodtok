@@ -6,7 +6,10 @@ import { parseError } from './util';
 import base from './base';
 
 // Routes
-const search = async (params?: object): Promise<AxiosResponse<SearchData>> =>
+const search = async (params?: {
+  limit?: number;
+  filter?: object;
+}): Promise<AxiosResponse<SearchData>> =>
   base.get('/recipes', {
     params,
   });

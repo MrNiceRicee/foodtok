@@ -1,32 +1,40 @@
 import { useState } from 'react';
 import AsyncCreatableSelect from 'react-select/async-creatable';
+import { ActionMeta, OnChangeValue } from 'react-select';
 import { get } from '@apis/ingredient';
 import { Ingredient } from '@foodtok-types/ingredient';
 
 const selectStyle = {};
 
 const AddNewIngredient = () => {
-  const [value, setValue] = useState<string | null>(null);
+  const [selectedIngredients, setSelectedIngredients] =
+    useState<Array<Ingredient> | null>(null);
 
   const fetchIngredients = async (input: string) => {
-    console.log(input);
-    const res = await get({ name: input });
-    // return res.data.data.filter((i) =>
-    //   i.name.toLowerCase().includes(input.toLowerCase())
-    // );
-    return res.data.data;
+    const { data } = await get({ filter: { name: input } });
+    return data.data;
+  };
+
+  const handleOnChange = (
+    newValues: OnChangeValue<Ingredient, true>,
+    actionMeta: ActionMeta<Ingredient>
+  ) => {
+    console.log(newValues);
+    setSelectedIngredients([...newValues]);
+    console.log(actionMeta);
   };
   return (
     <div className="dark:bg-gray-800 dark:text-black noFocus">
       <AsyncCreatableSelect
-        cacheOptions
         defaultOptions
         isClearable
         isMulti
         classNamePrefix="react-select"
-        getOptionLabel={(option: Ingredient) => option.name}
+        getOptionLabel={(option) => option.name}
+        getOptionValue={(option) => option.name}
+        onChange={handleOnChange}
         loadOptions={fetchIngredients}
-        maxMenuHeight={100}
+        maxMenuHeight={115}
       />
     </div>
   );
