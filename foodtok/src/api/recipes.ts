@@ -18,8 +18,7 @@ const userRecipe = async (params?: {
   UserId?: string;
   limit?: number;
   cursor?: string;
-}): Promise<AxiosResponse<SearchData>> =>
-  base.get(`/recipes/user/${params?.UserId}`, { params });
+}): Promise<AxiosResponse<SearchData>> => base.get('/recipes/user', { params });
 
 const post = async (payload: {
   name: string;
