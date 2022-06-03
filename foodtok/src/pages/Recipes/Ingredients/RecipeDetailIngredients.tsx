@@ -42,7 +42,11 @@ const RecipeDetailIngredients = ({
           <FontAwesomeIcon icon={faPlusCircle} size="lg" />
         </button>
       </div>
-      <div>{open && <AddNewIngredient />}</div>
+      {open && (
+        <div>
+          <AddNewIngredient RecipeId={RecipeId} UserId={UserId} />
+        </div>
+      )}
       <Table column={columns} data={Ingredients} />
     </article>
   );

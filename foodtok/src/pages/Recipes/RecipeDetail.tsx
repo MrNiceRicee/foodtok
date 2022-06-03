@@ -125,6 +125,13 @@ const RecipeDetail = () => {
             </p>
           </>
         ) : null}
+        {data && user?.id && (
+          <RecipeDetailIngredients
+            Ingredients={data?.Ingredients}
+            RecipeId={data._id}
+            UserId={user.id}
+          />
+        )}
         {userMatch && (
           <div>
             <Button type="button" onClick={onRefresh}>
@@ -134,13 +141,6 @@ const RecipeDetail = () => {
               edit recipe
             </Button>
           </div>
-        )}
-        {data && user?.id && (
-          <RecipeDetailIngredients
-            Ingredients={data?.Ingredients}
-            RecipeId={data._id}
-            UserId={user.id}
-          />
         )}
       </section>
     </div>

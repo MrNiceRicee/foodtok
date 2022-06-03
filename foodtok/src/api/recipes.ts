@@ -40,6 +40,11 @@ const put = async (
 ): Promise<AxiosResponse<{ data: justRecipe }>> =>
   base.put(`/recipes/${id}`, payload);
 
+const addRecipeIngredients = async (
+  id: number | string | undefined,
+  payload: Array<{ _id: string | number }>
+): Promise<AxiosResponse<{ data: string }>> =>
+  base.post(`/recipes/${id}/ingredients`, payload);
 // hooks
 
 const getRecipes = () => {
@@ -107,4 +112,12 @@ const updateRecipe = (
   );
 };
 
-export { getRecipes, getRecipe, search, addRecipe, updateRecipe, userRecipe };
+export {
+  getRecipes,
+  getRecipe,
+  search,
+  addRecipe,
+  updateRecipe,
+  addRecipeIngredients,
+  userRecipe,
+};

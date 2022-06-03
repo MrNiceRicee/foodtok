@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react';
+import useDarkMode from '@hooks/useDarkMode';
+import { useEffect } from 'react';
 import Button from './Button';
 
 const ThemeButton = () => {
-  const [mode, setMode] = useState(
-    window.matchMedia('(prefers-color-scheme: dark)').matches
-  );
+  const [mode, setMode] = useDarkMode();
 
   useEffect(() => {
     if (mode) return document.documentElement.classList.add('dark');

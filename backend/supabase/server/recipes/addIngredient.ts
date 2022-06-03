@@ -3,25 +3,16 @@ import SQL from 'sql-template-strings';
 import { queryOne, queryRows } from '../../connection/db';
 import ErrorException from '../util/ErrorException';
 
-const getIngredientsArray = (
+const verifyIngredientsArray = (
   ingredients: Array<{
-    id: number;
-    servingSize: number;
-    servingUnit: string;
-    description?: string;
+    _id: number;
   }>
 ): Array<{
-  id: number;
-  servingSize: number;
-  servingUnit: string;
-  description?: string;
+  _id: number;
 }> => {
-  if (!ingredients) {
-    throw new ErrorException('missing ingredients', 400);
-  }
-
-  if (!Array.isArray(ingredients))
-    throw new ErrorException('ingredients must be an array', 400);
+  verify(ingredients, { name: 'ingredients' })
+    .isArray()
+    .isLength(1, { operator: 'gte' });
 
   return ingredients;
 };
@@ -29,35 +20,24 @@ const getIngredientsArray = (
 const findRecipe = async (id: number): Promise<{ _id: number; name: string }> =>
   queryOne(
     `
-    SELECT "_id", "name"
+    SELECT "_id"
     FROM "Recipes"
     WHERE "_id"=$1
   `,
     [id]
   );
 
-const findIngredients = async ({
-  id,
-  servingSize,
-  servingUnit,
-  description,
-}: {
-  id: number;
-  servingSize: number;
-  servingUnit: string;
-  description?: string;
-}): Promise<{
-  servingSize: number;
-  servingUnit: string;
+const findIngredients = async (
+  RecipeId: string | number,
+  {
+    _id,
+  }: {
+    _id: number;
+  }
+): Promise<{
   _id: number;
-  description?: string;
 }> => {
-  if (!id) throw new ErrorException('missing ingredient id', 400);
-  // might as well do object check in here!
-  if (!servingSize)
-    throw new ErrorException('missing ingredient servingSize', 400);
-  if (!servingUnit)
-    throw new ErrorException('missing ingredient servingUnit', 400);
+  if (!_id) throw new ErrorException('missing ingredient id', 400);
 
   const res = await queryOne(
     `
@@ -65,21 +45,29 @@ const findIngredients = async ({
     FROM "Ingredients"
     WHERE "_id"=$1
   `,
-    [id]
+    [_id]
   );
-  if (!res) {
-    throw new ErrorException('ingredient not found', 404);
-  }
-  return { servingSize, servingUnit, description, ...res };
+  if (!res) throw new ErrorException('ingredient not found', 404);
+
+  const duplicate = await queryOne(
+    `
+    SELECT "_id"
+    FROM "Recipes_Ingredients"
+    WHERE "RecipeId"=$1 AND
+      "IngredientId"=$2
+  `,
+    [RecipeId, _id]
+  );
+  if (duplicate) throw new ErrorException('duplicate ingredient', 400);
+
+  return res;
 };
 
 const buildIngredientsQuery = (
   id: number,
+  UserId: string,
   ingredients: Array<{
     _id: number;
-    servingSize: number;
-    servingUnit: string;
-    description?: string;
   }>
 ) =>
   ingredients.reduce((previous, current, index) => {
@@ -88,9 +76,7 @@ const buildIngredientsQuery = (
         SQL` (
       ${id},
       ${current._id},
-      ${current.servingSize},
-      ${current.servingUnit},
-      ${current.description}
+      ${UserId}
     ) `
       )
       .append(`${index < ingredients.length - 1 ? ',' : ' '}`);
@@ -99,42 +85,35 @@ const buildIngredientsQuery = (
 
 const addIngredient = async (
   id: number,
-  {
-    ingredients,
-  }: {
-    ingredients: Array<{
-      id: number;
-      servingSize: number;
-      servingUnit: string;
-      description?: string;
-    }>;
-  }
+  UserId: string,
+  ingredients: Array<{
+    _id: number;
+  }>
 ) => {
   verify(id, { name: 'id' });
-  const ingredientsArray = getIngredientsArray(ingredients);
+  const ingredientsArray = verifyIngredientsArray(ingredients);
   const foundRecipe = await findRecipe(id);
 
   if (!foundRecipe) throw new ErrorException('recipe not found', 404);
 
   const foundIngredients = await Promise.all(
-    ingredientsArray.map((item) => findIngredients(item))
+    ingredientsArray.map((item) => findIngredients(id, item))
   );
 
-  const ingredientsQuery = buildIngredientsQuery(id, foundIngredients);
+  const ingredientsQuery = buildIngredientsQuery(id, UserId, foundIngredients);
 
   const query = SQL`
     INSERT INTO "Recipes_Ingredients"(
       "RecipeId",
       "IngredientId",
-      "servingSize",
-      "servingUnit",
-      "description"
+      "UserId"
     )
     VALUES
   `
     .append(ingredientsQuery)
     .append('RETURNING "_id"');
 
+  console.log(query.text, '\n', query.values);
   const data = await queryRows(query.text, query.values);
 
   return {

@@ -41,7 +41,7 @@ const remove = (req: Request, res: Response) =>
     .catch(handleError(res));
 
 const addIngredient = (req: Request, res: Response) =>
-  handleAddIngredient(+req.params.id, req.body)
+  handleAddIngredient(+req.params.id, req.headers['foodtok-user'] as string, req.body)
     .then(handleResponse(res, 201))
     .catch(handleError(res));
 
@@ -50,4 +50,13 @@ const removeIngredient = (req: Request, res: Response) =>
     .then(handleResponse(res, 204))
     .catch(handleError(res));
 
-export { create, search, one, update, remove, addIngredient, removeIngredient, userRecipe };
+export {
+  create,
+  search,
+  one,
+  update,
+  remove,
+  addIngredient,
+  removeIngredient,
+  userRecipe,
+};

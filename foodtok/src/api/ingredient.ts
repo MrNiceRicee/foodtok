@@ -3,7 +3,6 @@ import { AxiosResponse } from 'axios';
 import base from './base';
 
 interface PostParams {
-  RecipeId: number | string;
   UserId: string;
   name: string;
 }
