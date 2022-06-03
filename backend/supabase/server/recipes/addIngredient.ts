@@ -20,7 +20,7 @@ const verifyIngredientsArray = (
 const findRecipe = async (id: number): Promise<{ _id: number; name: string }> =>
   queryOne(
     `
-    SELECT "_id"
+    SELECT "_id", "name"
     FROM "Recipes"
     WHERE "_id"=$1
   `,
@@ -113,7 +113,6 @@ const addIngredient = async (
     .append(ingredientsQuery)
     .append('RETURNING "_id"');
 
-  console.log(query.text, '\n', query.values);
   const data = await queryRows(query.text, query.values);
 
   return {

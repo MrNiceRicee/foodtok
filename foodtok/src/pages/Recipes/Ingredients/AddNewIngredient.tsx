@@ -2,11 +2,9 @@ import { useState } from 'react';
 import AsyncCreatableSelect from 'react-select/async-creatable';
 import { OnChangeValue } from 'react-select';
 import { get, post } from '@apis/ingredient';
-import { useQueryClient } from 'react-query';
 import { addRecipeIngredients } from '@apis/recipes';
 import Button from '@components/Button';
 import useDarkMode from '@hooks/useDarkMode';
-import axios from 'axios';
 import GrowIn from '@components/GrowIn';
 import ctl from '@netlify/classnames-template-literals';
 
@@ -18,7 +16,6 @@ const AddNewIngredient = ({
   UserId: string;
 }) => {
   const [mode] = useDarkMode();
-  const queryClient = useQueryClient();
   const [error, setError] = useState<string | null>(null);
   const [selectedIngredients, setSelectedIngredients] = useState<Array<{
     label: string;
@@ -26,15 +23,14 @@ const AddNewIngredient = ({
   }> | null>(null);
 
   const fetchIngredients = async (input: string) => {
-    console.log('input', input);
     const { data } = await get({ filter: { name: input } });
-    const manipulated = data.data.map((item) => ({
+    return data.data.map((item) => ({
       label: item.name,
       value: item._id,
     }));
-    console.log(manipulated);
-    return manipulated;
   };
+
+  const addIngredients = addRecipeIngredients(setError, RecipeId);
 
   const handleOnChange = (
     newValues: OnChangeValue<{ label: string; value: number }, true>
@@ -50,21 +46,12 @@ const AddNewIngredient = ({
     e.preventDefault();
     setError(null);
     if (selectedIngredients) {
-      try {
-        await addRecipeIngredients(
-          RecipeId,
-          selectedIngredients.map((items) => ({ _id: items.value }))
-        );
-        queryClient.invalidateQueries([
-          `Recipe_${RecipeId}`,
-          `RecipeCard_Tiktok_${RecipeId}`,
-          `${UserId}`,
-        ]);
-      } catch (err) {
-        if (axios.isAxiosError(err)) {
-          return setError(err.response?.data);
-        }
-        setError('something went wrong');
+      const response = await addIngredients.mutateAsync(
+        selectedIngredients?.map((item) => ({ _id: item.value }))
+      );
+      if (response) {
+        setSelectedIngredients(null);
+        // refetch();
       }
     }
   };
@@ -89,6 +76,7 @@ const AddNewIngredient = ({
         onCreateOption={handleCreate}
         placeholder="Search Ingredients..."
         maxMenuHeight={160}
+        value={selectedIngredients}
         styles={{
           option: (provided, state) => ({
             ...provided,
@@ -119,6 +107,10 @@ const AddNewIngredient = ({
             ...provided,
             color: !mode ? '#1e293b' : '#f1f5f9',
             backgroundColor: !mode ? '#d4d4d4' : '#3f3f46',
+          }),
+          input: (provided) => ({
+            ...provided,
+            color: !mode ? '#1e293b' : '#f1f5f9',
           }),
         }}
       />

@@ -69,7 +69,7 @@ const RecipeDetail = () => {
   const [userMatch, setUserMatch] = useState(false);
 
   const user = useUser();
-  const { isLoading, data, refetch } = getRecipe(id ? +id : 0);
+  const { isLoading, data, refetch } = getRecipe(id ? id : 0);
 
   const { refetch: tiktokRes } = useQuery(
     [`RecipeCard_Tiktok_${data?._id}`, `${user?.id}`],
@@ -97,8 +97,6 @@ const RecipeDetail = () => {
 
   if (isLoading) return <CardLoading rKey="Loading_Recipe_Detail" />;
 
-  // console.log(data);
-  // console.log(user);
   return (
     <div className="w-full border-orange-200 py-3 pb-10 mb-10 md:flex no-underline">
       <Thumbnail
@@ -125,7 +123,7 @@ const RecipeDetail = () => {
             </p>
           </>
         ) : null}
-        {data && user?.id && (
+        {data && user?.id && userMatch && (
           <RecipeDetailIngredients
             Ingredients={data?.Ingredients}
             RecipeId={data._id}

@@ -14,8 +14,9 @@ const search = async (params?: {
     params,
   });
 
-const one = async (id: number): Promise<AxiosResponse<{ data: recipe }>> =>
-  base.get(`/recipes/${id}`);
+const one = async (
+  id: number | string
+): Promise<AxiosResponse<{ data: recipe }>> => base.get(`/recipes/${id}`);
 
 const userRecipe = async (params?: {
   UserId?: string;
@@ -40,7 +41,7 @@ const put = async (
 ): Promise<AxiosResponse<{ data: justRecipe }>> =>
   base.put(`/recipes/${id}`, payload);
 
-const addRecipeIngredients = async (
+const addIngredients = async (
   id: number | string | undefined,
   payload: Array<{ _id: string | number }>
 ): Promise<AxiosResponse<{ data: string }>> =>
@@ -55,7 +56,7 @@ const getRecipes = () => {
   });
 };
 
-const getRecipe = (id: number) => {
+const getRecipe = (id: number | string) => {
   const user = useUser();
   return useQuery([`Recipe_${id}`, `${user?.id}`], () => one(id), {
     select: (data) => data.data.data,
@@ -67,7 +68,6 @@ type errorFnType = (message: string) => void;
 
 const addRecipe = (errorFn: errorFnType) => {
   const queryClient = useQueryClient();
-  const user = useUser();
   return useMutation(
     (payload: { name: string; url: string; description: string }) =>
       post(payload).then((data) => data.data.data),
@@ -76,8 +76,26 @@ const addRecipe = (errorFn: errorFnType) => {
         return queryClient.invalidateQueries([
           'RecipeList',
           `Recipe_${data._id}`,
+        ]);
+      },
+      onError: (err) => {
+        errorFn(parseError(err));
+      },
+    }
+  );
+};
+
+const addRecipeIngredients = (errorFn: errorFnType, RecipeId: string) => {
+  const queryClient = useQueryClient();
+  const user = useUser();
+  return useMutation(
+    (payload: Array<{ _id: string | number }>) =>
+      addIngredients(RecipeId, payload).then((data) => data.data.data),
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries([
+          `Recipe_${RecipeId}`,
           `${user?.id}`,
-          `RecipeCard_Tiktok_${data?._id}`,
         ]);
       },
       onError: (err) => {
