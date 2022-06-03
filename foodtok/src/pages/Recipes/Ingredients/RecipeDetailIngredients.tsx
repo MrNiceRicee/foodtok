@@ -3,7 +3,7 @@ import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Table from '@components/Table';
 import { Column } from '@components/Table/types';
-import { Ingredients } from '@foodtok-types/recipe';
+import { Ingredients as IngredientsType } from '@foodtok-types/recipe';
 import AddNewIngredient from './AddNewIngredient';
 
 const columns: Column = [
@@ -26,7 +26,7 @@ const RecipeDetailIngredients = ({
   RecipeId,
   UserId,
 }: {
-  Ingredients?: Array<Ingredients>;
+  Ingredients?: Array<IngredientsType>;
   RecipeId: string;
   UserId: string;
 }) => {
