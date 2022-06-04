@@ -1,6 +1,11 @@
 import useUser from '@hooks/useUser';
 import { AxiosResponse } from 'axios';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  useInfiniteQuery,
+} from 'react-query';
 import { search as SearchData, recipe, justRecipe } from '../types/recipe';
 import { parseError } from './util';
 import base from './base';
@@ -9,7 +14,7 @@ import base from './base';
 const search = async (params?: {
   limit?: number;
   filter?: object;
-  cursor?: string
+  cursor?: string;
 }): Promise<AxiosResponse<SearchData>> =>
   base.get('/recipes', {
     params,
@@ -20,9 +25,10 @@ const one = async (
 ): Promise<AxiosResponse<{ data: recipe }>> => base.get(`/recipes/${id}`);
 
 const userRecipe = async (params?: {
-  UserId?: string;
+  UserId?: string | null;
   limit?: number;
   cursor?: string;
+  filter?: object;
 }): Promise<AxiosResponse<SearchData>> => base.get('/recipes/user', { params });
 
 const post = async (payload: {
@@ -93,6 +99,46 @@ const addRecipe = (errorFn: errorFnType) => {
   );
 };
 
+const searchUserRecipes = ({
+  name,
+  description,
+  UserId,
+}: {
+  name?: string;
+  description?: string;
+  UserId: string | null;
+}) => {
+  return useInfiniteQuery(
+    ['RecipeList'],
+    async ({ pageParam }) => {
+      const payload: { name?: string | object; description?: string | object } =
+        {};
+      if (name) {
+        payload.name = name;
+      }
+      if (description) {
+        payload.description = {
+          ILIKE: description,
+          OR: true,
+        };
+      }
+      console.log('what is payload', payload);
+      return userRecipe({
+        limit: 25,
+        cursor: pageParam,
+        UserId: UserId,
+        filter: payload,
+      }).then((item) => item.data);
+    },
+    {
+      getNextPageParam: (lastPage) => {
+        return lastPage.hasNextPage ? lastPage.cursor : undefined;
+      },
+      retry: 1,
+    }
+  );
+};
+
 const addRecipeIngredients = (errorFn: errorFnType, RecipeId: string) => {
   const queryClient = useQueryClient();
   const user = useUser();
@@ -156,5 +202,6 @@ export {
   addRecipe,
   updateRecipe,
   addRecipeIngredients,
+  searchUserRecipes,
   userRecipe,
 };

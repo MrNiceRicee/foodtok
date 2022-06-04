@@ -1,15 +1,15 @@
-import { lazy, useEffect } from 'react';
+import { lazy, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import ctl from '@netlify/classnames-template-literals';
 import { useInView } from 'react-intersection-observer';
-import { userRecipe } from '@apis/recipes';
+import { searchUserRecipes } from '@apis/recipes';
 import ErrorIllustration from '@components/ErrorIllustration';
 import OnError from '@components/onError';
 import LoadingBar from '@components/LoadingBar';
-import { useInfiniteQuery } from 'react-query';
 import * as React from 'react';
 import useUser from '@hooks/useUser';
+import TextInput from '@components/TextInput';
 const RecipeCard = lazy(() => import('./RecipeCard'));
 
 const ButtonLink = () => (
@@ -43,6 +43,7 @@ const Loading = ({ isLoading }: { isLoading: boolean }) => {
 
 const RecipesList = () => {
   const { ref, inView } = useInView();
+  const [filter, setFilter] = useState('');
   const user = useUser();
   const {
     isError,
@@ -51,23 +52,13 @@ const RecipesList = () => {
     isLoading,
     isFetchingNextPage,
     fetchNextPage,
+    refetch,
     hasNextPage,
-  } = useInfiniteQuery(
-    ['RecipeList', `${user?.id}`],
-    async ({ pageParam }) => {
-      return userRecipe({
-        limit: 25,
-        cursor: pageParam,
-        UserId: user?.id
-      }).then((item) => item.data);
-    },
-    {
-      getNextPageParam: (lastPage) => {
-        return lastPage.hasNextPage ? lastPage.cursor : undefined;
-      },
-      retry: 1,
-    }
-  );
+  } = searchUserRecipes({
+    name: filter,
+    description: filter,
+    UserId: user && user.id,
+  });
 
   useEffect(() => {
     if (inView) {
@@ -76,6 +67,14 @@ const RecipesList = () => {
       })();
     }
   }, [inView]);
+
+  const handleFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFilter(e.target.value);
+  };
+
+  useEffect(() => {
+    refetch();
+  }, [filter]);
 
   if (isError) {
     return (
@@ -88,6 +87,13 @@ const RecipesList = () => {
 
   return (
     <>
+      <TextInput
+        title="search"
+        variance="outline"
+        value={filter}
+        onChange={handleFilter}
+        type="search"
+      />
       <ButtonLink />
       {data?.pages && data.pages[0].length ? (
         <div className="grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-4">

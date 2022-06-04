@@ -1,4 +1,3 @@
-import useUser from '@hooks/useUser';
 import { useInfiniteQuery } from 'react-query';
 import { search } from './recipes';
 
@@ -9,9 +8,8 @@ export const searchQuery = ({
   name?: string;
   description?: string;
 }) => {
-  const user = useUser();
   return useInfiniteQuery(
-    ['SearchList', `${user?.id}`],
+    ['SearchList'],
     async ({ pageParam }) => {
       const payload: { name?: string | object; description?: string | object } =
         {};

@@ -57,7 +57,7 @@ const determineOps = (key: string, value: any) => {
 };
 
 const getFilter = (filter: any, fields: Array<string>) => {
-  const query = SQL` WHERE 1=1 `;
+  const query = SQL``;
   if (!filter) return query;
   try {
     filter = JSON.parse(filter);

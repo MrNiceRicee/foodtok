@@ -26,7 +26,7 @@ const one = (req: Request, res: Response) =>
     .catch(handleError(res));
 
 const userRecipe = (req: Request, res: Response) =>
-  handleUserRecipe({ ...req.body, UserId: req.headers['foodtok-user'] })
+  handleUserRecipe({ ...req.query, UserId: req.headers['foodtok-user'] as string })
     .then(handleResponse(res, 200))
     .catch(handleError(res));
 

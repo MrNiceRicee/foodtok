@@ -63,6 +63,7 @@ const search = async (searchPayload: searchPayload) => {
 
     FROM "Recipes" a
     LEFT JOIN "Users" "User" ON "UserId"="User"."_id"
+    WHERE 1=1
       `;
   query.append(filter);
   if (cursorQuery) query.append(cursorQuery);

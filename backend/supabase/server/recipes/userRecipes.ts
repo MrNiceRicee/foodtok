@@ -1,5 +1,11 @@
-import { getLimit, getOrder, getCursor, buildSearchRes } from '@util/utility';
-import SQL from 'sql-template-strings';
+import {
+  getLimit,
+  getOrder,
+  getCursor,
+  buildSearchRes,
+  getFilter,
+} from '@util/utility';
+import SQL, { SQLStatement } from 'sql-template-strings';
 import { queryRows } from '../../connection/db';
 import { JoinedRecipe } from '../../types/Recipes';
 
@@ -8,15 +14,19 @@ interface Payload {
   order?: any;
   limit?: any;
   cursor?: string;
+  filter?: string | SQLStatement;
 }
 
 const validOrder = ['_id', 'name', 'createdAt', 'updatedAt'];
+const validFilter = ['_id', 'name', 'description', 'UserId'];
 const defaultOrder = '_id:ASC';
 
 const userRecipe = async (payload: Payload) => {
-  let { UserId, limit, cursor, order = defaultOrder } = payload;
-
+  let { filter, UserId, limit, cursor, order = defaultOrder } = payload;
   limit = getLimit(limit);
+  console.log(filter);
+  filter = getFilter(filter, validFilter);
+
   const [field, direction, orderQuery] = getOrder(order, validOrder);
   const cursorQuery = getCursor({
     cursor,
@@ -56,8 +66,9 @@ const userRecipe = async (payload: Payload) => {
 
     FROM "Recipes" a
     LEFT JOIN "Users" "User" ON "UserId"="User"."_id"
-    WHERE a."UserId"=${UserId}
+    WHERE "UserId"=${UserId}
     `;
+  query.append(filter).append(SQL` AND "UserId"=${UserId}`);
 
   if (cursorQuery) query.append(cursorQuery);
   if (orderQuery) query.append(orderQuery);
