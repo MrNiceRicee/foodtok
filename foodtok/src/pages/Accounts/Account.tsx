@@ -1,6 +1,7 @@
 import supabase from '@apis/supabase';
 import { getUser } from '@apis/user';
 import Button from '@components/Button';
+import ThemeButton from '@components/darkmode';
 import useSession from '@hooks/useSession';
 import EditForm from './EditAccount/EditForm';
 
@@ -15,6 +16,7 @@ const Account = () => {
 
   return (
     <>
+      <ThemeButton />
       {!session ? (
         <AccountLoginRegister />
       ) : (

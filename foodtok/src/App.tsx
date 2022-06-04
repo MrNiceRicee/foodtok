@@ -1,7 +1,6 @@
 import { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import ctl from '@netlify/classnames-template-literals';
-import ThemeButton from '@components//darkmode';
 import NavigationBar from '@components//NavigationBar';
 import Recipes from '@pages/Recipes/Recipes';
 import LoadingBar from '@components/LoadingBar';
@@ -25,7 +24,6 @@ const App = () => {
         `
       )}
     >
-      <ThemeButton />
       <Routes>
         <Route index element={<Recipes />} />
         <Route path="account">

@@ -14,10 +14,11 @@ const RecipeCard = lazy(() => import('./RecipeCard'));
 
 const ButtonLink = () => (
   <Link
-    className={ctl(`w-full max-w-lg mx-auto my-4 no-underline
+    className={ctl(`
+    inline-block w-fit
+    mb-4 no-underline
     text-center
     relative
-    inline-block
     prose dark:prose-invert
     py-2 px-3 rounded-lg
     font-bold text-lg
@@ -86,7 +87,7 @@ const RecipesList = () => {
   }
 
   return (
-    <>
+    <div className='flex flex-col'>
       <TextInput
         title="search"
         variance="outline"
@@ -125,7 +126,7 @@ const RecipesList = () => {
           </div>
         )}
       </button>
-    </>
+    </div>
   );
 };
 
