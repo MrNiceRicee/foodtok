@@ -9,6 +9,7 @@ import base from './base';
 const search = async (params?: {
   limit?: number;
   filter?: object;
+  cursor?: string
 }): Promise<AxiosResponse<SearchData>> =>
   base.get('/recipes', {
     params,

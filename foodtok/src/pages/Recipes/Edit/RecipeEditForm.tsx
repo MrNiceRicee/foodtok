@@ -49,7 +49,6 @@ const RecipeEditForm = () => {
     });
 
     if (updated) {
-      // await refetch();
       setLoading(false);
       setEdited(false);
       navigate(`/recipes/${id}`);

@@ -30,7 +30,7 @@ const RecipesList = () => {
     fetchNextPage,
     refetch,
     hasNextPage,
-  } = searchQuery({ name: filter });
+  } = searchQuery({ name: filter, description: filter });
 
   const handleFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFilter(e.target.value);

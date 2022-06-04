@@ -13,12 +13,16 @@ export const searchQuery = ({
   return useInfiniteQuery(
     ['SearchList', `${user?.id}`],
     async ({ pageParam }) => {
-      const payload: { name?: string; description?: string } = {};
+      const payload: { name?: string | object; description?: string | object } =
+        {};
       if (name) {
         payload.name = name;
       }
       if (description) {
-        payload.description = description;
+        payload.description = {
+          ILIKE: description,
+          OR: true,
+        };
       }
       return search({
         limit: 25,
