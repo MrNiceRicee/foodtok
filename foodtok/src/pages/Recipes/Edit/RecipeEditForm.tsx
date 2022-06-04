@@ -266,6 +266,7 @@ const RecipeEditForm = () => {
                     dark:active:text-slate-200 dark:focus:text-slate-200
                     duration-300
                   `)}
+                  type='text'
                   value={`${item.servingUnit || ''}`}
                   placeholder="-"
                   onChange={onIngredientChange('servingUnit', idx)}

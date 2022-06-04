@@ -63,6 +63,7 @@ const RecipesList = () => {
         variance="outline"
         value={filter}
         onChange={handleFilter}
+        type="search"
       />
       {data?.pages && data.pages[0].length ? (
         <div className="grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-4">
