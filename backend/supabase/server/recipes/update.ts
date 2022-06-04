@@ -9,6 +9,7 @@ interface Ingredient {
   name: string;
   servingSize: number | string | null;
   servingUnit: string | null;
+  remove?: boolean;
 }
 
 interface updatePayload {
@@ -30,10 +31,53 @@ const findRecipe = async (
     [id]
   );
 
+const updateRecipeIngredientQuery = (
+  RecipeId: number,
+  UserId: string,
+  IngredientId: number,
+  IngredientUpdate: Ingredient,
+  res: { _id: number; servingUnit: string; servingSize: number }
+) => {
+  const query = SQL`
+  UPDATE "Recipes_Ingredients"
+    SET 
+`;
+  // only query for mismatch
+  if (IngredientUpdate.servingSize !== res.servingSize) {
+    query.append(SQL` "servingSize"=${IngredientUpdate.servingSize}, `);
+  }
+  if (IngredientUpdate.servingUnit !== res.servingUnit) {
+    query.append(SQL` "servingUnit"=${IngredientUpdate.servingUnit}, `);
+  }
+  query.append(SQL`
+    "updatedAt"=NOW() 
+  WHERE "RecipeId"=${RecipeId} AND
+    "IngredientId"=${IngredientId} AND
+    "UserId"=${UserId}
+  RETURNING
+    "servingSize",
+    "servingUnit",
+    "createdAt",
+    "updatedAt"
+`);
+  return query;
+};
+
+const removeIngredientQuery = (
+  RecipeId: number,
+  UserId: string,
+  IngredientId: number
+) => SQL`
+  DELETE FROM "Recipes_Ingredients"
+    WHERE "RecipeId"=${RecipeId} AND
+      "UserId"=${UserId} AND
+      "IngredientId"=${IngredientId}
+    `;
+
 const findAndCreateRecipeIngredientQuery = async (
   RecipeId: number,
   IngredientId: number,
-  UserId: number | string,
+  UserId: string,
   IngredientUpdate: Ingredient
 ) => {
   const res: { _id: number; servingUnit: string; servingSize: number } =
@@ -50,29 +94,16 @@ const findAndCreateRecipeIngredientQuery = async (
     );
   if (!res) throw new ErrorException('recipe ingredient not found', 404);
 
-  const query = SQL`
-    UPDATE "Recipes_Ingredients"
-      SET 
-  `;
-  // only query for mismatch
-  if (IngredientUpdate.servingSize !== res.servingSize) {
-    query.append(SQL` "servingSize"=${IngredientUpdate.servingSize}, `);
+  if (IngredientUpdate.remove) {
+    return removeIngredientQuery(RecipeId, UserId, IngredientId);
   }
-  if (IngredientUpdate.servingUnit !== res.servingUnit) {
-    query.append(SQL` "servingUnit"=${IngredientUpdate.servingUnit}, `);
-  }
-  query.append(SQL`
-      "updatedAt"=NOW() 
-    WHERE "RecipeId"=${RecipeId} AND
-      "IngredientId"=${IngredientId} AND
-      "UserId"=${UserId}
-    RETURNING
-      "servingSize",
-      "servingUnit",
-      "createdAt",
-      "updatedAt"
-  `);
-  return query;
+  return updateRecipeIngredientQuery(
+    RecipeId,
+    UserId,
+    IngredientId,
+    IngredientUpdate,
+    res
+  );
 };
 
 const createRecipeQuery = async (
@@ -109,7 +140,7 @@ const createRecipeQuery = async (
 
 const createIngredientQueries = async (
   RecipeId: number,
-  UserId: number | string,
+  UserId: string,
   ingredients: Array<Ingredient>
 ) =>
   Promise.all(

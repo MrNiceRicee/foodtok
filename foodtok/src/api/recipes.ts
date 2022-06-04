@@ -129,6 +129,7 @@ const updateRecipe = (
         servingSize: number | string | null;
         servingUnit: string | null;
         edited?: boolean;
+        remove?: boolean;
       }>;
     }) => put(id, payload).then((data) => data.data.data),
     {
