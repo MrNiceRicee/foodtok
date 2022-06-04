@@ -31,7 +31,7 @@ const userRecipe = (req: Request, res: Response) =>
     .catch(handleError(res));
 
 const update = (req: Request, res: Response) =>
-  handleUpdate(+req.params.id, req.body)
+  handleUpdate(+req.params.id, req.body, req.headers['foodtok-user'] as string)
     .then(handleResponse(res, 200))
     .catch(handleError(res));
 
@@ -41,7 +41,11 @@ const remove = (req: Request, res: Response) =>
     .catch(handleError(res));
 
 const addIngredient = (req: Request, res: Response) =>
-  handleAddIngredient(+req.params.id, req.headers['foodtok-user'] as string, req.body)
+  handleAddIngredient(
+    +req.params.id,
+    req.headers['foodtok-user'] as string,
+    req.body
+  )
     .then(handleResponse(res, 201))
     .catch(handleError(res));
 

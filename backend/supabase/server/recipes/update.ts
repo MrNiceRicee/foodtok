@@ -1,13 +1,21 @@
-import SQL from 'sql-template-strings';
+import SQL, { SQLStatement } from 'sql-template-strings';
 import verify from '@mrnicericee/verify';
-import { queryOne } from '../../connection/db';
+import { queryOne, getClient } from '../../connection/db';
 import ErrorException from '../util/ErrorException';
 import { getUrl } from './util';
+
+interface Ingredient {
+  IngredientId: number;
+  name: string;
+  servingSize: number | string | null;
+  servingUnit: string | null;
+}
 
 interface updatePayload {
   name: string;
   description: string;
   url: string;
+  Ingredients: Array<Ingredient>;
 }
 
 const findRecipe = async (
@@ -22,22 +30,56 @@ const findRecipe = async (
     [id]
   );
 
-const update = async (id: number, updatePayload: updatePayload) => {
-  verify(id, { name: 'id' }).isNumber();
-  const { name, description, url } = updatePayload;
-  if (!name && !description && !url)
-    throw new ErrorException('missing upload payload', 400);
+const findAndCreateRecipeIngredientQuery = async (
+  RecipeId: number,
+  IngredientId: number,
+  UserId: number | string,
+  IngredientUpdate: Ingredient
+) => {
+  const res: { _id: number; servingUnit: string; servingSize: number } =
+    await queryOne(
+      `
+      SELECT "_id", "servingUnit", "servingSize"
+      FROM "Recipes_Ingredients"
+      WHERE "RecipeId" = $1 AND
+        "IngredientId" = $2 AND
+        "UserId" = $3
+      LIMIT 1
+    `,
+      [RecipeId, IngredientId, UserId]
+    );
+  if (!res) throw new ErrorException('recipe ingredient not found', 404);
 
-  const foundRecipe = await findRecipe(id);
-  if (!foundRecipe) throw new ErrorException('recipe not found', 404);
-  if (url && foundRecipe.url && url !== foundRecipe.url)
-    throw new ErrorException('url already set', 400);
-
-  const updated = [];
   const query = SQL`
-    UPDATE "Recipes"
-    SET
+    UPDATE "Recipes_Ingredients"
+      SET 
   `;
+  // only query for mismatch
+  if (IngredientUpdate.servingSize !== res.servingSize) {
+    query.append(SQL` "servingSize"=${IngredientUpdate.servingSize}, `);
+  }
+  if (IngredientUpdate.servingUnit !== res.servingUnit) {
+    query.append(SQL` "servingUnit"=${IngredientUpdate.servingUnit}, `);
+  }
+  query.append(SQL`
+      "updatedAt"=NOW() 
+    WHERE "RecipeId"=${RecipeId} AND
+      "IngredientId"=${IngredientId} AND
+      "UserId"=${UserId}
+    RETURNING
+      "servingSize",
+      "servingUnit",
+      "createdAt",
+      "updatedAt"
+  `);
+  return query;
+};
+
+const createRecipeQuery = async (
+  updated: Array<string>,
+  { name, description, url }: { name: string; description: string; url: string }
+) => {
+  const query = SQL``;
   if (name) {
     verify(name, { name: 'name' })
       .isString()
@@ -60,8 +102,56 @@ const update = async (id: number, updatePayload: updatePayload) => {
     )
       throw new ErrorException('url must be from Tiktok', 400);
     const longUrl = await getUrl(url);
-    query.append(SQL`"url"=${url}, "longUrl"=${longUrl},`)
+    query.append(SQL`"url"=${url}, "longUrl"=${longUrl},`);
   }
+  return query;
+};
+
+const createIngredientQueries = async (
+  RecipeId: number,
+  UserId: number | string,
+  ingredients: Array<Ingredient>
+) =>
+  Promise.all(
+    ingredients.map((item) =>
+      findAndCreateRecipeIngredientQuery(
+        RecipeId,
+        item.IngredientId,
+        UserId,
+        item
+      )
+    )
+  );
+
+const update = async (
+  id: number,
+  updatePayload: updatePayload,
+  UserId?: string
+) => {
+  verify(id, { name: 'id' }).isNumber();
+  const { name, description, url } = updatePayload;
+  if (!name && !description && !url)
+    throw new ErrorException('missing upload payload', 400);
+
+  const foundRecipe = await findRecipe(id);
+  if (!foundRecipe) throw new ErrorException('recipe not found', 404);
+  if (url && foundRecipe.url && url !== foundRecipe.url)
+    throw new ErrorException('url already set', 400);
+
+  // check payload ingredients
+  const ingredientQueries = await createIngredientQueries(
+    id,
+    UserId,
+    updatePayload.Ingredients
+  );
+
+  const updated = [];
+  const query = SQL`
+    UPDATE "Recipes"
+    SET
+  `;
+  query.append(await createRecipeQuery(updated, updatePayload));
+
   query.append(SQL`
     "updatedAt"=NOW()
     WHERE "_id"=${id}
@@ -76,8 +166,24 @@ const update = async (id: number, updatePayload: updatePayload) => {
       "updatedAt"
     `);
 
-  const data = await queryOne(query.text, query.values);
-  return { data, updated };
+  // start transaction
+  const client = await getClient();
+  await client.query('BEGIN');
+  try {
+    const recipeUpdate = await queryOne(query.text, query.values);
+    const ingredientsUpdate = await Promise.all(
+      ingredientQueries.map((statement) =>
+        queryOne(statement.text, statement.values)
+      )
+    );
+    await client.query('COMMIT');
+    return { data: { recipeUpdate, ingredientsUpdate }, updated };
+  } catch (err) {
+    await client.query('ROLLBACK');
+    throw err;
+  } finally {
+    client.release();
+  }
 };
 
 export default update;
