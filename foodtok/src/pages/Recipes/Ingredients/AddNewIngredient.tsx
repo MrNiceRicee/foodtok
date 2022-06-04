@@ -7,6 +7,7 @@ import Button from '@components/Button';
 import useDarkMode from '@hooks/useDarkMode';
 import GrowIn from '@components/GrowIn';
 import ctl from '@netlify/classnames-template-literals';
+import { parseError } from '@apis/util';
 
 const AddNewIngredient = ({
   RecipeId,
@@ -39,7 +40,18 @@ const AddNewIngredient = ({
   };
 
   const handleCreate = async (inputValue: string) => {
-    await post({ UserId, name: inputValue });
+    try {
+      const created = await post({ UserId, name: inputValue });
+      handleOnChange([
+        ...selectedIngredients || [],
+        {
+          label: created.data.data.name,
+          value: created.data.data._id,
+        },
+      ]);
+    } catch (err) {
+      setError(parseError(err));
+    }
   };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

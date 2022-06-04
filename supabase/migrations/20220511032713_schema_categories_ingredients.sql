@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS public."Ingredients"
     "createdAt" timestamp without time zone NOT NULL DEFAULT now(),
     "updatedAt" timestamp without time zone NOT NULL DEFAULT now(),
     CONSTRAINT "Ingredients_pkey" PRIMARY KEY (_id),
-    CONSTRAINT "Ingredients_name_key" UNIQUE (name),
+    CONSTRAINT "Ingredients_name_key" UNIQUE (name, "UserId"),
         CONSTRAINT "Ingredients_UserId_fk" FOREIGN KEY ("UserId")
         REFERENCES public."Users" (_id) MATCH SIMPLE
         ON UPDATE CASCADE

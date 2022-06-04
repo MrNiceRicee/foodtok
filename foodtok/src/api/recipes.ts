@@ -122,7 +122,6 @@ const searchUserRecipes = ({
           OR: true,
         };
       }
-      console.log('what is payload', payload);
       return userRecipe({
         limit: 25,
         cursor: pageParam,

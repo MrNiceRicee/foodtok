@@ -23,6 +23,7 @@ const search = async (searchPayload: searchPayload) => {
       a."createdAt",
       a."updatedAt"
     FROM "Ingredients" a
+    WHERE 1=1 
       `
     .append(filter)
     .append(SQL` LIMIT ${limit}`);
