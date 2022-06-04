@@ -83,11 +83,9 @@ const RecipeEditForm = () => {
       setEdited(true);
     };
 
-  const onFocus = (event: React.FocusEvent<HTMLInputElement, Element>) =>
-    event.target.select();
-
   const onDismissError = () => {
     setError(null);
+    setLoading(false);
   };
 
   const onCancel = () => {
@@ -177,8 +175,10 @@ const RecipeEditForm = () => {
               <label className="dark:text-slate-100">description</label>
             </div>
           </section>
-          <section className="px-4 dark:text-slate-100">
-            <h2 className="text-xl font-black inline-block">Ingredients</h2>
+          <section className="px-4 dark:text-slate-100 py-3">
+            <header className="pt-1">
+              <h2 className="text-xl font-black inline-block">Ingredients</h2>
+            </header>
             <div className="flex gap-2 justify-between">
               <span>name</span>
               <span>size</span>
@@ -206,7 +206,6 @@ const RecipeEditForm = () => {
                   placeholder="-"
                   disabled
                   onChange={onIngredientChange('name', idx)}
-                  onFocus={onFocus}
                 />
                 <input
                   className={ctl(`
@@ -227,7 +226,6 @@ const RecipeEditForm = () => {
                   placeholder="0"
                   type="number"
                   onChange={onIngredientChange('servingSize', idx)}
-                  onFocus={onFocus}
                 />
                 <input
                   className={ctl(`
@@ -246,7 +244,6 @@ const RecipeEditForm = () => {
                   value={`${item.servingUnit || ''}`}
                   placeholder="-"
                   onChange={onIngredientChange('servingUnit', idx)}
-                  onFocus={onFocus}
                 />
               </div>
             ))}

@@ -15,7 +15,7 @@ const anchorStyle = (state: boolean, open: boolean, bar = true) =>
     cursor-pointer
     w-full h-full flex flex-col
     justify-center inline-block text-center
-    pb-1 pt-2
+    pb-3 pt-[0.5rem]
     ${
       bar &&
       `
