@@ -19,25 +19,39 @@ const getLimit = (limit: any) => {
 const determineOps = (key: string, value: any) => {
   const query = SQL``;
   if (Object.prototype.hasOwnProperty.call(value, 'EQ')) {
-    query.append(` AND a."${key}" = `).append(SQL`${value.EQ} `);
+    query
+      .append(` ${value.OR ? 'OR' : 'AND'} a."${key}" = `)
+      .append(SQL`${value.EQ} `);
   }
   if (Object.prototype.hasOwnProperty.call(value, 'GT')) {
-    query.append(` AND a."${key}" > `).append(SQL`${value.GT} `);
+    query
+      .append(` ${value.OR ? 'OR' : 'AND'} a."${key}" > `)
+      .append(SQL`${value.GT} `);
   }
   if (Object.prototype.hasOwnProperty.call(value, 'GTE')) {
-    query.append(` AND a."${key}" >= `).append(SQL`${value.GTE} `);
+    query
+      .append(` ${value.OR ? 'OR' : 'AND'} a."${key}" >= `)
+      .append(SQL`${value.GTE} `);
   }
   if (Object.prototype.hasOwnProperty.call(value, 'LT')) {
-    query.append(` AND a."${key}" < `).append(SQL`${value.LT} `);
+    query
+      .append(` ${value.OR ? 'OR' : 'AND'} a."${key}" < `)
+      .append(SQL`${value.LT} `);
   }
   if (Object.prototype.hasOwnProperty.call(value, 'LTE')) {
-    query.append(` AND a."${key}" <= `).append(SQL`${value.LTE} `);
+    query
+      .append(` ${value.OR ? 'OR' : 'AND'} a."${key}" <= `)
+      .append(SQL`${value.LTE} `);
   }
   if (Object.prototype.hasOwnProperty.call(value, 'ILIKE')) {
-    query.append(` AND a."${key}" ILIKE `).append(SQL`${`%${value.ILIKE}%`}`);
+    query
+      .append(` ${value.OR ? 'OR' : 'AND'} a."${key}" ILIKE `)
+      .append(SQL`${`%${value.ILIKE}%`}`);
   }
   if (Object.prototype.hasOwnProperty.call(value, 'LIKE')) {
-    query.append(` AND a."${key}" LIKE `).append(SQL`${`%${value.LIKE}%`}`);
+    query
+      .append(` ${value.OR ? 'OR' : 'AND'} a."${key}" LIKE `)
+      .append(SQL`${`%${value.LIKE}%`}`);
   }
   return query;
 };
