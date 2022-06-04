@@ -12,9 +12,12 @@ import Account from '@pages/Accounts/Account';
 import watchSession from '@hooks/watchSession';
 import Unauthorized from '@pages/Unauthorized/Unauthorized';
 import Search from '@pages/Search/Search';
+import watchThemeMode from '@hooks/watchThemeMode';
 
 const App = () => {
   watchSession();
+  watchThemeMode();
+
   return (
     <div
       className={ctl(
