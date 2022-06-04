@@ -85,8 +85,8 @@ const RecipeDetail = () => {
 
   const onEdit = () => navigate('edit');
 
-  const onRefresh = () => {
-    refetch();
+  const onRefresh = async () => {
+    await refetch();
     tiktokRes();
     queryClient.invalidateQueries([
       `Recipe_${data?._id}`,

@@ -37,6 +37,13 @@ const put = async (
     name: string | null;
     description: string | null;
     url: string | null;
+    Ingredients: Array<{
+      IngredientId: number;
+      name: string;
+      servingSize: number | string | null;
+      servingUnit: string | null;
+      edited?: boolean;
+    }>;
   }
 ): Promise<AxiosResponse<{ data: justRecipe }>> =>
   base.put(`/recipes/${id}`, payload);
@@ -112,8 +119,18 @@ const updateRecipe = (
   const queryClient = useQueryClient();
   const user = useUser();
   return useMutation(
-    (payload: { name: string; description: string; url: string }) =>
-      put(id, payload).then((data) => data.data.data),
+    (payload: {
+      name: string;
+      description: string;
+      url: string;
+      Ingredients: Array<{
+        IngredientId: number;
+        name: string;
+        servingSize: number | string | null;
+        servingUnit: string | null;
+        edited?: boolean;
+      }>;
+    }) => put(id, payload).then((data) => data.data.data),
     {
       onSuccess: (data) => {
         return queryClient.invalidateQueries([

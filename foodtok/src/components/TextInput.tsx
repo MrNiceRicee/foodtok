@@ -20,6 +20,9 @@ const TextInput = ({
   type,
   ...props
 }: prop) => {
+  const onFocus = (event: React.FocusEvent<HTMLInputElement, Element>) =>
+    event.target.select();
+
   if (variance === 'outline') {
     return (
       <div
@@ -49,6 +52,7 @@ const TextInput = ({
             duration-300
             ${inputClass}
           `)}
+          onFocus={onFocus}
           type={type}
           value={value ?? ''}
           placeholder=" "
@@ -98,6 +102,7 @@ const TextInput = ({
         `)}
         type={type}
         value={value}
+        onFocus={onFocus}
       />
     </div>
   );

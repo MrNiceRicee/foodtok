@@ -12,6 +12,22 @@ input:not(:focus-within) ~ label {
   @apply transform duration-300 scale-100 text-inherit;
 }
 
+textarea {
+  @apply focus-within:ring-pink-500
+  text-slate-400 dark:text-slate-500
+  active:text-slate-900 focus:text-slate-900
+  dark:active:text-slate-200 dark:focus:text-slate-200
+  min-h-[5rem] px-1 py-0
+  bg-transparent
+  font-light
+  transition-all duration-300;
+}
+
+textarea:focus-within ~ label {
+  @apply text-pink-500 dark:text-pink-500
+  transition-all duration-300;
+}
+
 .react-select__input {
   @apply focus:ring-0 dark:text-slate-100;
 }

@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ctl from '@netlify/classnames-template-literals';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getRecipe, updateRecipe } from '@apis/recipes';
@@ -6,10 +8,18 @@ import TextInput from '@components/TextInput';
 import Button from '@components/Button';
 import GrowIn from '@components/GrowIn';
 
+interface IngredientInstance {
+  IngredientId: number;
+  name: string;
+  servingSize: number | string | null;
+  servingUnit: string | null;
+  edited?: boolean;
+}
 interface ModelInstance {
   name: string;
   description: string;
   url: string;
+  Ingredients: Array<IngredientInstance>;
 }
 
 const RecipeEditForm = () => {
@@ -19,20 +29,29 @@ const RecipeEditForm = () => {
     name: '',
     description: '',
     url: '',
+    Ingredients: [],
   });
 
   const [error, setError] = useState<string | null>(null);
-  const { isLoading, data } = getRecipe(id ? +id : 0);
+  const [edited, setEdited] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { isLoading, data, refetch } = getRecipe(id ? +id : 0);
 
   const sendUpdate = updateRecipe(id ? +id : 0, setError);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const updated = await sendUpdate.mutateAsync(model);
+    setLoading(true);
+    const updated = await sendUpdate.mutateAsync({
+      ...model,
+      Ingredients: model.Ingredients.filter((item) => item.edited),
+    });
 
     if (updated) {
-      navigate(`/recipes/${id}`);
+      await refetch();
+      setLoading(false);
+      setEdited(false);
+      // navigate(`/recipes/${id}`);
     }
   };
 
@@ -42,14 +61,30 @@ const RecipeEditForm = () => {
         name: data.name ?? '',
         description: data.description ?? '',
         url: data.url ?? '',
+        Ingredients: [...data.Ingredients],
       });
     }
   }, [isLoading]);
 
   const onChange =
     (key: string) =>
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       setModel((old) => ({ ...old, [key]: e.target.value }));
+      setEdited(true);
+    };
+
+  const onIngredientChange =
+    (key: 'name' | 'servingSize' | 'servingUnit', index: number) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const temp = { ...model };
+      temp.Ingredients[index][key] = e.target.value;
+      temp.Ingredients[index].edited = true;
+      setModel(temp);
+      setEdited(true);
+    };
+
+  const onFocus = (event: React.FocusEvent<HTMLInputElement, Element>) =>
+    event.target.select();
 
   const onDismissError = () => {
     setError(null);
@@ -57,11 +92,7 @@ const RecipeEditForm = () => {
 
   const onCancel = () => {
     if (data) {
-      if (
-        model.name === data.name &&
-        model.description === data.description &&
-        model.url === data.url
-      ) {
+      if (!edited) {
         // go back if it's already default
         navigate(-1);
       }
@@ -69,7 +100,9 @@ const RecipeEditForm = () => {
         name: data.name ?? '',
         description: data.description ?? '',
         url: data.url ?? '',
+        Ingredients: data.Ingredients,
       });
+      setEdited(false);
     }
     onDismissError();
   };
@@ -119,12 +152,11 @@ const RecipeEditForm = () => {
               Editing Recipe
             </h1>
           </header>
-          <section className="px-4">
+          <section className="px-4 dark:text-slate-100">
             <TextInput
               name="title"
               value={model.name || ''}
               onChange={onChange('name')}
-              divClass="scale-0 animate-grow"
               variance="outline"
             />
             <TextInput
@@ -133,16 +165,91 @@ const RecipeEditForm = () => {
               disabled={!!data?.url}
               onChange={onChange('url')}
               inputClass={`${data?.url ? 'opacity-50' : ''}`}
-              divClass="scale-0 animate-grow"
               variance="outline"
             />
-            <TextInput
-              name="description"
-              value={model.description || ''}
-              onChange={onChange('description')}
-              divClass="scale-0 animate-grow"
-              variance="outline"
-            />
+            <div className="flex flex-col-reverse gap-2">
+              <textarea
+                name="description"
+                value={model.description || ''}
+                onChange={onChange('description')}
+                placeholder=" "
+              />
+              <label className="dark:text-slate-100">description</label>
+            </div>
+          </section>
+          <section className="px-4 dark:text-slate-100">
+            <h2 className="text-xl font-black inline-block">Ingredients</h2>
+            <div className="flex gap-2 justify-between">
+              <span>name</span>
+              <span>size</span>
+              <span>unit</span>
+            </div>
+            {model.Ingredients.map((item, idx) => (
+              <div
+                className="flex gap-2 justify-between"
+                key={item.IngredientId}
+              >
+                <input
+                  className={ctl(`
+                    block w-full
+                    prose
+                    px-0 pb-0
+                  focus-within:border-pink-500
+                    appearance-none focus:outline-none focus:ring-0
+                    bg-transparent outline-none border-b
+                    text-slate-400 dark:text-slate-500
+                    active:text-slate-900 focus:text-slate-900
+                    dark:active:text-slate-200 dark:focus:text-slate-200
+                    duration-300
+                  `)}
+                  value={item.name}
+                  placeholder="-"
+                  disabled
+                  onChange={onIngredientChange('name', idx)}
+                  onFocus={onFocus}
+                />
+                <input
+                  className={ctl(`
+                    block w-full
+                    prose
+                    px-0 pb-0
+                    text-right
+                  focus-within:border-pink-500
+                    appearance-none focus:outline-none focus:ring-0
+                    bg-transparent outline-none border-t-0 border-r-0 border-l-0 border-b
+                    border-inherit
+                    text-slate-400 dark:text-slate-500
+                    active:text-slate-900 focus:text-slate-900
+                    dark:active:text-slate-200 dark:focus:text-slate-200
+                    duration-300
+                  `)}
+                  value={`${item.servingSize}`}
+                  placeholder="0"
+                  type="number"
+                  onChange={onIngredientChange('servingSize', idx)}
+                  onFocus={onFocus}
+                />
+                <input
+                  className={ctl(`
+                    block w-full
+                    prose
+                    px-0 pb-0
+                    text-right
+                  focus-within:border-pink-500
+                    appearance-none focus:outline-none focus:ring-0
+                    bg-transparent outline-none border-b
+                    text-slate-400 dark:text-slate-500
+                    active:text-slate-900 focus:text-slate-900
+                    dark:active:text-slate-200 dark:focus:text-slate-200
+                    duration-300
+                  `)}
+                  value={`${item.servingUnit || ''}`}
+                  placeholder="-"
+                  onChange={onIngredientChange('servingUnit', idx)}
+                  onFocus={onFocus}
+                />
+              </div>
+            ))}
           </section>
           <GrowIn height="3rem" open={!!error}>
             <figure>
@@ -172,10 +279,25 @@ const RecipeEditForm = () => {
               type="reset"
               onClick={onCancel}
             >
-              cancel
+              {!edited ? 'back' : 'cancel'}
             </Button>
-            <Button className="mx-2" type="submit">
-              confirm
+            <Button
+              className={ctl(
+                `mx-2 ${
+                  loading ? 'pointer-events-none cursor-none brightness-50' : ''
+                }`
+              )}
+              type="submit"
+            >
+              {loading ? (
+                <FontAwesomeIcon
+                  icon={faSpinner}
+                  size="lg"
+                  className="animate-spin min-w-[4rem] pointer-events-none cursor-none"
+                />
+              ) : (
+                'confirm'
+              )}
             </Button>
           </footer>
         </form>
