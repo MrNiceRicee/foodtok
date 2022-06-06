@@ -5,6 +5,7 @@ import Table from '@components/Table';
 import { Column } from '@components/Table/types';
 import { Ingredients as IngredientsType } from '@foodtok-types/recipe';
 import AddNewIngredient from './AddNewIngredient';
+import RecipeIngredientsTable from './RecipeIngredientsTable';
 
 const columns: Column = [
   {
@@ -34,6 +35,7 @@ const RecipeDetailIngredients = ({
 
   const onClick = () => setOpen((old) => !old);
 
+  console.log('hello?');
   return (
     <article className="px-2 py-4 dark:text-slate-100">
       <div>
@@ -48,6 +50,8 @@ const RecipeDetailIngredients = ({
         </div>
       )}
       <Table column={columns} data={Ingredients} />
+      <div>Neat!</div>
+      <RecipeIngredientsTable data={Ingredients || []} />
     </article>
   );
 };

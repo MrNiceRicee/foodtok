@@ -8,9 +8,8 @@ interface justRecipe {
   updatedAt: Date;
 }
 
-interface Ingredients { 
+interface Ingredients {
   IngredientId: number;
-  customDescription: string | null;
   servingSize: number | null;
   servingUnit: string | null;
   description: string | null;
