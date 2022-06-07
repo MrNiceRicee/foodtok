@@ -1,26 +1,9 @@
 import { useState } from 'react';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Table from '@components/Table';
-import { Column } from '@components/Table/types';
 import { Ingredients as IngredientsType } from '@foodtok-types/recipe';
 import AddNewIngredient from './AddNewIngredient';
 import RecipeIngredientsTable from './RecipeIngredientsTable';
-
-const columns: Column = [
-  {
-    header: 'name',
-    accessor: 'name',
-  },
-  {
-    header: 'serving',
-    accessor: 'servingSize',
-  },
-  {
-    header: 'unit',
-    accessor: 'servingUnit',
-  },
-];
 
 const RecipeDetailIngredients = ({
   Ingredients,
