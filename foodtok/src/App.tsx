@@ -21,7 +21,7 @@ const App = () => {
   return (
     <div
       className={ctl(
-        `p-safe h-screen-safe w-full
+        `p-safe h-screen-safe w-full min-h-screen-safe
         container
         flex flex-grow mx-auto flex-col mb-1 relative
         `

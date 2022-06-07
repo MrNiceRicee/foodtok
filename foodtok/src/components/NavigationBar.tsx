@@ -99,6 +99,7 @@ const NavigationBar = () => {
         md:max-w-[10rem]
         md:rounded-r-md
         md:shadow-none md:border-y md:border-r
+        md:mx-safe
       `
       )}
     >
