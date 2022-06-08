@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense, lazy } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ctl from '@netlify/classnames-template-literals';
 import { getRecipe } from '@apis/recipes';
@@ -10,7 +10,10 @@ import { tiktok } from '@foodtok-types/tiktok';
 import useUser from '@hooks/useUser';
 import Button from '@components/Button';
 import { useQuery, useQueryClient } from 'react-query';
-import RecipeDetailIngredients from './Ingredients/RecipeDetailIngredients';
+import LoadingBar from '@components/LoadingBar';
+const RecipeDetailIngredients = lazy(
+  () => import('./Ingredients/RecipeDetailIngredients')
+);
 
 const DefaultUrl = () => (
   <div className="w-full h-full bg-orange-100 dark:bg-orange-200 animate-fadeIn z-40"></div>
@@ -124,11 +127,19 @@ const RecipeDetail = () => {
           </>
         ) : null}
         {data && user?.id && userMatch && (
-          <RecipeDetailIngredients
-            Ingredients={data?.Ingredients}
-            RecipeId={data._id}
-            UserId={user.id}
-          />
+          <Suspense
+            fallback={
+              <div className="w-full h-20">
+                <LoadingBar />
+              </div>
+            }
+          >
+            <RecipeDetailIngredients
+              Ingredients={data?.Ingredients}
+              RecipeId={data._id}
+              UserId={user.id}
+            />
+          </Suspense>
         )}
         {userMatch && (
           <div>
