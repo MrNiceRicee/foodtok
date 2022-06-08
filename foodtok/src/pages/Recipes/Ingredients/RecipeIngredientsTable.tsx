@@ -29,12 +29,18 @@ const defaultColumns = [
   }),
 ];
 
-const RecipeIngredientsTable = ({ data }: { data: IngredientsType[] }) => {
+const RecipeIngredientsTable = ({
+  data,
+  RecipeId,
+  UserId,
+}: {
+  data: IngredientsType[];
+  RecipeId: string;
+  UserId: string;
+}) => {
   const [columns] = useState<typeof defaultColumns>([...defaultColumns]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnResizeMode] = useState<ColumnResizeMode>('onChange');
-
-  // const rerender = useReducer(() => ({}), {})[1];
 
   const instance = useTableInstance(table, {
     data,
@@ -46,6 +52,9 @@ const RecipeIngredientsTable = ({ data }: { data: IngredientsType[] }) => {
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     columnResizeMode,
+    meta: {
+      updateData: (rowIndex: number, ingredientId: number, value: string) => {},
+    },
   });
 
   return <ReactTable instance={instance} />;

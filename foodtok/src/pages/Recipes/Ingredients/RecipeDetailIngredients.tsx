@@ -33,7 +33,11 @@ const RecipeDetailIngredients = ({
       )}
       {/* <Table column={columns} data={Ingredients} />
       <div>Neat!</div> */}
-      <RecipeIngredientsTable data={Ingredients || []} />
+      <RecipeIngredientsTable
+        data={Ingredients || []}
+        RecipeId={RecipeId}
+        UserId={UserId}
+      />
     </article>
   );
 };
