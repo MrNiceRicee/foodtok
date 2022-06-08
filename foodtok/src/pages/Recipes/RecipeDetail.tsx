@@ -83,8 +83,10 @@ const RecipeDetail = () => {
   useEffect(() => {
     if (user?.id === data?.User.id) {
       setUserMatch(true);
+    } else {
+      setUserMatch(false);
     }
-  }, [user, data, id, setUserMatch]);
+  }, [user?.id, data?.User, id, setUserMatch]);
 
   const onEdit = () => navigate('edit');
 
@@ -126,7 +128,7 @@ const RecipeDetail = () => {
             </p>
           </>
         ) : null}
-        {data && user?.id && userMatch && (
+        {data && (
           <Suspense
             fallback={
               <div className="w-full h-20">
@@ -137,7 +139,8 @@ const RecipeDetail = () => {
             <RecipeDetailIngredients
               Ingredients={data?.Ingredients}
               RecipeId={data._id}
-              UserId={user.id}
+              UserMatch={userMatch}
+              UserId={user?.id}
             />
           </Suspense>
         )}

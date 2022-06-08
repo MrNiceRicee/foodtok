@@ -9,24 +9,30 @@ const RecipeDetailIngredients = ({
   Ingredients,
   RecipeId,
   UserId,
+  UserMatch,
 }: {
   Ingredients?: Array<IngredientsType>;
   RecipeId: string;
-  UserId: string;
+  UserId: string | undefined;
+  UserMatch: boolean;
 }) => {
   const [open, setOpen] = useState(false);
 
   const onClick = () => setOpen((old) => !old);
 
+  console.log(UserMatch);
+
   return (
     <article className="px-2 py-4 dark:text-slate-100">
       <div>
         <h2 className="text-xl font-black inline-block">Ingredients</h2>
-        <button className="inline-block px-2" onClick={onClick}>
-          <FontAwesomeIcon icon={faPlusCircle} size="lg" />
-        </button>
+        {UserMatch && (
+          <button className="inline-block px-2" onClick={onClick}>
+            <FontAwesomeIcon icon={faPlusCircle} size="lg" />
+          </button>
+        )}
       </div>
-      {open && (
+      {open && UserId && UserMatch && (
         <div>
           <AddNewIngredient RecipeId={RecipeId} UserId={UserId} />
         </div>

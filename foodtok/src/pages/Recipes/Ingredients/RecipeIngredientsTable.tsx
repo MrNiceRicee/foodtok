@@ -36,7 +36,7 @@ const RecipeIngredientsTable = ({
 }: {
   data: IngredientsType[];
   RecipeId: string;
-  UserId: string;
+  UserId: string | undefined;
 }) => {
   const [columns] = useState<typeof defaultColumns>([...defaultColumns]);
   const [sorting, setSorting] = useState<SortingState>([]);
