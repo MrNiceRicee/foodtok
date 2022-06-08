@@ -43,10 +43,10 @@ const updateRecipeIngredientQuery = (
     SET 
 `;
   // only query for mismatch
-  if (IngredientUpdate.servingSize !== res.servingSize) {
+  if (IngredientUpdate?.servingSize !== res.servingSize) {
     query.append(SQL` "servingSize"=${IngredientUpdate.servingSize}, `);
   }
-  if (IngredientUpdate.servingUnit !== res.servingUnit) {
+  if (IngredientUpdate?.servingUnit !== res.servingUnit) {
     query.append(SQL` "servingUnit"=${IngredientUpdate.servingUnit}, `);
   }
   query.append(SQL`
@@ -108,10 +108,15 @@ const findAndCreateRecipeIngredientQuery = async (
 
 const createRecipeQuery = async (
   updated: Array<string>,
-  { name, description, url }: { name: string; description: string; url: string }
+  {
+    name,
+    description,
+    url,
+  }: { name: string; description: string; url: string },
+  foundRecipe: { name: string; url: string; description: string }
 ) => {
   const query = SQL``;
-  if (name) {
+  if (name && name !== foundRecipe.name) {
     verify(name, { name: 'name' })
       .isString()
       .isLength(2, { operator: 'gte' })
@@ -119,13 +124,13 @@ const createRecipeQuery = async (
     updated.push('name');
     query.append(SQL`"name"=${name},`);
   }
-  if (description) {
+  if (description && description !== foundRecipe.description) {
     verify(name, { name: 'description' })
       .isString()
       .isLength(240, { operator: 'lte' });
     query.append(SQL`"description"=${description},`);
   }
-  if (url) {
+  if (url && url !== foundRecipe.url) {
     if (
       !url.includes('vm.tiktok.com') &&
       !url.includes('www.tiktok.com') &&
@@ -185,7 +190,7 @@ const update = async (
     UPDATE "Recipes"
     SET
   `;
-  query.append(await createRecipeQuery(updated, updatePayload));
+  query.append(await createRecipeQuery(updated, updatePayload, foundRecipe));
 
   query.append(SQL`
     "updatedAt"=NOW()
