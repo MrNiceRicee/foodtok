@@ -132,7 +132,8 @@ const createRecipeQuery = async (
       !url.includes('tiktok')
     )
       throw new ErrorException('url must be from Tiktok', 400);
-    const longUrl = await getUrl(url);
+    const scrubbedURL = url.replace('/www.', '/vm.');
+    const longUrl = await getUrl(scrubbedURL);
     query.append(SQL`"url"=${url}, "longUrl"=${longUrl},`);
   }
   return query;
