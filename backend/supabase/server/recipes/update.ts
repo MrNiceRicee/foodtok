@@ -132,9 +132,9 @@ const createRecipeQuery = async (
       !url.includes('tiktok')
     )
       throw new ErrorException('url must be from Tiktok', 400);
-    let scrubbedURL = url.replace(/\?(?:www\.|[\-;:&=\+\$,\w]+)/, '');
+    let scrubbedURL = url.replace(/\?(?:[\-;:&=\+\$,\w]+)/, '');
     if (!url.match(/([tiktok]\w+)([.com]\w+)\/@(?:[a-zA-z]*)\/video\//)) {
-      scrubbedURL = url.replace('/www.', '/vm.');
+      scrubbedURL = url.replace(/(?:\/\/)(?:www.)/, '//vm.');
     }
     const longUrl = await getUrl(scrubbedURL);
     query.append(SQL`"url"=${url}, "longUrl"=${longUrl},`);
