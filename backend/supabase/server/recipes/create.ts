@@ -41,7 +41,10 @@ const create = async ({ UserId, name, description, url }: createPayload) => {
       !url.includes('tiktok')
     )
       throw new ErrorException('url must be from Tiktok', 400);
-    const scrubbedURL = url.replace('/www.', '/vm.');
+      let scrubbedURL = url.replace(/\?(?:www\.|[\-;:&=\+\$,\w]+)/, '');
+    if (!url.match(/([tiktok]\w+)([.com]\w+)\/@(?:[a-zA-z]*)\/video\//)) {
+      scrubbedURL = url.replace('/www.', '/vm.');
+    }
     longUrl = await getUrl(scrubbedURL);
   }
 
