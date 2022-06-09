@@ -41,14 +41,14 @@ const post = async (payload: {
 const put = async (
   id: number | string | undefined,
   payload: {
-    name: string | null;
-    description: string | null;
-    url: string | null;
-    Ingredients: Array<{
+    name?: string | null;
+    description?: string | null;
+    url?: string | null;
+    Ingredients?: Array<{
       IngredientId: number;
-      name: string;
-      servingSize: number | string | null;
-      servingUnit: string | null;
+      name?: string;
+      servingSize?: number | string | null;
+      servingUnit?: string | null;
       edited?: boolean;
     }>;
   }
@@ -166,14 +166,14 @@ const updateRecipe = (
   const user = useUser();
   return useMutation(
     (payload: {
-      name: string;
-      description: string;
-      url: string;
-      Ingredients: Array<{
+      name?: string;
+      description?: string;
+      url?: string;
+      Ingredients?: Array<{
         IngredientId: number;
-        name: string;
-        servingSize: number | string | null;
-        servingUnit: string | null;
+        name?: string;
+        servingSize?: number | string | null;
+        servingUnit?: string | null;
         edited?: boolean;
         remove?: boolean;
       }>;

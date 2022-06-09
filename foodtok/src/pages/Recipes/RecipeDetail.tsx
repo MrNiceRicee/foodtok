@@ -11,6 +11,7 @@ import useUser from '@hooks/useUser';
 import Button from '@components/Button';
 import { useQuery, useQueryClient } from 'react-query';
 import LoadingBar from '@components/LoadingBar';
+import { useUserMatch } from './state';
 const RecipeDetailIngredients = lazy(
   () => import('./Ingredients/RecipeDetailIngredients')
 );
@@ -69,7 +70,7 @@ const RecipeDetail = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [tiktokData, setTiktokdata] = useState<tiktok | null | undefined>();
-  const [userMatch, setUserMatch] = useState(false);
+  const [userMatch, setUserMatch] = useUserMatch();
 
   const user = useUser();
   const { isLoading, data, refetch } = getRecipe(id ? id : 0);
@@ -139,7 +140,6 @@ const RecipeDetail = () => {
             <RecipeDetailIngredients
               Ingredients={data?.Ingredients}
               RecipeId={data._id}
-              UserMatch={userMatch}
               UserId={user?.id}
             />
           </Suspense>

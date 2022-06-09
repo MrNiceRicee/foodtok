@@ -43,10 +43,10 @@ const updateRecipeIngredientQuery = (
     SET 
 `;
   // only query for mismatch
-  if (IngredientUpdate?.servingSize !== res.servingSize) {
+  if (IngredientUpdate?.servingSize) {
     query.append(SQL` "servingSize"=${IngredientUpdate.servingSize}, `);
   }
-  if (IngredientUpdate?.servingUnit !== res.servingUnit) {
+  if (IngredientUpdate?.servingUnit) {
     query.append(SQL` "servingUnit"=${IngredientUpdate.servingUnit}, `);
   }
   query.append(SQL`
@@ -60,6 +60,7 @@ const updateRecipeIngredientQuery = (
     "createdAt",
     "updatedAt"
 `);
+  // console.log(query.text, '\n', query.values);
   return query;
 };
 
@@ -116,7 +117,7 @@ const createRecipeQuery = async (
   foundRecipe: { name: string; url: string; description: string }
 ) => {
   const query = SQL``;
-  if (name && name !== foundRecipe.name) {
+  if (name) {
     verify(name, { name: 'name' })
       .isString()
       .isLength(2, { operator: 'gte' })
@@ -124,7 +125,7 @@ const createRecipeQuery = async (
     updated.push('name');
     query.append(SQL`"name"=${name},`);
   }
-  if (description && description !== foundRecipe.description) {
+  if (description) {
     verify(name, { name: 'description' })
       .isString()
       .isLength(240, { operator: 'lte' });
@@ -169,10 +170,11 @@ const update = async (
   UserId?: string
 ) => {
   verify(id, { name: 'id' }).isNumber();
-  const { name, description, url } = updatePayload;
-  if (!name && !description && !url)
+  const { name, description, url, Ingredients } = updatePayload;
+  if (!name && !description && !url && !Ingredients)
     throw new ErrorException('missing upload payload', 400);
 
+  console.log(updatePayload);
   const foundRecipe = await findRecipe(id);
   if (!foundRecipe) throw new ErrorException('recipe not found', 404);
   if (url && foundRecipe.url && url !== foundRecipe.url)

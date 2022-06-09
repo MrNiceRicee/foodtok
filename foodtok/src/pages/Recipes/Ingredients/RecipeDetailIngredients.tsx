@@ -4,19 +4,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Ingredients as IngredientsType } from '@foodtok-types/recipe';
 import AddNewIngredient from './AddNewIngredient';
 import RecipeIngredientsTable from './RecipeIngredientsTable';
+import { useUserMatch } from '../state';
 
 const RecipeDetailIngredients = ({
   Ingredients,
   RecipeId,
   UserId,
-  UserMatch,
 }: {
   Ingredients?: Array<IngredientsType>;
   RecipeId: string;
   UserId: string | undefined;
-  UserMatch: boolean;
 }) => {
   const [open, setOpen] = useState(false);
+  const [UserMatch] = useUserMatch();
 
   const onClick = () => setOpen((old) => !old);
 
@@ -37,11 +37,7 @@ const RecipeDetailIngredients = ({
       )}
       {/* <Table column={columns} data={Ingredients} />
       <div>Neat!</div> */}
-      <RecipeIngredientsTable
-        data={Ingredients || []}
-        RecipeId={RecipeId}
-        UserId={UserId}
-      />
+      <RecipeIngredientsTable data={Ingredients || []} RecipeId={RecipeId} />
     </article>
   );
 };
