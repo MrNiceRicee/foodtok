@@ -96,6 +96,7 @@ const defaultColumn: Partial<ColumnDef<MyTableGenerics>> = {
             w-full
             prose
             px-0 pb-0
+            overflow-x-scroll
           focus-within:border-pink-500
             appearance-none focus:outline-none focus:ring-0
             bg-transparent outline-none border-t-0 border-r-0 border-l-0 border-b
@@ -153,7 +154,8 @@ const useDefaultColumns = ({ UserMatch }: { UserMatch: boolean }) =>
       cols.push(
         table.createDisplayColumn({
           id: 'remove',
-          header: () => <span>remove</span>,
+          header: () => <span></span>,
+          maxSize: 50,
           meta: {
             inputType: 'checkbox',
           },

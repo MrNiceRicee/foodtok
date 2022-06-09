@@ -1,5 +1,5 @@
 import { useState, useEffect, Suspense, lazy } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import ctl from '@netlify/classnames-template-literals';
 import { getRecipe } from '@apis/recipes';
 import { fetchData } from '@apis/tiktokEmbed';
@@ -12,6 +12,8 @@ import Button from '@components/Button';
 import { useQuery, useQueryClient } from 'react-query';
 import LoadingBar from '@components/LoadingBar';
 import { useUserMatch } from './state';
+import { faPenToSquare, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const RecipeDetailIngredients = lazy(
   () => import('./Ingredients/RecipeDetailIngredients')
 );
@@ -19,6 +21,11 @@ const RecipeDetailIngredients = lazy(
 const DefaultUrl = () => (
   <div className="w-full h-full bg-orange-100 dark:bg-orange-200 animate-fadeIn z-40"></div>
 );
+
+interface ModelInstance {
+  name: string;
+  description: string;
+}
 
 const Thumbnail = ({
   recipe,
@@ -67,10 +74,16 @@ const Thumbnail = ({
 
 const RecipeDetail = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [tiktokData, setTiktokdata] = useState<tiktok | null | undefined>();
   const [userMatch, setUserMatch] = useUserMatch();
+  const [editing, setEditing] = useState(false);
+  const [edited, setEdited] = useState(false);
+  const [model, setModel] = useState<ModelInstance>({
+    description: '',
+    name: '',
+  });
 
   const user = useUser();
   const { isLoading, data, refetch } = getRecipe(id ? id : 0);
@@ -89,7 +102,40 @@ const RecipeDetail = () => {
     }
   }, [user?.id, data?.User, id, setUserMatch]);
 
-  const onEdit = () => navigate('edit');
+  useEffect(() => {
+    if (!isLoading && data) {
+      setModel({
+        name: data.name,
+        description: data.description || '',
+      });
+    }
+  }, [isLoading]);
+
+  // const onEdit = () => navigate('edit');
+
+  const onClickEdit = () => {
+    setEditing((old) => !old);
+  };
+
+  const onCancel = () => {
+    if (data) {
+      if (edited) {
+        setModel({
+          name: data.name,
+          description: data.description || '',
+        });
+      }
+      setEdited(false);
+      setEditing(false);
+    }
+  };
+
+  const onChange =
+    (key: string) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setModel((old) => ({ ...old, [key]: e.target.value }));
+      setEdited(true);
+    };
 
   const onRefresh = async () => {
     await refetch();
@@ -116,10 +162,22 @@ const RecipeDetail = () => {
           prose dark:prose-invert
         "
       >
-        <strong className="text-xl font-black">{`${data?.User.name} `}</strong>
-        <p className="font-light w-full px-2 flex flex-col">
-          {data?.description}
-        </p>
+        <strong className="text-xl font-black">{`${
+          data?.User.displayName || data?.User.name
+        } `}</strong>
+        <div className="pt-2 pb-10">
+          {editing ? (
+            <textarea
+              name="description"
+              value={data?.description || ''}
+              placeholder="-"
+              className="w-full dark:text-slate-200 px-2 py-0.5"
+              onChange={onChange('description')}
+            />
+          ) : (
+            <span className="font-light w-full px-2">{data?.description}</span>
+          )}
+        </div>
         {tiktokData ? (
           <>
             <strong className="text-xl font-black">
@@ -147,13 +205,22 @@ const RecipeDetail = () => {
           </Suspense>
         )}
         {userMatch && (
-          <div>
+          <div className="w-full">
             <Button type="button" onClick={onRefresh}>
               refresh
             </Button>
-            <Button type="button" onClick={onEdit}>
-              edit recipe
+            <Button type="button" onClick={onClickEdit}>
+              {edited ? (
+                <span>
+                  save <FontAwesomeIcon icon={faFloppyDisk} size="lg" />
+                </span>
+              ) : (
+                <span>
+                  edit <FontAwesomeIcon icon={faPenToSquare} size="lg" />
+                </span>
+              )}
             </Button>
+            {edited && <Button onClick={onCancel}>Cancel</Button>}
           </div>
         )}
       </section>
