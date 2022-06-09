@@ -95,6 +95,7 @@ const RecipeDetail = () => {
     await refetch();
     tiktokRes();
     queryClient.invalidateQueries([
+      'RecipeList',
       `Recipe_${data?._id}`,
       `RecipeCard_Tiktok_${data?._id}`,
       `${user?.id}`,
@@ -141,6 +142,7 @@ const RecipeDetail = () => {
               Ingredients={data?.Ingredients}
               RecipeId={data._id}
               UserId={user?.id}
+              refresh={onRefresh}
             />
           </Suspense>
         )}

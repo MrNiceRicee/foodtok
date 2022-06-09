@@ -50,6 +50,7 @@ const put = async (
       servingSize?: number | string | null;
       servingUnit?: string | null;
       edited?: boolean;
+      remove?: boolean;
     }>;
   }
 ): Promise<AxiosResponse<{ data: justRecipe }>> =>
@@ -179,12 +180,11 @@ const updateRecipe = (
       }>;
     }) => put(id, payload).then((data) => data.data.data),
     {
-      onSuccess: (data) => {
+      onSuccess: async (data) => {
         return queryClient.invalidateQueries([
           'RecipeList',
           `Recipe_${data._id}`,
           `${user?.id}`,
-          `RecipeCard_Tiktok_${data?._id}`,
         ]);
       },
       onError: (err) => {

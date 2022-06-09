@@ -10,10 +10,12 @@ const RecipeDetailIngredients = ({
   Ingredients,
   RecipeId,
   UserId,
+  refresh
 }: {
   Ingredients?: Array<IngredientsType>;
   RecipeId: string;
   UserId: string | undefined;
+  refresh: any
 }) => {
   const [open, setOpen] = useState(false);
   const [UserMatch] = useUserMatch();
@@ -35,9 +37,7 @@ const RecipeDetailIngredients = ({
           <AddNewIngredient RecipeId={RecipeId} UserId={UserId} />
         </div>
       )}
-      {/* <Table column={columns} data={Ingredients} />
-      <div>Neat!</div> */}
-      <RecipeIngredientsTable data={Ingredients || []} RecipeId={RecipeId} />
+      <RecipeIngredientsTable data={Ingredients || []} RecipeId={RecipeId} refresh={refresh} />
     </article>
   );
 };

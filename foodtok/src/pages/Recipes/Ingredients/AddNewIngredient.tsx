@@ -126,7 +126,6 @@ const AddNewIngredient = ({
           }),
         }}
       />
-      <Button>Submit</Button>
       <GrowIn height="5rem" open={!!error}>
         <figure>
           <Button

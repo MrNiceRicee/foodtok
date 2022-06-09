@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Ingredients as IngredientsType } from '@foodtok-types/recipe';
 import {
@@ -25,7 +25,7 @@ const table = createTable()
       // eslint-disable-next-line no-unused-vars
       row: IngredientsType,
       // eslint-disable-next-line no-unused-vars
-      columnId: 'servingUnit' | 'servingSize',
+      columnId: 'servingUnit' | 'servingSize' | 'remove',
       // eslint-disable-next-line no-unused-vars
       value: unknown
     ) => Promise<void>;
@@ -57,9 +57,17 @@ const defaultColumn: Partial<ColumnDef<MyTableGenerics>> = {
         setLoading(true);
         await instance.options.meta?.updateData(
           original,
-          id as 'servingUnit' | 'servingSize',
+          id as 'servingUnit' | 'servingSize' | 'remove',
           value
         );
+        setLoading(false);
+      }
+    };
+
+    const onRemove = async () => {
+      if (original) {
+        setLoading(true);
+        await instance.options.meta?.updateData(original, id as 'remove', true);
         setLoading(false);
       }
     };
@@ -67,6 +75,17 @@ const defaultColumn: Partial<ColumnDef<MyTableGenerics>> = {
     useEffect(() => {
       setValue(initialValue);
     }, [initialValue]);
+
+    if (meta?.inputType === 'checkbox') {
+      return (
+        <button
+          className="pl-2 w-full flex justify-center items-center"
+          onClick={onRemove}
+        >
+          <FontAwesomeIcon icon={faTrash} className="text-red-500" />
+        </button>
+      );
+    }
 
     if (!meta?.UserMatch) return <span>{value as string}</span>;
 
@@ -77,12 +96,11 @@ const defaultColumn: Partial<ColumnDef<MyTableGenerics>> = {
             w-full
             prose
             px-0 pb-0
-            text-right
           focus-within:border-pink-500
             appearance-none focus:outline-none focus:ring-0
             bg-transparent outline-none border-t-0 border-r-0 border-l-0 border-b
             border-inherit
-            text-slate-400 dark:text-slate-500
+            text-slate-700 dark:text-slate-400
             active:text-slate-900 focus:text-slate-900
             dark:active:text-slate-200 dark:focus:text-slate-200
             duration-300
@@ -107,9 +125,10 @@ const defaultColumn: Partial<ColumnDef<MyTableGenerics>> = {
 };
 
 const useDefaultColumns = ({ UserMatch }: { UserMatch: boolean }) =>
-  useMemo(
-    () => [
+  useMemo(() => {
+    const cols = [
       table.createDataColumn('name', {
+        header: () => <span>name</span>,
         cell: (info) => <span>{info.getValue()}</span>,
         footer: (props) => props.column.id,
       }),
@@ -129,16 +148,29 @@ const useDefaultColumns = ({ UserMatch }: { UserMatch: boolean }) =>
           UserMatch,
         },
       }),
-    ],
-    [UserMatch]
-  );
+    ];
+    if (UserMatch) {
+      cols.push(
+        table.createDisplayColumn({
+          id: 'remove',
+          header: () => <span>remove</span>,
+          meta: {
+            inputType: 'checkbox',
+          },
+        })
+      );
+    }
+    return cols;
+  }, [UserMatch]);
 
 const RecipeIngredientsTable = ({
   data,
   RecipeId,
+  refresh,
 }: {
   data: IngredientsType[];
   RecipeId: string;
+  refresh: any;
 }) => {
   const [UserMatch] = useUserMatch();
   const [error, setError] = useState<string | null>(null);
@@ -162,11 +194,10 @@ const RecipeIngredientsTable = ({
     meta: {
       updateData: async (
         row: IngredientsType,
-        columnId: 'servingSize' | 'servingUnit',
+        columnId: 'servingSize' | 'servingUnit' | 'remove',
         value: unknown
       ) => {
-        console.log('value', value);
-        const updated = await sendUpdate.mutateAsync({
+        const res = await sendUpdate.mutateAsync({
           Ingredients: [
             {
               IngredientId: row.IngredientId,
@@ -175,7 +206,7 @@ const RecipeIngredientsTable = ({
             },
           ],
         });
-        console.log(updated);
+        if (res) refresh();
       },
     },
   });
