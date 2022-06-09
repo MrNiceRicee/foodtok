@@ -20,8 +20,6 @@ const RecipeDetailIngredients = ({
 
   const onClick = () => setOpen((old) => !old);
 
-  console.log(UserMatch);
-
   return (
     <article className="px-2 py-4 dark:text-slate-100">
       <div>
