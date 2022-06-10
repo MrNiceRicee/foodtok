@@ -53,13 +53,10 @@ const defaultColumn: Partial<ColumnDef<MyTableGenerics>> = {
     const [loading, setLoading] = useState(false);
 
     const onBlur = async () => {
-      if (original) {
+      const key = id as 'servingUnit' | 'servingSize';
+      if (original && original[key] !== value) {
         setLoading(true);
-        await instance.options.meta?.updateData(
-          original,
-          id as 'servingUnit' | 'servingSize' | 'remove',
-          value
-        );
+        await instance.options.meta?.updateData(original, key, value);
         setLoading(false);
       }
     };
