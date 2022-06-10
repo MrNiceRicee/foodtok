@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import ctl from '@netlify/classnames-template-literals';
 import { getRecipe, updateRecipe } from '@apis/recipes';
 import { fetchData } from '@apis/tiktokEmbed';
-import { recipe as RecipeType } from '@foodtok-types/recipe';
 import CardLoading from '@components//CardLoading';
 import Image from '@components//Image';
 import { tiktok } from '@foodtok-types/tiktok';
@@ -35,9 +34,17 @@ interface ModelInstance {
 const Thumbnail = ({
   recipe,
   tiktokData,
+  changeFn,
+  editing,
 }: {
-  recipe?: RecipeType;
+  recipe?: { name: string | undefined; url: string | null | undefined };
   tiktokData?: tiktok;
+  changeFn: (
+    // eslint-disable-next-line no-unused-vars
+    key: string
+    // eslint-disable-next-line no-unused-vars
+  ) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  editing: boolean;
 }) => {
   return (
     <header
@@ -49,9 +56,31 @@ const Thumbnail = ({
         overflow-hidden
       `)}
     >
-      <div className="flex pointer-events-none">
-        <h1
-          className={ctl(`
+      <div className="flex">
+        {editing ? (
+          <input
+            className={ctl(`
+            w-full
+            prose font-black text-6xl
+            px-0 pb-0
+            overflow-x-scroll
+          focus-within:border-pink-500
+            appearance-none focus:outline-none focus:ring-0
+            bg-transparent outline-none border-t-0 border-r-0 border-l-0 border-b
+            border-inherit
+            text-slate-700 dark:text-slate-400
+            active:text-slate-900 focus:text-slate-900
+            dark:active:text-slate-200 dark:focus:text-slate-200
+            duration-300
+          `)}
+            value={recipe?.name || ''}
+            placeholder=""
+            type={'text'}
+            onChange={changeFn('name')}
+          />
+        ) : (
+          <h1
+            className={ctl(`
           font-black
           uppercase
           text-6xl text-shadow
@@ -62,9 +91,10 @@ const Thumbnail = ({
               : 'text-slate-700'
           }
         `)}
-        >
-          {recipe?.name}
-        </h1>
+          >
+            {recipe?.name}
+          </h1>
+        )}
       </div>
       <a
         href={recipe?.url || undefined}
@@ -174,8 +204,10 @@ const RecipeDetail = () => {
   return (
     <div className="w-full border-orange-200 py-3 pb-10 mb-10 md:flex no-underline">
       <Thumbnail
-        recipe={data}
+        recipe={{ name: model.name, url: data?.url }}
         tiktokData={tiktokData ? tiktokData : undefined}
+        changeFn={onChange}
+        editing={editing}
       />
       <section
         className="container flex flex-col 
@@ -260,7 +292,8 @@ const RecipeDetail = () => {
                 </span>
               ) : (
                 <span>
-                  edit <FontAwesomeIcon icon={faPenToSquare} size="lg" />
+                  {editing ? 'cancel' : 'edit'}{' '}
+                  <FontAwesomeIcon icon={faPenToSquare} size="lg" />
                 </span>
               )}
               {loading && (
