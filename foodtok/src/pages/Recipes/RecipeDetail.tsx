@@ -1,7 +1,7 @@
 import { useState, useEffect, Suspense, lazy } from 'react';
 import { useParams } from 'react-router-dom';
 import ctl from '@netlify/classnames-template-literals';
-import { getRecipe } from '@apis/recipes';
+import { getRecipe, updateRecipe } from '@apis/recipes';
 import { fetchData } from '@apis/tiktokEmbed';
 import { recipe as RecipeType } from '@foodtok-types/recipe';
 import CardLoading from '@components//CardLoading';
@@ -12,8 +12,13 @@ import Button from '@components/Button';
 import { useQuery, useQueryClient } from 'react-query';
 import LoadingBar from '@components/LoadingBar';
 import { useUserMatch } from './state';
-import { faPenToSquare, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
+import {
+  faPenToSquare,
+  faFloppyDisk,
+  faSpinner,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import GrowIn from '@components/GrowIn';
 const RecipeDetailIngredients = lazy(
   () => import('./Ingredients/RecipeDetailIngredients')
 );
@@ -23,8 +28,8 @@ const DefaultUrl = () => (
 );
 
 interface ModelInstance {
-  name: string;
-  description: string;
+  name?: string;
+  description?: string;
 }
 
 const Thumbnail = ({
@@ -77,16 +82,16 @@ const RecipeDetail = () => {
   // const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [tiktokData, setTiktokdata] = useState<tiktok | null | undefined>();
+  const [error, setError] = useState<string | null>(null);
   const [userMatch, setUserMatch] = useUserMatch();
   const [editing, setEditing] = useState(false);
   const [edited, setEdited] = useState(false);
-  const [model, setModel] = useState<ModelInstance>({
-    description: '',
-    name: '',
-  });
+  const [loading, setLoading] = useState(false);
+  const [model, setModel] = useState<ModelInstance>({});
 
   const user = useUser();
   const { isLoading, data, refetch } = getRecipe(id ? id : 0);
+  const sendUpdate = updateRecipe(id, setError);
 
   const { refetch: tiktokRes } = useQuery(
     [`RecipeCard_Tiktok_${data?._id}`, `${user?.id}`],
@@ -113,8 +118,22 @@ const RecipeDetail = () => {
 
   // const onEdit = () => navigate('edit');
 
-  const onClickEdit = () => {
-    setEditing((old) => !old);
+  const onClickEdit = async () => {
+    if (!editing) {
+      setEditing(true);
+      return;
+    }
+    if (edited) {
+      setLoading(true);
+      const res = await sendUpdate.mutateAsync(model);
+      if (res) {
+        refetch();
+        setError(null);
+      }
+      setLoading(false);
+    }
+    setEdited(false);
+    setEditing(false);
   };
 
   const onCancel = () => {
@@ -136,6 +155,8 @@ const RecipeDetail = () => {
       setModel((old) => ({ ...old, [key]: e.target.value }));
       setEdited(true);
     };
+
+  const onDismissError = () => setError(null);
 
   const onRefresh = async () => {
     await refetch();
@@ -169,7 +190,7 @@ const RecipeDetail = () => {
           {editing ? (
             <textarea
               name="description"
-              value={data?.description || ''}
+              value={model?.description || ''}
               placeholder="-"
               className="w-full dark:text-slate-200 px-2 py-0.5"
               onChange={onChange('description')}
@@ -188,6 +209,22 @@ const RecipeDetail = () => {
             </p>
           </>
         ) : null}
+        <GrowIn height="6rem" open={!!error}>
+          <figure>
+            <Button
+              className={ctl(`
+                rounded-none 
+              bg-red-500 dark:bg-red-700
+                outline-none border-none
+                w-full break-words
+              `)}
+              type="button"
+              onClick={onDismissError}
+            >
+              <p>{error}</p>
+            </Button>
+          </figure>
+        </GrowIn>
         {data && (
           <Suspense
             fallback={
@@ -209,7 +246,14 @@ const RecipeDetail = () => {
             <Button type="button" onClick={onRefresh}>
               refresh
             </Button>
-            <Button type="button" onClick={onClickEdit}>
+            <Button
+              type="button"
+              onClick={onClickEdit}
+              disabled={loading}
+              className={`relative ${
+                loading ? 'brightness-50 contrast-50' : ''
+              }`}
+            >
               {edited ? (
                 <span>
                   save <FontAwesomeIcon icon={faFloppyDisk} size="lg" />
@@ -218,6 +262,13 @@ const RecipeDetail = () => {
                 <span>
                   edit <FontAwesomeIcon icon={faPenToSquare} size="lg" />
                 </span>
+              )}
+              {loading && (
+                <FontAwesomeIcon
+                  icon={faSpinner}
+                  size="lg"
+                  className="absolute left-0 top-1/4 animate-spin min-w-[4rem] pointer-events-none cursor-none"
+                />
               )}
             </Button>
             {edited && <Button onClick={onCancel}>Cancel</Button>}

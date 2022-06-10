@@ -60,7 +60,6 @@ const updateRecipeIngredientQuery = (
     "createdAt",
     "updatedAt"
 `);
-  // console.log(query.text, '\n', query.values);
   return query;
 };
 
@@ -174,7 +173,6 @@ const update = async (
   if (!name && !description && !url && !Ingredients)
     throw new ErrorException('missing upload payload', 400);
 
-  console.log(updatePayload);
   const foundRecipe = await findRecipe(id);
   if (!foundRecipe) throw new ErrorException('recipe not found', 404);
   if (url && foundRecipe.url && url !== foundRecipe.url)
@@ -184,7 +182,7 @@ const update = async (
   const ingredientQueries = await createIngredientQueries(
     id,
     UserId,
-    updatePayload.Ingredients
+    updatePayload.Ingredients || []
   );
 
   const updated = [];
