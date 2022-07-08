@@ -13,6 +13,7 @@ interface Model {
 
 const AccountLoginRegister = () => {
   const [mode, setMode] = useState<'login' | 'register'>('login');
+  // const [error, setError] = useState<string | null>(null);
   const [model, setModel] = useState<Model>({
     username: '',
     password: '',
