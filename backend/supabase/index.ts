@@ -7,7 +7,7 @@ const app = express();
 middleware(app);
 router(app);
 
-if (import.meta.env.PROD) {
+if (import.meta.env.ENV !== 'dev') {
   const port = import.meta.env.VITE_PORT || 8080;
   app.listen(port, () => {
     console.log(`server listening on ${port}`);
