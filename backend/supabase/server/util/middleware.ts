@@ -4,7 +4,11 @@ import morgan from 'morgan';
 
 const middleware = (app: Express) => {
   app.use(cors());
-  if (import.meta.env.ENV === 'dev') app.use(morgan('dev'));
+  if (import.meta.env.ENV === 'dev') {
+    app.use(morgan('dev'));
+  } else {
+    app.use(morgan('tiny'));
+  }
   app.use(express.urlencoded({ extended: false, limit: '50mb' }));
   app.use(express.json({ limit: '50mb' }));
 };
