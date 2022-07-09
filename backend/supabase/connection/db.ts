@@ -1,18 +1,20 @@
 import { Pool } from 'pg';
 
-interface config {
+interface Config {
   user?: string;
   password: string;
   database: string;
+  host: string;
   max: number;
   port: number;
   allowExitOnIdle: boolean;
 }
 
-const config: config = {
+const config: Config = {
   user: import.meta.env.VITE_DB_USER,
   password: import.meta.env.VITE_DB_PASSWORD,
   database: import.meta.env.VITE_DB_DATABASE,
+  host: import.meta.env.VITE_DB_HOST || 'localhost',
   port: import.meta.env.VITE_DB_PORT || 5432,
   max: 50,
   allowExitOnIdle: import.meta.env.ENV !== 'dev' ? false : true,
