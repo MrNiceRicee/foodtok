@@ -1,5 +1,5 @@
 steps:
-- name: 'build image'
+- name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'us-west2-docker.pkg.dev/$PROJECT_ID/foodtok-backend-repo/foodtok:$COMMIT_SHA', '.']
   env:
     - "VITE_DB_USER=$$USER"
