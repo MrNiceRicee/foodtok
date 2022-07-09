@@ -7,11 +7,11 @@ const app = express();
 middleware(app);
 router(app);
 
-if (import.meta.env.ENV !== 'dev') {
+// if (import.meta.env.ENV !== 'dev') {
   const port = process.env.PORT || 8080;
   app.listen(port, () => {
     console.log(`server listening on ${port}`);
   });
-}
+// }
 
 export const viteApp = app;
