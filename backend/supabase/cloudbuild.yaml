@@ -1,10 +1,10 @@
 steps:
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'us-central1-docker.pkg.dev/${PROJECT_ID}/my-docker-repo/my-image', '.']
+- name: 'build image'
+  args: ['build', '-t', 'us-west2-docker.pkg.dev/${PROJECT_ID}/foodtok-backend-repo/foodtok:${COMMIT_SHA}', '.']
   env:
     - "VITE_DB_USER=$$USER"
-    - "VITE_DB_PASSWORD=$$PASS"
     - "VITE_DB_DATABASE=$$USER"
+    - "VITE_DB_PASSWORD=$$PASS"
     - "VITE_DB_PORT=$$PORT"
     - "VITE_DB_HOST=$$URL"
     - "VITE_SUPABASE_URL=$$URL"
