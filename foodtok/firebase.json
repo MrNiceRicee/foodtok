@@ -2,9 +2,7 @@
   "hosting": {
     "public": "dist",
     "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
+      "firebase.json"
     ],
     "rewrites": [
       {
@@ -12,5 +10,11 @@
         "destination": "/index.html"
       }
     ]
+  },
+  "emulators": {
+    "hosting": {
+      "host": "0.0.0.0",
+      "port": "3000"
+    }
   }
 }
