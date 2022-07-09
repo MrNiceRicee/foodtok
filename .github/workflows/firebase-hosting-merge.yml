@@ -20,6 +20,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: 'Create env file'
+        run: |
+          touch .env
+          echo VITE_BASE_URL=${{ secrets.VITE_BASE_URL }} >> .env
+          echo VITE_SUPABASE_KEY=${{ secrets.SUPABASE_CLIENT_KEY }} >> .env
+          echo VITE_SUPABASE_URL=${{ secrets.SUPABASE_URL }} >> .env
+          cat .env
       - run: |
           cd foodtok
           yarn install
