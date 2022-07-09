@@ -1,6 +1,6 @@
 steps:
 - name: 'build image'
-  args: ['build', '-t', 'us-west2-docker.pkg.dev/${PROJECT_ID}/foodtok-backend-repo/foodtok:${COMMIT_SHA}', '.']
+  args: ['build', '-t', 'us-west2-docker.pkg.dev/$PROJECT_ID/foodtok-backend-repo/foodtok:$COMMIT_SHA', '.']
   env:
     - "VITE_DB_USER=$$USER"
     - "VITE_DB_DATABASE=$$USER"
@@ -12,13 +12,13 @@ steps:
   secretEnv: ['USER', 'PASS', 'PORT', 'URL', 'KEY']
 availableSecrets:
   secretManager:
-  - versionName: projects/${PROJECT_ID}/secrets/Foodtok_DB_USER/versions/1
+  - versionName: projects/$PROJECT_ID/secrets/Foodtok_DB_USER/versions/1
     env: 'USER'
-  - versionName: projects/${PROJECT_ID}/secrets/Foodtok_DB_PASSWORD/versions/1
+  - versionName: projects/$PROJECT_ID/secrets/Foodtok_DB_PASSWORD/versions/1
     env: 'PASS'
-  - versionName: projects/${PROJECT_ID}/secrets/Foodtok_DB_PORT/versions/1
+  - versionName: projects/$PROJECT_ID/secrets/Foodtok_DB_PORT/versions/1
     env: 'PORT'
-  - versionName: projects/${PROJECT_ID}/secrets/Foodtok_SUPABASE_URL/versions/1
+  - versionName: projects/$PROJECT_ID/secrets/Foodtok_SUPABASE_URL/versions/1
     env: 'URL'
-  - versionName: projects/${PROJECT_ID}/secrets/Foodtok_SUPABASE_KEY/versions/1
+  - versionName: projects/$PROJECT_ID/secrets/Foodtok_SUPABASE_KEY/versions/1
     env: 'KEY'
