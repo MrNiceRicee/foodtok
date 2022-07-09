@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "export ENV=dev; vite",
     "build": "vite build",
-    "prestart": "vite build",
     "start": "node ./dist"
   },
   "author": "Joshua Santos",
