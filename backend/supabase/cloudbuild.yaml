@@ -9,7 +9,7 @@ steps:
     - "VITE_DB_HOST=$$URL"
     - "VITE_SUPABASE_URL=$$URL"
     - "VITE_SUPABASE_KEY=$$KEY"
-  secretEnv: ['USER', 'PASS', 'PORT', 'HOST', 'URL', 'KEY']
+  secretEnv: ['USER', 'PASS', 'PORT', 'URL', 'KEY']
 availableSecrets:
   secretManager:
   - versionName: projects/${PROJECT_ID}/secrets/Foodtok_DB_USER/versions/1
