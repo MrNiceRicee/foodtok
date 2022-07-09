@@ -10,24 +10,14 @@ interface Config {
   allowExitOnIdle: boolean;
 }
 
-// const config: Config = {
-//   user: import.meta.env.VITE_DB_USER,
-//   password: import.meta.env.VITE_DB_PASSWORD,
-//   database: import.meta.env.VITE_DB_DATABASE,
-//   host: import.meta.env.VITE_DB_HOST || 'localhost',
-//   port: import.meta.env.VITE_DB_PORT || 5432,
-//   max: 50,
-//   allowExitOnIdle: import.meta.env.ENV !== 'dev' ? false : true,
-// };
-
 const config: Config = {
-  user: process.env.VITE_DB_USER,
-  password: process.env.VITE_DB_PASSWORD,
-  database: process.env.VITE_DB_DATABASE,
-  host: process.env.VITE_DB_HOST || 'localhost',
-  port: +process.env.VITE_DB_PORT || 5432,
+  user: import.meta.env.VITE_DB_USER,
+  password: import.meta.env.VITE_DB_PASSWORD,
+  database: import.meta.env.VITE_DB_DATABASE,
+  host: import.meta.env.VITE_DB_HOST || 'localhost',
+  port: import.meta.env.VITE_DB_PORT || 5432,
   max: 50,
-  allowExitOnIdle: process.env.ENV !== 'dev' ? false : true,
+  allowExitOnIdle: import.meta.env.ENV !== 'dev' ? false : true,
 };
 
 const pool = new Pool(config);

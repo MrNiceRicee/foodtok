@@ -5,7 +5,7 @@ const handleError = (res: Response, statusCode: number = 500) => {
   return (err: ErrorException | Error) => {
     if ('statusCode' in err) statusCode = err.statusCode;
 
-    if (process.env.ENV === 'dev') console.error('error - ', err);
+    if (import.meta.env.ENV === 'dev') console.error('error - ', err);
 
     return res.status(statusCode).send(err.message || err);
   };
