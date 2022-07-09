@@ -4,6 +4,9 @@
 name: Deploy to Firebase Hosting on merge
 'on':
   push:
+    paths:
+      - "foodtok/**"
+      - "./github/**"
     branches:
       - main
 jobs:
