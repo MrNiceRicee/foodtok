@@ -1,4 +1,4 @@
-FROM node:18 as build
+FROM node:18-slim as build
 
 RUN mkdir -p /src/app
 
@@ -18,7 +18,6 @@ RUN yarn build
 
 # RUN yarn install --silent --production=true
 
-EXPOSE 8080
 
 CMD ["npm", "start"]
 
