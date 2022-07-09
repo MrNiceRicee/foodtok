@@ -3,7 +3,7 @@ import path from 'node:path';
 import { defineConfig } from 'vite';
 import { VitePluginNode } from 'vite-plugin-node';
 
-const port = import.meta.env.VITE_PORT || 8080;
+const port = process.env.VITE_PORT || 8080;
 
 export default defineConfig({
   // ...vite configures
