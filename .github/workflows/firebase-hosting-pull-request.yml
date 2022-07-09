@@ -7,6 +7,12 @@ name: Deploy to Firebase Hosting on PR
     paths:
       - "foodtok/**"
       - "./github/**"
+
+env:
+  VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
+  VITE_SUPABASE_KEY: ${{ secrets.SUPABASE_CLIENT_KEY }}
+  VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+
 jobs:
   build_and_preview:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
