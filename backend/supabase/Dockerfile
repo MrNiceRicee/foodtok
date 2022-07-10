@@ -14,8 +14,7 @@ ARG DB_HOST
 ARG SUPABASE_KEY
 ARG SUPABASE_URL
 
-RUN cd foodtok \
-  touch .env \
+RUN touch .env \
   echo VITE_DB_USER=${DB_USER} >> .env \
   echo VITE_DB_PASSWORD=${DB_PASS} >> .env \
   echo VITE_DB_DATABASE=${DB_DATABASE} >> .env \
