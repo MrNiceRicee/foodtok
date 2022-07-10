@@ -19,7 +19,7 @@ jobs:
           cd foodtok
           touch .env
           echo VITE_BASE_URL=${{ secrets.VITE_BASE_URL }} >> .env
-          echo VITE_SUPABASE_KEY=${{ secrets.SUPABASE_CLIENT_KEY }} >> .env
+          echo VITE_SUPABASE_KEY=${{ secrets.SUPABASE_KEY_CLIENT }} >> .env
           echo VITE_SUPABASE_URL=${{ secrets.SUPABASE_URL }} >> .env
           cat .env
       - run: |
