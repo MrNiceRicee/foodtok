@@ -11,11 +11,11 @@ interface Config {
 }
 
 const config: Config = {
-  user: import.meta.env.VITE_DB_USER,
-  password: import.meta.env.VITE_DB_PASSWORD,
-  database: import.meta.env.VITE_DB_DATABASE,
-  host: import.meta.env.VITE_DB_HOST || 'localhost',
-  port: import.meta.env.VITE_DB_PORT || 5432,
+  user: import.meta.env.VITE_DB_USER || process.env.VITE_DB_USER,
+  password: import.meta.env.VITE_DB_PASSWORD || process.env.VITE_DB_PASSWORD,
+  database: import.meta.env.VITE_DB_DATABASE || process.env.VITE_DB_DATABASE,
+  host: import.meta.env.VITE_DB_HOST || process.env.VITE_DB_HOST,
+  port: import.meta.env.VITE_DB_PORT || +process.env.VITE_DB_PORT,
   max: 50,
   allowExitOnIdle: import.meta.env.ENV !== 'dev' ? false : true,
 };
