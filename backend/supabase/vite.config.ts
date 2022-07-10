@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import path from 'node:path';
+import * as path from 'path'
 import { defineConfig } from 'vite';
 import { VitePluginNode } from 'vite-plugin-node';
 
