@@ -10,6 +10,7 @@ interface Config {
   allowExitOnIdle: boolean;
 }
 
+// chack if it's import or process
 const config: Config = {
   user: import.meta.env.VITE_DB_USER || process.env.VITE_DB_USER,
   password: import.meta.env.VITE_DB_PASSWORD || process.env.VITE_DB_PASSWORD,
