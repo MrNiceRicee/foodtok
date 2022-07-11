@@ -20,6 +20,7 @@ WORKDIR /src/app
 
 COPY --from=build /src/app/dist ./dist
 COPY --from=build /src/app/node_modules ./node_modules
+COPY --from=build /src/app/package.json .
 
 CMD ["npm", "start"]
 
