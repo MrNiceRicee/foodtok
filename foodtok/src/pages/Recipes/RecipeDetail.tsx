@@ -1,7 +1,7 @@
 import { useState, useEffect, Suspense, lazy } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import ctl from '@netlify/classnames-template-literals';
-import { getRecipe, updateRecipe } from '@apis/recipes';
+import { getRecipe, updateRecipe, removeRecipe } from '@apis/recipes';
 import { fetchData } from '@apis/tiktokEmbed';
 import CardLoading from '@components//CardLoading';
 import Image from '@components//Image';
@@ -15,6 +15,7 @@ import {
   faPenToSquare,
   faFloppyDisk,
   faSpinner,
+  faDeleteLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import GrowIn from '@components/GrowIn';
@@ -49,7 +50,7 @@ const Thumbnail = ({
   return (
     <header
       className={ctl(`
-        relative 
+        relative
         ${tiktokData?.thumbnail_url ? 'h-auto' : 'h-[42rem]'}
         md:basis-2/3
         rounded-t-lg
@@ -109,7 +110,7 @@ const Thumbnail = ({
 
 const RecipeDetail = () => {
   const { id } = useParams();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [tiktokData, setTiktokdata] = useState<tiktok | null | undefined>();
   const [error, setError] = useState<string | null>(null);
@@ -122,6 +123,7 @@ const RecipeDetail = () => {
   const user = useUser();
   const { isLoading, data, refetch } = getRecipe(id ? id : 0);
   const sendUpdate = updateRecipe(id, setError);
+  const removeRecipeApi = removeRecipe(setError);
 
   const { refetch: tiktokRes } = useQuery(
     [`RecipeCard_Tiktok_${data?._id}`, `${user?.id}`],
@@ -146,7 +148,16 @@ const RecipeDetail = () => {
     }
   }, [isLoading]);
 
-  // const onEdit = () => navigate('edit');
+  const onDelete = async () => {
+    if (id) {
+      setLoading(true);
+      const accepted = await removeRecipeApi.mutateAsync(id);
+      if (accepted) {
+        navigate('/');
+      }
+      setLoading(false);
+    }
+  };
 
   const onClickEdit = async () => {
     if (!editing) {
@@ -210,7 +221,7 @@ const RecipeDetail = () => {
         editing={editing}
       />
       <section
-        className="container flex flex-col 
+        className="container flex flex-col
           px-2 md:basis-2/3
           prose dark:prose-invert
         "
@@ -245,7 +256,7 @@ const RecipeDetail = () => {
           <figure>
             <Button
               className={ctl(`
-                rounded-none 
+                rounded-none
               bg-red-500 dark:bg-red-700
                 outline-none border-none
                 w-full break-words
@@ -274,38 +285,59 @@ const RecipeDetail = () => {
           </Suspense>
         )}
         {userMatch && (
-          <div className="w-full">
-            <Button type="button" onClick={onRefresh}>
-              refresh
-            </Button>
-            <Button
-              type="button"
-              onClick={onClickEdit}
-              disabled={loading}
-              className={`relative ${
-                loading ? 'brightness-50 contrast-50' : ''
-              }`}
-            >
-              {edited ? (
-                <span>
-                  save <FontAwesomeIcon icon={faFloppyDisk} size="lg" />
-                </span>
+          <>
+            <div className="w-full">
+              <Button type="button" onClick={onRefresh}>
+                refresh
+              </Button>
+              <Button
+                type="button"
+                onClick={onClickEdit}
+                disabled={loading}
+                className={`relative ${
+                  loading ? 'brightness-50 contrast-50' : ''
+                }`}
+              >
+                {edited ? (
+                  <span>
+                    save <FontAwesomeIcon icon={faFloppyDisk} size="lg" />
+                  </span>
+                ) : (
+                  <span>
+                    {editing ? 'cancel' : 'edit'}{' '}
+                    <FontAwesomeIcon icon={faPenToSquare} size="lg" />
+                  </span>
+                )}
+                {loading && (
+                  <FontAwesomeIcon
+                    icon={faSpinner}
+                    size="lg"
+                    className="absolute left-0 top-1/4 animate-spin min-w-[4rem] pointer-events-none cursor-none"
+                  />
+                )}
+              </Button>
+              {edited && <Button onClick={onCancel}>Cancel</Button>}
+            </div>
+            <div>
+              {editing ? (
+                <Button
+                  variance="none"
+                  className={ctl(
+                    `border-none ring-1 ring-red-600 w-full
+                     my-5 flex gap-3 justify-center items-center
+                     text-red-600
+                     `
+                  )}
+                  onClick={onDelete}
+                >
+                  <span>Delete</span>
+                  <FontAwesomeIcon icon={faDeleteLeft} size="lg" />
+                </Button>
               ) : (
-                <span>
-                  {editing ? 'cancel' : 'edit'}{' '}
-                  <FontAwesomeIcon icon={faPenToSquare} size="lg" />
-                </span>
+                <></>
               )}
-              {loading && (
-                <FontAwesomeIcon
-                  icon={faSpinner}
-                  size="lg"
-                  className="absolute left-0 top-1/4 animate-spin min-w-[4rem] pointer-events-none cursor-none"
-                />
-              )}
-            </Button>
-            {edited && <Button onClick={onCancel}>Cancel</Button>}
-          </div>
+            </div>
+          </>
         )}
       </section>
     </div>

@@ -24,6 +24,10 @@ const one = async (
   id: number | string
 ): Promise<AxiosResponse<{ data: recipe }>> => base.get(`/recipes/${id}`);
 
+const removeOne = async (
+  id: number | string
+): Promise<AxiosResponse<{ data: recipe }>> => base.delete(`/recipes/${id}`);
+
 const userRecipe = async (params?: {
   UserId?: string | null;
   limit?: number;
@@ -98,6 +102,18 @@ const addRecipe = (errorFn: errorFnType) => {
       },
     }
   );
+};
+
+const removeRecipe = (errorFn?: errorFnType) => {
+  const queryClient = useQueryClient();
+  return useMutation((payload: string) => removeOne(payload), {
+    onSuccess: () => {
+      return queryClient.invalidateQueries(['Recipe']);
+    },
+    onError: (err) => {
+      errorFn && errorFn(parseError(err));
+    },
+  });
 };
 
 const searchUserRecipes = ({
@@ -203,4 +219,5 @@ export {
   addRecipeIngredients,
   searchUserRecipes,
   userRecipe,
+  removeRecipe,
 };
