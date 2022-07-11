@@ -16,4 +16,4 @@ router(app);
 
 export const viteApp = app;
 
-// <33
+// <333
