@@ -108,7 +108,7 @@ const removeRecipe = (errorFn?: errorFnType) => {
   const queryClient = useQueryClient();
   return useMutation((payload: string) => removeOne(payload), {
     onSuccess: () => {
-      return queryClient.invalidateQueries(['Recipe']);
+      return queryClient.invalidateQueries(['Recipe']).then(() => true);
     },
     onError: (err) => {
       errorFn && errorFn(parseError(err));
