@@ -239,7 +239,7 @@ const RecipeDetail = () => {
               onChange={onChange('description')}
             />
           ) : (
-            <span className="font-light w-full px-2">{data?.description}</span>
+            <span className="font-light w-full px-2 whitespace-pre">{data?.description}</span>
           )}
         </div>
         {tiktokData ? (
