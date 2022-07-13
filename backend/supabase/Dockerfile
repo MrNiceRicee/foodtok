@@ -22,5 +22,7 @@ COPY --from=build /src/app/dist ./dist
 COPY --from=build /src/app/node_modules ./node_modules
 COPY --from=build /src/app/package.json .
 
+EXPOSE 8080
+
 CMD ["npm", "start"]
 
