@@ -15,6 +15,7 @@ const search = async (params?: {
   limit?: number;
   filter?: object;
   cursor?: string;
+  order?: string;
 }): Promise<AxiosResponse<SearchData>> =>
   base.get('/recipes', {
     params,

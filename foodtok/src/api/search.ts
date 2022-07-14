@@ -26,6 +26,7 @@ export const searchQuery = ({
         limit: 25,
         cursor: pageParam,
         filter: payload,
+        order: '_id:DESC'
       }).then((item) => item.data);
     },
     {
