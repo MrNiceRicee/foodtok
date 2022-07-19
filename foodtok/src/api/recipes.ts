@@ -34,6 +34,7 @@ const userRecipe = async (params?: {
   limit?: number;
   cursor?: string;
   filter?: object;
+  order?: string;
 }): Promise<AxiosResponse<SearchData>> => base.get('/recipes/user', { params });
 
 const post = async (payload: {
@@ -145,6 +146,7 @@ const searchUserRecipes = ({
         cursor: pageParam,
         UserId: UserId,
         filter: payload,
+        order: '_id:DESC',
       }).then((item) => item.data);
     },
     {
